@@ -1,0 +1,57 @@
+# Eight-task shared visuotactile teacher, then two independent policies.
+# Same mount on the developer machine and Baidu cloud. No download/bootstrap.
+task: shared_wm
+mode: full
+shared_tasks: [insert_hole, insert_HDMI, insert_tube, pull_out_key, grasp_classify, lift_bottle, lift_can, put_bottle_in_shelf]
+policy_tasks: [insert_hole, insert_HDMI]
+data_root: /zhe_li/tactile-wam/contact-belief-wam/data
+train_on_all_data: true
+shared_manifest: /zhe_li/tactile-wam/contact-belief-wam/data/manifests/all_train/shared.jsonl
+policy_manifest_dir: /zhe_li/tactile-wam/contact-belief-wam/data/manifests/all_train
+shared_stats: /zhe_li/tactile-wam/contact-belief-wam/data/stats/shared.all_train.quantiles.json
+tactile_cache: /zhe_li/tactile-wam/contact-belief-wam/data/cache/anytouch2
+pi05_base: /zhe_li/tactile-wam/contact-belief-wam/models/pi05_base_local_debug
+tokenizer_path: /zhe_li/tactile-wam/contact-belief-wam/models/tokenizer
+world_init: /zhe_li/tactile-wam/contact-belief-wam/models/wave0_robotwin_world
+output: /zhe_li/tactile-wam/contact-belief-wam/runs/shared-wm8-k10-8xa800-bs512-fast02
+python: python3.10
+bootstrap_env: false
+device: cuda
+num_gpus: 8
+micro_batch: 64
+global_batch: 512
+precision: bf16
+# Full A800 training: no debug-only memory offload or activation recomputation.
+gradient_checkpointing: false
+k: 10
+# Within each insertion task. Other six tasks have original data only.
+data_mix: '1:1'
+belief_warmup_min: 0
+belief_warmup_max: 4
+belief_bptt_steps: 2
+belief_to_latent_queries: true
+belief_to_world_state: true
+belief_to_future_corrector: true
+belief_to_contact_predictor: true
+belief_to_expert: true
+stage2_freeze_belief: true
+stage2_freeze_contact_predictor: true
+# Fixed-length schedule; all episodes train, with closed-loop evaluation afterward.
+stage1_steps: 5000
+stage1_pretrained_steps: 5000
+stage1_scratch_steps: 20000
+stage2_steps: 10000
+stage2_original_steps: 1000
+lr_new: 0.0001
+lr_policy: 0.000025
+grad_clip: 1.0
+val_every: 0
+val_batches: 8
+save_every: 1000
+workers: 2
+seed: 42
+resume: none
+
+# Execution kernels only: unchanged training data/objective/schedule.
+attention_backend: sdpa
+fused_adamw: true

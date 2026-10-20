@@ -1,0 +1,14 @@
+{
+  "source": "/zhe_li/tactile-wam/wave0-univtac-fast",
+  "files_sha256": {
+    "configs/shared_wm_8xa800_fast.yaml": "b4b0fefea37ca2858ecb2948868a953ccea19ba1b16c7060e232cedef523b200",
+    "src/wave0_univtac/config.py": "a08ee05b8603eb43a5ab48f3f0b446a0089adfb47d5e43c55f79b6da8d9f83a5",
+    "src/wave0_univtac/data.py": "b841e43c8804c871632157110b0deeaae07f6b27836fa8088b3be71e5486b89e",
+    "src/wave0_univtac/shared.py": "feaefd076d8c6be276ccaee57711102405106465345da0d1702fa44dff95290c",
+    "src/wave0_univtac/training.py": "d82ac6e5379ca5b1f96e32a8c23d6beb2d4c9a33aca1fc7a9f708684a6728e34",
+    "src/wave0_univtac/augmentation.py": "ecd89a25003a9488128dfd19b115e16045c92076e93f4a8022d7042ce7fa756f",
+    "src/wave0_univtac/model.py": "0779f2ee4ae0ded109812f202fa44ee0b0df2578d2f5a9e1edd83102e45b28f8",
+    "src/wave0_univtac/inference.py": "e54054e3f5503066e161e7bdc8bc35917a84ebb1a803e6fa48ef6f3c3350bd05"
+  },
+  "purpose": "Frozen reference for aligned adapter equivalence; never imported as a second lerobot runtime"
+}

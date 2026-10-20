@@ -1,0 +1,43 @@
+# Runtime dependencies for the isolated WAVE-0 PI0.5 environment.
+# Install CUDA PyTorch separately with scripts/bootstrap_env.sh.
+# Install the vendored WAVE-0 checkout with --no-deps to avoid unrelated robot extras.
+
+# Pins copied from vendor/wave0/requirements-wave0.txt.
+tokenizers==0.21.4
+numpy==2.2.6
+scipy==1.14.1
+einops==0.8.2
+safetensors==0.8.0
+accelerate==1.15.0
+datasets==4.8.5
+huggingface-hub[hf-transfer,cli]==0.35.3
+diffusers==0.35.2
+draccus==0.10.0
+av==15.1.0
+opencv-python-headless==4.12.0.88
+wandb==0.24.2
+torchcodec==0.5
+
+# Remaining base LeRobot dependencies from vendor/wave0/pyproject.toml.
+setuptools>=71.0.0,<81.0.0
+wheel>=0.42.0,<1.0.0
+cmake>=3.29.0.1,<4.2.0
+jsonlines>=4.0.0,<5.0.0
+packaging>=24.2,<26.0
+pynput>=1.7.7,<1.9.0
+pyserial>=3.5,<4.0
+gymnasium>=1.1.1,<2.0.0
+rerun-sdk>=0.24.0,<0.27.0
+deepdiff>=7.0.1,<9.0.0
+imageio[ffmpeg]>=2.34.0,<3.0.0
+termcolor>=2.4.0,<4.0.0
+
+# Dependencies needed by this project's training, evaluation and tokenizer tooling.
+h5py
+matplotlib
+PyYAML
+pytest
+sentencepiece
+tensorboard
+websockets
+msgpack

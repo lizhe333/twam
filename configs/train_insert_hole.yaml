@@ -1,0 +1,45 @@
+task: insert_hole
+mode: full
+
+data_root: /workspace/contact-belief-data
+manifest: /workspace/contact-belief-data/manifests/insert_hole.jsonl
+stats: /workspace/contact-belief-data/stats/insert_hole.quantiles.json
+tactile_cache: /workspace/contact-belief-data/cache/anytouch2
+
+pi05_base: /workspace/models/pi05_base
+world_init: /workspace/models/wave0_robotwin_world
+output: /workspace/runs/insert_hole/full-k10
+
+python: python3.10
+bootstrap_env: true
+wheelhouse: /workspace/contact-belief-wam/wheelhouse
+
+num_gpus: 4
+global_batch: 32
+micro_batch: 2
+precision: bf16
+gradient_checkpointing: true
+k: 10
+data_mix: "1:1"
+
+belief_warmup_min: 0
+belief_warmup_max: 4
+belief_bptt_steps: 2
+belief_to_latent_queries: true
+belief_to_world_state: true
+belief_to_future_corrector: true
+belief_to_contact_predictor: true
+belief_to_expert: true
+
+stage1_steps: auto
+stage1_pretrained_steps: 2000
+stage1_scratch_steps: 20000
+stage2_steps: 10000
+
+lr_new: 0.0001
+lr_policy: 0.000025
+grad_clip: 1.0
+val_every: 500
+save_every: 1000
+seed: 42
+resume: auto

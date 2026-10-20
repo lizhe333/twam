@@ -1,0 +1,73 @@
+{
+  "repository": "https://github.com/AutoLab-SAI-SJTU/WAVE-0",
+  "revision": "main",
+  "archive_sha256": "9f875097261c6c174c111e5bfb8821f346d127da57357f7de93d081c3dce7489",
+  "transformers": {
+    "repository": "https://github.com/huggingface/transformers",
+    "revision": "dcddb970176382c0fcf4521b0c0e6fc15894dfe0",
+    "archive_url": "https://codeload.github.com/huggingface/transformers/tar.gz/dcddb970176382c0fcf4521b0c0e6fc15894dfe0",
+    "archive_sha256": "a48b3760625a6241a8914fdc66daf6f72728d36b1467f1dd32ca1959311ef142"
+  },
+  "skipped_links": [
+    {
+      "name": "WAVE-0-main/src/lerobot/policies/act/README.md",
+      "target": "../../../../docs/source/policy_act_README.md"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/policies/diffusion/README.md",
+      "target": "../../../../docs/source/policy_diffusion_README.md"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/policies/groot/README.md",
+      "target": "../../../../docs/source/policy_groot_README.md"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/policies/smolvla/README.md",
+      "target": "../../../../docs/source/policy_smolvla_README.md"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/policies/tdmpc/README.md",
+      "target": "../../../../docs/source/policy_tdmpc_README.md"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/policies/vqbet/README.md",
+      "target": "../../../../docs/source/policy_vqbet_README.md"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/policies/wall_x/README.md",
+      "target": "../../../../docs/source/policy_walloss_README.md"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/robots/earthrover_mini_plus/earthrover_mini_plus.mdx",
+      "target": "../../../../docs/source/earthrover_mini_plus.mdx"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/robots/hope_jr/hope_jr.mdx",
+      "target": "../../../../docs/source/hope_jr.mdx"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/robots/koch_follower/koch.mdx",
+      "target": "../../../../docs/source/koch.mdx"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/robots/lekiwi/lekiwi.mdx",
+      "target": "../../../../docs/source/lekiwi.mdx"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/robots/so_follower/so100.md",
+      "target": "../../../../docs/source/so100.mdx"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/robots/so_follower/so101.md",
+      "target": "../../../../docs/source/so101.mdx"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/teleoperators/so_leader/so100.md",
+      "target": "../../../../docs/source/so100.mdx"
+    },
+    {
+      "name": "WAVE-0-main/src/lerobot/teleoperators/so_leader/so101.md",
+      "target": "../../../../docs/source/so101.mdx"
+    }
+  ]
+}

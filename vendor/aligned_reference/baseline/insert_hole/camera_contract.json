@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "task": "insert_hole",
+  "camera_mode": "head_only",
+  "adapter_release": "head-only-v1",
+  "model_views": [
+    "base_0_rgb"
+  ]
+}

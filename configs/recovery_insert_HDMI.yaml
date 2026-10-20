@@ -1,0 +1,12 @@
+successful_episodes_per_task: 50
+seed: 2100000
+min_blockages: 1
+max_blockages: 2
+lateral_min_mm: 2.0
+lateral_max_mm: 5.0
+angular_max_deg: 5.0
+max_probe_mm: 15.0
+approach_mm: 5.0
+retreat_min_mm: 2.0
+retreat_max_mm: 5.0
+probe_physics_steps: 16

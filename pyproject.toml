@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=71", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "contact-belief-wam"
+version = "0.1.0"
+description = "Contact-belief feedback for the official WAVE-0 PyTorch policy"
+requires-python = ">=3.10"
+dependencies = ["numpy", "torch", "h5py", "Pillow", "PyYAML", "safetensors", "websockets>=15", "msgpack", "matplotlib", "accelerate", "tensorboard"]
+
+[project.scripts]
+cbwam = "contact_belief_wam.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "vendor/wave0/src"]

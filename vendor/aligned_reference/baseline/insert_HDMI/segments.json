@@ -1,0 +1,1602 @@
+[
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 0,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/0.hdf5",
+    "source_sha256": "87e2b08e767ab32159517571304e9a98e8b8f5a104ac01bb12395234c387e58a",
+    "source_size_bytes": 92210568,
+    "segment_id": "insert_HDMI:0:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 1,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      272,
+      506
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/1.hdf5",
+    "source_sha256": "64788e1bc49d881ee391435eb4efeec7d6d35ae7eaff3e8d980ffa74cf23dac0",
+    "source_size_bytes": 92424856,
+    "segment_id": "insert_HDMI:1:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 2,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/2.hdf5",
+    "source_sha256": "9d751bb45ff7418273ee367133b770116a41cc4cdfe3fd9298c009593b82b287",
+    "source_size_bytes": 92358540,
+    "segment_id": "insert_HDMI:2:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 3,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/3.hdf5",
+    "source_sha256": "201b31ef045ea92bfe33ce62a3ebebacd1f8a5cb13f64ef754d04f85639fc7d7",
+    "source_size_bytes": 92276294,
+    "segment_id": "insert_HDMI:3:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 4,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/4.hdf5",
+    "source_sha256": "f4d7a9f0fc91333fa11534c25f91c4659777a697752a5e8020999614bd50e7e9",
+    "source_size_bytes": 92279244,
+    "segment_id": "insert_HDMI:4:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 5,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      268,
+      502
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/5.hdf5",
+    "source_sha256": "59c713b291e0d3d6f6ac768eb630b3c3397d3668c49cd8367ce1e83ad0c7b859",
+    "source_size_bytes": 92563152,
+    "segment_id": "insert_HDMI:5:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 6,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/6.hdf5",
+    "source_sha256": "a64d86e9997b3733e1b850ef9431b9e964318a559f544313825c0e5b1ebf64fb",
+    "source_size_bytes": 92312992,
+    "segment_id": "insert_HDMI:6:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 7,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      266,
+      500
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/7.hdf5",
+    "source_sha256": "fa3eb1f693f154fe4a7b73de96d6afe703b6651b365693f9ef26e8885ec69777",
+    "source_size_bytes": 92236764,
+    "segment_id": "insert_HDMI:7:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 8,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/8.hdf5",
+    "source_sha256": "fe66b086f55910f8c39e7e75e9d5a291202fc9ebd4214297c8735ccfab070f8f",
+    "source_size_bytes": 92190036,
+    "segment_id": "insert_HDMI:8:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 9,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/9.hdf5",
+    "source_sha256": "c085455e6d4b1c552982e3cf9dc2d95e62090c181ee8b31fa88ca9555be5a7b5",
+    "source_size_bytes": 92173398,
+    "segment_id": "insert_HDMI:9:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 10,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/10.hdf5",
+    "source_sha256": "9704788bd6b09ef0865862cd18a226cf0f027a945729b611635fa20c463f03eb",
+    "source_size_bytes": 92357242,
+    "segment_id": "insert_HDMI:10:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 11,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      254,
+      488
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/11.hdf5",
+    "source_sha256": "87bd8aa1895c25a18ad0fea2e6c72834806490587d402f255e514453bfacc5a9",
+    "source_size_bytes": 92307564,
+    "segment_id": "insert_HDMI:11:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 12,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/12.hdf5",
+    "source_sha256": "2ef4facea8dc3ee342778a998cf382211ff4b74ab9a43065c4fdc3d49f58f7bc",
+    "source_size_bytes": 92514654,
+    "segment_id": "insert_HDMI:12:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 13,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/13.hdf5",
+    "source_sha256": "24948b1f3f32db72d04fc11a5d8365fe01ed46a7a1a575430fc2c39ed19af9d5",
+    "source_size_bytes": 92313110,
+    "segment_id": "insert_HDMI:13:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 14,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/14.hdf5",
+    "source_sha256": "4cf196cd738b3911c08448ad2d8e7b60917b20d277e5cff18f7946596cc585fd",
+    "source_size_bytes": 92149090,
+    "segment_id": "insert_HDMI:14:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 15,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/15.hdf5",
+    "source_sha256": "3954828b11e5c65802f116e066c143d111d5329f4d4a37f4cca0ef0eb3324f4e",
+    "source_size_bytes": 92320190,
+    "segment_id": "insert_HDMI:15:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 16,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/16.hdf5",
+    "source_sha256": "d1cbd9383a8f808ffc63de9d4e489ca12c56a9af76c1d5ff9761a300b2fb2c81",
+    "source_size_bytes": 92264140,
+    "segment_id": "insert_HDMI:16:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 17,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/17.hdf5",
+    "source_sha256": "2fd231e86ce22e7203c09f7fb5e8abff838430f8d3d7580c28213e231607ee38",
+    "source_size_bytes": 92439488,
+    "segment_id": "insert_HDMI:17:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 18,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/18.hdf5",
+    "source_sha256": "8d2370d9f6ac5833c772232a150ebcf913ad080c4ebe84814b0123f10fa7d68e",
+    "source_size_bytes": 92479726,
+    "segment_id": "insert_HDMI:18:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 19,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      268,
+      502
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/19.hdf5",
+    "source_sha256": "838ccd5d292699fc0b6c1eb0b3d9e9250a04857541d8c1796cb8b28bbcb2eb9a",
+    "source_size_bytes": 92516070,
+    "segment_id": "insert_HDMI:19:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 20,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/20.hdf5",
+    "source_sha256": "a2566cb635473a10620e16cdb7cba5dd76c414b7a3f2b77404b28cbecd3c6de2",
+    "source_size_bytes": 92232516,
+    "segment_id": "insert_HDMI:20:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 21,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/21.hdf5",
+    "source_sha256": "8ab49277ef50f6a0adbc0571dce6d8067b12e77c44c6425f536dcbcc527d04b0",
+    "source_size_bytes": 92252930,
+    "segment_id": "insert_HDMI:21:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 22,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/22.hdf5",
+    "source_sha256": "56f3b1be1e881e2aca9b0a30d89b1a63f220e41682cdf134a98d702dc843dd43",
+    "source_size_bytes": 92370104,
+    "segment_id": "insert_HDMI:22:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 23,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      248,
+      482
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/23.hdf5",
+    "source_sha256": "4ad1a28882084efde7a4cba5e61d1e1a6ecd5bbcc83da100cc7a9a63ca0abf2c",
+    "source_size_bytes": 92334350,
+    "segment_id": "insert_HDMI:23:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 24,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      246,
+      480
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/24.hdf5",
+    "source_sha256": "6f293baf9e5646ecc4298535b3a3a879ca3e0828ac46714c236d1c9092655b62",
+    "source_size_bytes": 92377184,
+    "segment_id": "insert_HDMI:24:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 25,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/25.hdf5",
+    "source_sha256": "4b9bf62a3eafdf70a1cd4e8c5cccd1dbec273a50cd232d6ab4a019b806a7110f",
+    "source_size_bytes": 92260246,
+    "segment_id": "insert_HDMI:25:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 26,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      268,
+      502
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/26.hdf5",
+    "source_sha256": "87e2b3f5b924d8b7aca1c6ffd0b29266268cfea4ba2dc1fe2069aa51e2995468",
+    "source_size_bytes": 92373644,
+    "segment_id": "insert_HDMI:26:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 27,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/27.hdf5",
+    "source_sha256": "c004758ac9d889cba7e96f5f8c0174f2d48e1254f403cf12cf4cc8c717a413e0",
+    "source_size_bytes": 92371638,
+    "segment_id": "insert_HDMI:27:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 28,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/28.hdf5",
+    "source_sha256": "81158067a4362efefa78f875e5e2c8a030281f5735521e58d7d06824828a20cf",
+    "source_size_bytes": 92344734,
+    "segment_id": "insert_HDMI:28:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 29,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/29.hdf5",
+    "source_sha256": "dbafb5e7d162011e5117bba690aeaed16465edeb34fcfead6d6352be128c5afa",
+    "source_size_bytes": 92277946,
+    "segment_id": "insert_HDMI:29:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 30,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/30.hdf5",
+    "source_sha256": "4799c59537ea5ee587c0edb00bb311a255c19ba6c95dd124d220a57517ac5c08",
+    "source_size_bytes": 92176702,
+    "segment_id": "insert_HDMI:30:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 31,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/31.hdf5",
+    "source_sha256": "dea52bfbe538dc31f6ce8f6709c0c63dc375b7f4d0fe92f4efe9c22aa6bb702e",
+    "source_size_bytes": 92607520,
+    "segment_id": "insert_HDMI:31:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 32,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/32.hdf5",
+    "source_sha256": "0510a405046bb23b62e4bb8c9b38bef8f0c55ef425243e1b74d6a24281daac80",
+    "source_size_bytes": 92549110,
+    "segment_id": "insert_HDMI:32:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 33,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      254,
+      488
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/33.hdf5",
+    "source_sha256": "54be65767ecb0c64921882a7bc3a8841ab9156c62a41f34ad81311829da0dd0b",
+    "source_size_bytes": 92234286,
+    "segment_id": "insert_HDMI:33:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 34,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      254,
+      488
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/34.hdf5",
+    "source_sha256": "c2f536f4f8d93ba07ef82f38ca5e7d2180049efb16a028d52d8aefea63d0d604",
+    "source_size_bytes": 92123838,
+    "segment_id": "insert_HDMI:34:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 35,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/35.hdf5",
+    "source_sha256": "e2a3177599abe5750683a2221032cc9ec9de083dd472edbbf95f327188168d13",
+    "source_size_bytes": 92125372,
+    "segment_id": "insert_HDMI:35:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 36,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/36.hdf5",
+    "source_sha256": "10ae99d387cb82d06960a6ed41fa8fedbaf52db4be9db3fb1a5c9806152c303f",
+    "source_size_bytes": 92358540,
+    "segment_id": "insert_HDMI:36:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 37,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      256,
+      490
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/37.hdf5",
+    "source_sha256": "a19167c077612feb24bd1ad55285d03f9c79817989f25929c32a623ace890ff0",
+    "source_size_bytes": 92348274,
+    "segment_id": "insert_HDMI:37:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 38,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      266,
+      500
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/38.hdf5",
+    "source_sha256": "e0e46acd75d9f10d382f1bcf6812fbd3dffb8a661ab06a0968655ba242838fb8",
+    "source_size_bytes": 92260836,
+    "segment_id": "insert_HDMI:38:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 39,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/39.hdf5",
+    "source_sha256": "940cdc301bf6a319cc58d8e71ee61e2bf8aea3a50d8053d0fa8579dee9ef14b0",
+    "source_size_bytes": 92365856,
+    "segment_id": "insert_HDMI:39:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 40,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/40.hdf5",
+    "source_sha256": "b41c4e21e4540b6371c5cfd8a075bc0e5ce8c5f2fce10c6bed27a113fd001be7",
+    "source_size_bytes": 92239360,
+    "segment_id": "insert_HDMI:40:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 41,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/41.hdf5",
+    "source_sha256": "55125ee3f57ec266db6f038664c6b00fa40f3ee6fb2780895f826ed7d2c612b6",
+    "source_size_bytes": 92178826,
+    "segment_id": "insert_HDMI:41:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 42,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/42.hdf5",
+    "source_sha256": "07dd8d03a02c4664439bf7699e8a052d967b427c96a9e1a30e3dcf7ba67aa089",
+    "source_size_bytes": 92330574,
+    "segment_id": "insert_HDMI:42:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 43,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/43.hdf5",
+    "source_sha256": "fdde068ecd6b729d8454468ab36d020811e93d585d426fb1c1e0b5b74417509a",
+    "source_size_bytes": 92214934,
+    "segment_id": "insert_HDMI:43:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 44,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/44.hdf5",
+    "source_sha256": "b776d506f1b8993d81584365b9498034ee86b0d05c3ae9acb73d1ca121343c21",
+    "source_size_bytes": 92480316,
+    "segment_id": "insert_HDMI:44:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 45,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/45.hdf5",
+    "source_sha256": "c8fdaa53a5e3d376cb484d7cd517c372c2bd18944c4c1ed9ee0a5e4913a715f6",
+    "source_size_bytes": 92308036,
+    "segment_id": "insert_HDMI:45:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 46,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/46.hdf5",
+    "source_sha256": "f63d4fb067e72c9db85896b7c871da9b5ff3c36c69788e060f9c78ab94eda798",
+    "source_size_bytes": 92412584,
+    "segment_id": "insert_HDMI:46:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 47,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      248,
+      482
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/47.hdf5",
+    "source_sha256": "81676781b9ceef40becac2e4020e2b680c1f3da9fc4a06ff61a465649a05f38b",
+    "source_size_bytes": 92287032,
+    "segment_id": "insert_HDMI:47:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 48,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      254,
+      488
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/48.hdf5",
+    "source_sha256": "0d082daeee51e4086de3db14ef2f864713383c6e39684b21dfaee22d6e2de972",
+    "source_size_bytes": 92285380,
+    "segment_id": "insert_HDMI:48:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 49,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/49.hdf5",
+    "source_sha256": "0498f43920ed2ed997d5f9df3235a337d4052e94220bd9ac3c8cef5894a56271",
+    "source_size_bytes": 92185552,
+    "segment_id": "insert_HDMI:49:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 50,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/50.hdf5",
+    "source_sha256": "9be412686f8b7088e8a58471d6cbe775be98f5a28157cee920cc33580cc7ce8b",
+    "source_size_bytes": 92247384,
+    "segment_id": "insert_HDMI:50:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 51,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      254,
+      488
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/51.hdf5",
+    "source_sha256": "ae751b34ad7144471e48a4ed099860b10e89d3cae870037ed1726f5c45d42743",
+    "source_size_bytes": 92364322,
+    "segment_id": "insert_HDMI:51:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 52,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      266,
+      500
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/52.hdf5",
+    "source_sha256": "a96da507d85d74c3dd9b3abffc29bd95b38996891032c84fea5d3b8e2e6f9220",
+    "source_size_bytes": 92261898,
+    "segment_id": "insert_HDMI:52:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 53,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      266,
+      500
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/53.hdf5",
+    "source_sha256": "aad6933dd347914ef7c9132f4069490113057319af1b033d08899c39176f0525",
+    "source_size_bytes": 92427806,
+    "segment_id": "insert_HDMI:53:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 54,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/54.hdf5",
+    "source_sha256": "a72cc71f1a4da8ce08f54ed3f29b6cecb47fd33e37f822c3040e7c8c44f4cbb7",
+    "source_size_bytes": 92440786,
+    "segment_id": "insert_HDMI:54:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 55,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/55.hdf5",
+    "source_sha256": "0cd94ba26f64d4a8540b3d72e128a81e010993fc679c147a08893cd090376abe",
+    "source_size_bytes": 92102952,
+    "segment_id": "insert_HDMI:55:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 56,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      244,
+      478
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/56.hdf5",
+    "source_sha256": "e47067df49714534d822ec380fb1a0bc377aaf15e788604fa49878ca5fefee1a",
+    "source_size_bytes": 92336002,
+    "segment_id": "insert_HDMI:56:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 57,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/57.hdf5",
+    "source_sha256": "a5df6262f5fee53090ba7553aeddd16f7248641e2d94995323487ce59fac3288",
+    "source_size_bytes": 92436538,
+    "segment_id": "insert_HDMI:57:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 58,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/58.hdf5",
+    "source_sha256": "baafda23b0b3fc45ff3e7dd2a5d7d503b984a8ba9c5330168787567cc76c4b5e",
+    "source_size_bytes": 92238534,
+    "segment_id": "insert_HDMI:58:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 59,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/59.hdf5",
+    "source_sha256": "277d975b72425538e379262bee76a0fc58e2236825676cc61164bf5fceb89312",
+    "source_size_bytes": 92457778,
+    "segment_id": "insert_HDMI:59:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 60,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      272,
+      506
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/60.hdf5",
+    "source_sha256": "52d2f99187454bb48884e1dd055b961a4792a705e4c91ec706a1b8cc3c9b41bc",
+    "source_size_bytes": 92268034,
+    "segment_id": "insert_HDMI:60:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 61,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/61.hdf5",
+    "source_sha256": "24b0629ec4c23d70e21e7db8521c79973a83e22d77edcb429888d1cf1cd271d8",
+    "source_size_bytes": 92303552,
+    "segment_id": "insert_HDMI:61:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 62,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      246,
+      480
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/62.hdf5",
+    "source_sha256": "dce1d7da0074e04ff95f3a0282fdb564a480fe0d1c911b0f6975f9c64e341756",
+    "source_size_bytes": 92121360,
+    "segment_id": "insert_HDMI:62:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 63,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/63.hdf5",
+    "source_sha256": "5b36eda953d0dfbe00f4adc7e1638e165e01281de141d4667c30a04ff5c6926d",
+    "source_size_bytes": 92190744,
+    "segment_id": "insert_HDMI:63:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 64,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/64.hdf5",
+    "source_sha256": "0764ee052eac70b39020ae8696d5fce2dd1906096988aa59561cac42973ef59a",
+    "source_size_bytes": 92422142,
+    "segment_id": "insert_HDMI:64:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 65,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/65.hdf5",
+    "source_sha256": "97c04b180cea78854705024a937accf4906b6cb9ef9de78f777cb625012ded07",
+    "source_size_bytes": 92259420,
+    "segment_id": "insert_HDMI:65:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 66,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      268,
+      502
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/66.hdf5",
+    "source_sha256": "51de04eac561429acc26004bba2046da07c338a3351cf17083b2ced5e91bbb12",
+    "source_size_bytes": 92415416,
+    "segment_id": "insert_HDMI:66:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 67,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/67.hdf5",
+    "source_sha256": "e9612c0cb80f51b253cca85cb5c6361984bff459d36ac649ff109505b1ff6527",
+    "source_size_bytes": 92172218,
+    "segment_id": "insert_HDMI:67:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 68,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      266,
+      500
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/68.hdf5",
+    "source_sha256": "2eb3b59431a004ed1f4608492c871831a578f7e476e5dfed18da92f341d5a690",
+    "source_size_bytes": 92452114,
+    "segment_id": "insert_HDMI:68:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 69,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      242,
+      476
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/69.hdf5",
+    "source_sha256": "57b26ab24131d1d8da339855ce8d03b6c4aa7972ab7d552a9bcfd3c418128fde",
+    "source_size_bytes": 92258122,
+    "segment_id": "insert_HDMI:69:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 70,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/70.hdf5",
+    "source_sha256": "bb248fea73a206bea2d5334ea67a1f3d8167222294b28f8248dc8eb73308253f",
+    "source_size_bytes": 92255054,
+    "segment_id": "insert_HDMI:70:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 71,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      256,
+      490
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/71.hdf5",
+    "source_sha256": "2efe60434447135f958fab74907077479ea00c6f814009bae56a9a9cbb9e3021",
+    "source_size_bytes": 92229212,
+    "segment_id": "insert_HDMI:71:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 72,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/72.hdf5",
+    "source_sha256": "0c59edfa491f07de9030461de4f8612a196d090a5512f3b133fbb65529edf24d",
+    "source_size_bytes": 92458722,
+    "segment_id": "insert_HDMI:72:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 73,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      248,
+      482
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/73.hdf5",
+    "source_sha256": "57863a6f564d1f2f05091516cb7073b670e06d903de7145bd844d6c498f3c858",
+    "source_size_bytes": 92176820,
+    "segment_id": "insert_HDMI:73:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 74,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      268,
+      502
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/74.hdf5",
+    "source_sha256": "27356ca284e2b474ce14ceffdbdddfdff3b640e1b18e380eabf53e3b64a2b814",
+    "source_size_bytes": 92502264,
+    "segment_id": "insert_HDMI:74:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 75,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/75.hdf5",
+    "source_sha256": "a61691b7e8e1c46f3bb7dd72ce8696d498ff87c10cd566a3ad0c686f4d926baa",
+    "source_size_bytes": 92215288,
+    "segment_id": "insert_HDMI:75:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 76,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/76.hdf5",
+    "source_sha256": "e186c9129cd885d725bd69faf085dcd925d39af8313e563c7b740cbabdf52bd8",
+    "source_size_bytes": 92236882,
+    "segment_id": "insert_HDMI:76:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 77,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      270,
+      504
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/77.hdf5",
+    "source_sha256": "8ca805eb675ae1a5fbb5c3e6b0f37c49f7c29d36df7fe01a4b2166f557e16269",
+    "source_size_bytes": 92351106,
+    "segment_id": "insert_HDMI:77:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 78,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/78.hdf5",
+    "source_sha256": "36738e6a4fbe1b29be7305b16201d1953f1cbc486fcabff4a7301d5b6e03d27e",
+    "source_size_bytes": 92246676,
+    "segment_id": "insert_HDMI:78:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 79,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/79.hdf5",
+    "source_sha256": "d097b85b6c1a8fe71021aee34b90bd2d5a7bcf77ae3a034f8d2bf04f2bf4c736",
+    "source_size_bytes": 92359366,
+    "segment_id": "insert_HDMI:79:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 80,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      274,
+      508
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/80.hdf5",
+    "source_sha256": "8ae5c6db72216526540baef5121e6aa77be976a6019f2dbb289973ba575ebe85",
+    "source_size_bytes": 92453530,
+    "segment_id": "insert_HDMI:80:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 81,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      254,
+      488
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/81.hdf5",
+    "source_sha256": "ae35882b16620208e69033c60e974767f7451fe7554ce23af12037f2bf9b4c33",
+    "source_size_bytes": 92135874,
+    "segment_id": "insert_HDMI:81:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 82,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/82.hdf5",
+    "source_sha256": "e546b79c43c0a9736c8341de75b00fa33819e299f3963407dfcb6ab8888a258b",
+    "source_size_bytes": 92221660,
+    "segment_id": "insert_HDMI:82:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 83,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/83.hdf5",
+    "source_sha256": "aa90ed95530cc800bcd39414c134a067bd78dcbd86ccc3ab2db3e37612a696ac",
+    "source_size_bytes": 92221070,
+    "segment_id": "insert_HDMI:83:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 84,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/84.hdf5",
+    "source_sha256": "0f3c365f93e55f9b7f981095f16307571de7d961d15185a9ba36a33fbecbf9c0",
+    "source_size_bytes": 92311576,
+    "segment_id": "insert_HDMI:84:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 85,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/85.hdf5",
+    "source_sha256": "f4bb9e212256bd7d4d530b259d1ad454ce888bb23aac2364e7ed86cc915aaa85",
+    "source_size_bytes": 92342020,
+    "segment_id": "insert_HDMI:85:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 86,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      266,
+      500
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/86.hdf5",
+    "source_sha256": "a36c6966c85b8150b495f96bc8b97fcfe617b0d91a386d9e549e67e9be4c9f43",
+    "source_size_bytes": 92421552,
+    "segment_id": "insert_HDMI:86:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 87,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      262,
+      496
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/87.hdf5",
+    "source_sha256": "d86b1268479588dcf9668d35c9fce25a50a4f1d25d2c33d07a9b5f96816b3028",
+    "source_size_bytes": 92372110,
+    "segment_id": "insert_HDMI:87:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 88,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/88.hdf5",
+    "source_sha256": "b7c7544ac4e7edbef1e82f82a49d3244ab0869fab8ce6c77d761473b701922a4",
+    "source_size_bytes": 92313228,
+    "segment_id": "insert_HDMI:88:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 89,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/89.hdf5",
+    "source_sha256": "21750fc218d5fb45720d4d7e41905f9811be732dac804a78e0dc18f8c2461cc7",
+    "source_size_bytes": 92432054,
+    "segment_id": "insert_HDMI:89:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 90,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/90.hdf5",
+    "source_sha256": "4d86fd770f647feff64923984a2aa09d13e254b6cee3d83f49d6fa91228ad3dc",
+    "source_size_bytes": 92308626,
+    "segment_id": "insert_HDMI:90:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 91,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/91.hdf5",
+    "source_sha256": "8f87e96222c94b1a17ef0938ff81ee54e1cabce41a4d1399ac14951bac0e25ae",
+    "source_size_bytes": 92300130,
+    "segment_id": "insert_HDMI:91:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 92,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      252,
+      486
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/92.hdf5",
+    "source_sha256": "75e7b8748cf8b0b456b4372093861ea9695b89964c9b73b8bda9cf0d31afe5f6",
+    "source_size_bytes": 92149090,
+    "segment_id": "insert_HDMI:92:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 93,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      256,
+      490
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/93.hdf5",
+    "source_sha256": "89ec92b7f78de6926d8701b6131f9cd7310e6b02edcc21d0af89431404d822cf",
+    "source_size_bytes": 92222486,
+    "segment_id": "insert_HDMI:93:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 94,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      264,
+      498
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/94.hdf5",
+    "source_sha256": "e4efc5f43af8f448bf217022c9b64270ac03111c65ced4bb7cdabf8074e8339f",
+    "source_size_bytes": 92295882,
+    "segment_id": "insert_HDMI:94:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 95,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      260,
+      494
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/95.hdf5",
+    "source_sha256": "1abf4c591365d151d75c47f7954e33e7617dc84400b9236769bec6edaac6569c",
+    "source_size_bytes": 92389692,
+    "segment_id": "insert_HDMI:95:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 96,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/96.hdf5",
+    "source_sha256": "24c50de70a95bcf2e4f9efcb671f968ae9b288ed9616f4264682fc74826924a0",
+    "source_size_bytes": 92498724,
+    "segment_id": "insert_HDMI:96:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 97,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      250,
+      484
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/97.hdf5",
+    "source_sha256": "71a74c860bd3cf58bd051dc1da6fafbb09909847e6f6ed9064cdad8997ebb81c",
+    "source_size_bytes": 92266618,
+    "segment_id": "insert_HDMI:97:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 98,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      246,
+      480
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/98.hdf5",
+    "source_sha256": "591200d155a949f579ed8e7e14ecc1c4839a3344ff661bead85b90ac326c9f57",
+    "source_size_bytes": 92295528,
+    "segment_id": "insert_HDMI:98:0"
+  },
+  {
+    "task": "insert_HDMI",
+    "source_episode_id": 99,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 118,
+    "valid_count": 117,
+    "raw_steps": [
+      258,
+      492
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_HDMI/hdf5/99.hdf5",
+    "source_sha256": "2de87267452908c856942801c251d1bb847972b513baf008dad1a211f6f1a076",
+    "source_size_bytes": 92151568,
+    "segment_id": "insert_HDMI:99:0"
+  }
+]

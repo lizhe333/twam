@@ -1,0 +1,76 @@
+{
+  "source_directory": "/zhe_li/tactile-wam/contact-belief-wam",
+  "destination_repository": "https://github.com/lizhe333/twam",
+  "snapshot_time_utc": "2026-10-20T01:32:02.471162+00:00",
+  "core_source_sha256": {
+    "src/contact_belief_wam/__init__.py": "7664e2b7d18007321eab452a14be490c8d4d9fb7a8fff6d48d6464eee650baac",
+    "src/contact_belief_wam/__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+    "src/contact_belief_wam/aligned_augmentation.py": "ecd89a25003a9488128dfd19b115e16045c92076e93f4a8022d7042ce7fa756f",
+    "src/contact_belief_wam/aligned_data.py": "03e0dff54537dfd35f5905c403a1dedf95080ab6cb5aebeae5ea58b3a13a6d6e",
+    "src/contact_belief_wam/aligned_debug.py": "9ce98ba5dbc9de96fc936c33cb1d15a15827b122efe6791641bbd4c14efe9b8b",
+    "src/contact_belief_wam/aligned_pipeline.py": "280f3adeef4d93855cd4d3e789075be709b47405e1e0c064b08af2204430859c",
+    "src/contact_belief_wam/aligned_serve.py": "89f756fe2de47e18f6cb6b9a7707c95331206078fea8a0f45848d02c7f163cc7",
+    "src/contact_belief_wam/aligned_trainer.py": "5c077870124106234403f19b0715de80c264cad7c4186204bab7af5aa83eccd5",
+    "src/contact_belief_wam/benchmark.py": "bdd5da6451cd22cf8beb44d8c364eb7ef96bea293dc27423790ca9fe9491673d",
+    "src/contact_belief_wam/benchmark_telemetry.py": "45744d479d2596a9d5edca9c1df218c7c9d4eba852df1d62dfdebd2d546f2a41",
+    "src/contact_belief_wam/cli.py": "05c0bc526cb4c9a828707eeb00b466f6c559b80eebbfa53bc2c9e92535286133",
+    "src/contact_belief_wam/cloud.py": "aeb68e60fdfc3005e63cff8452790b62c7aa4c4be61f08aa0b155c86410221e0",
+    "src/contact_belief_wam/config.py": "8b8715f56349036d15f15179da8564667c93121913acd9fa12e63f913045746c",
+    "src/contact_belief_wam/data.py": "05ee22dcd59ab30c06fb7e9b9a134aa3e0b5c53dd8a330ff828508f3c225225c",
+    "src/contact_belief_wam/debug.py": "f8194b331b3973acfc869330c56bca48fc67a108a4a8d1f371e087eaf77b3ad6",
+    "src/contact_belief_wam/debug_optimizer.py": "83008daac22cfb653cfc82a4f18338fb05233fb097a82afcaf58544c67fa094f",
+    "src/contact_belief_wam/feature_cache.py": "561748f2779e4be705c5a94f983348aee28909ca8a8a3d8a3c396c85fff3a489",
+    "src/contact_belief_wam/metrics.py": "e0c7ab2129f6a1b886188610989dc3492ae686e98c07e66d1027c60bec239011",
+    "src/contact_belief_wam/model.py": "cb72881a56869d2a8cf74c405288a965b378e9d95d585fa2b7393c8ed57b4df2",
+    "src/contact_belief_wam/modules.py": "a0fa36e6b938d1c16b56a0bafffa413bdb65f57161d97c4f7f6c6c7f4b32dd44",
+    "src/contact_belief_wam/paths.py": "594cfa430eee8b2f2f25e0b9968061173df2e21eeda27c41f3c883879ce1cd91",
+    "src/contact_belief_wam/preprocessing.py": "15ba9eb5f2eb045ff3eecbf360a3a9cf5478bdc57af99378541b24902db2b9c5",
+    "src/contact_belief_wam/protocol.py": "cbd1fb2fe04c33c9e3607e8bab2a9f3e828b85c81e1237045d5a8f1e8ecf8a4f",
+    "src/contact_belief_wam/recovery.py": "924d165525f866aeaf0e40702eb35dbc9cc2df2add6995c219a49e8894a22830",
+    "src/contact_belief_wam/sequence.py": "f89cf3d8bedcb37a40420363d56704412442b56a1bef63b035e3fc530aae0f1b",
+    "src/contact_belief_wam/serve.py": "d5b6530cf3a6375b0e31ec930e54ffdf44a07df4aaab0f69cfb28fb5ae415cab",
+    "src/contact_belief_wam/shared_data.py": "a77febce3c1c8fcd1c48ed77eedf36a900eee24b07a823b196bb25d511ded53f",
+    "src/contact_belief_wam/shared_debug.py": "6ef8f8b67d23daf15ef8cf0a7d9b2bbb455f58093f96ed9fc47a51f8679d711e",
+    "src/contact_belief_wam/shared_pipeline.py": "e281d7a0c89d05db7a3d71a35718ce73ee7eccbda30c0d7c2c5211ca0f6b7ed4",
+    "src/contact_belief_wam/sim_collect.py": "994a5b3176849ad412547a44447942c8ede17ba8c35127709a6e138e8e5108d7",
+    "src/contact_belief_wam/sim_eval.py": "78f8e60c64ed5c976502e70a3a68670bdb4abd88d0ddfbd0ff9d16697bbf8335",
+    "src/contact_belief_wam/tactile.py": "a59369e219aebe5ee11bf789f76b4a3b11663f8232dc28a8cc847526c97d81da",
+    "src/contact_belief_wam/timing.py": "f980c831a19817578cd9af704f0ccf6ccc5dffa38bac93833b09f7654023d8a9",
+    "src/contact_belief_wam/trainer.py": "393233a2b7f58104181c3a298e2ac40fa98fb98b4b44ab47c24731efb4b2f605",
+    "src/contact_belief_wam/types.py": "9493ecb6a8dd04dda56d47eda99540804dd5b331b0c0daf775e63a0bb04fae3b",
+    "src/contact_belief_wam/weights.py": "97b49f8f0ebdaf0f5ae974e7abf73271c9c3277d57ec9344d06060e8618d4c17"
+  },
+  "external_sources": [
+    {
+      "name": "AnyTouch2",
+      "repository": "https://github.com/GeWu-Lab/AnyTouch2.git",
+      "revision": "82c5677d9cf0176d97a1fe04745f63cd02dd6f54",
+      "note": "External workspace asset; this revision alone does not capture local simulator/environment modifications."
+    },
+    {
+      "name": "UniVTAC",
+      "repository": "https://github.com/univtac/UniVTAC.git",
+      "revision": "0dafa10262e22f486f160a55d6f11aeab12d8e7b",
+      "note": "External workspace asset; this revision alone does not capture local simulator/environment modifications."
+    }
+  ],
+  "transformers_runtime_verified": {
+    "files_compared": 1991,
+    "differences": 0,
+    "archive_sha256": "a48b3760625a6241a8914fdc66daf6f72728d36b1467f1dd32ca1959311ef142"
+  },
+  "packaging_changes": [
+    "Root README and source/provenance documentation",
+    "Git ignores for local environments, data, weights, and outputs",
+    "Pinned Transformers source preparation",
+    "Existing-workspace config generator with new output namespace",
+    "Local simulator environment wrapper; original model and trainer sources preserved"
+  ],
+  "validation": {
+    "cpu_pytest": {
+      "passed": 150,
+      "skipped": 4,
+      "note": "Skips cover optional real-data and CUDA checks; no formal training or full-size simulation launched."
+    }
+  }
+}
