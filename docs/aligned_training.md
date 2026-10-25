@@ -1,5 +1,7 @@
 # Aligned Contact-Belief training
 
+The public entry is now `python -m contact_belief_wam train` or `bash scripts/train.sh`. The default `full` recipe adds an independent `tactile` phase before the WAVE-0 stages described below. See [tactile_training.md](tactile_training.md) for its objective, transfer rules, and validation. Old coupled checkpoints remain loadable but cannot resume this new recipe.
+
 The aligned pipeline uses `wave0-univtac-fast` as its training reference and changes the Contact/tactile method. It preserves the reference model initialization, data transforms, optimizer and schedule conventions, validation cadence, and stage budgets. `full` adds the aligned Contact-Belief method. `wave0_recovery` provides the WAVE-0 comparison with the same recovery-data setting.
 
 The pinned reference files and their hashes are in `vendor/aligned_reference/SOURCE.json`. The aligned input uses `q[t+i+1] - q[t]` for the first seven action coordinates, absolute gripper position, and 32-dimensional flow supervision including the padded coordinates. Policy normalization is copied from the reference task statistics; world inputs use its shared eight-task statistics. Historical executed actions use the previous interval's anchor. No statistics are recomputed from recovery data. The exact SentencePiece state prompt and PIL resize-pad are shared by training and aligned deployment. Stage 2 trains the policy vision tower and uses a separate frozen, unaugmented vision tower for future supervision.
@@ -10,6 +12,7 @@ The default recipe is `configs/aligned_8xa800.yaml`:
 
 | Stage | Data and models | Per-GPU batch | Global batch | Updates |
 |---|---|---:|---:|---:|
+| Tactile (`full` only) | Independent current-observation/action-conditioned tactile predictor; no belief or predicted visual input | 32 on 2 GPUs | 64 | 5,000 |
 | Shared Stage 1 | Eight-task shared world model; original demonstrations and insertion-task recovery episodes | 32 on 8 GPUs | 256 | 5,000 |
 | Stage 2: `insert_hole` | Independent policy initialized from the shared checkpoint | 32 on 2 GPUs | 64 | 10,000 |
 | Stage 2: `insert_HDMI` | Independent policy initialized from the same shared checkpoint | 32 on 2 GPUs | 64 | 10,000 |
@@ -21,20 +24,20 @@ Gradient accumulation is one. Stage 1 uses the reference `1e-4` learning rate, 5
 Prepare the real manifests, normalization statistics, and frozen tactile features with the recipe's data paths:
 
 ```bash
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/aligned_train.sh prepare \
+bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh prepare \
   --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml
 ```
 
-Run the bounded checks separately for each variant. The debug output path is separate from the formal run path in the config. At most two optimizer updates are made for each model: the shared Stage 1 model and each of the two Stage 2 policies. The checks use real HDF5 windows and cached tactile features. Stage 1 includes two original windows from the same task to exercise task-preserving ranking, along with a recovery window. Each Stage 2 debug checks an original and a recovery window for that policy's task. A smaller micro-batch and CPU optimizer state may be used to fit the complete model on the developer GPU; these are debug-only execution settings.
+Run the bounded checks separately for each variant. The debug output path is separate from the formal run path in the config. At most two optimizer updates are made for each model: the independent tactile predictor (full only), shared Stage 1 model and each of the two Stage 2 policies. The checks use real HDF5 windows and cached tactile features. Stage 1 includes two original windows from the same task to exercise task-preserving ranking, along with a recovery window. Each Stage 2 debug checks an original and a recovery window for that policy's task. A smaller micro-batch and CPU optimizer state may be used to fit the complete model on the developer GPU; these are debug-only execution settings.
 
 ```bash
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/aligned_train.sh debug \
+bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh debug \
   --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
   --variant full \
   --output /zhe_li/tactile-wam/contact-belief-wam/outputs/aligned_debug \
   --device cuda --optimizer-device cpu --updates 2 --micro-batch 2
 
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/aligned_train.sh debug \
+bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh debug \
   --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
   --variant wave0_recovery \
   --output /zhe_li/tactile-wam/contact-belief-wam/outputs/aligned_debug \
@@ -50,16 +53,16 @@ The report and logs are written under `outputs/aligned_debug/<variant>/`. CPU-ma
 The commands below document the intended A800 job; this repository change does not launch formal training. Run each variant in its own output directory and use `--resume none` only for a new run:
 
 ```bash
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/aligned_train.sh train \
+bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh train \
   --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
   --variant full --resume none
 
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/aligned_train.sh train \
+bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh train \
   --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
   --variant wave0_recovery --resume none
 ```
 
-The formal recipe keeps the reference GPU counts, micro-batches, global batches, update counts, FP32 trainable parameters, and GPU EMA. It does not use the developer debug's CPU optimizer state or reduced micro-batch. Stage 1 runs first; each task-specific Stage 2 starts from the completed shared checkpoint. Training and simulation results should be reported separately: a completed debug or simulator smoke is an integration check, not a training-quality result.
+The formal recipe keeps the reference GPU counts, micro-batches, global batches, update counts, FP32 trainable parameters, and GPU EMA. It does not use the developer debug's CPU optimizer state or reduced micro-batch. For the default full configuration, independent tactile training runs first; Stage 1 then loads and freezes its predictor, and each task-specific Stage 2 starts from the completed shared checkpoint. The baseline skips tactile training. Training and simulation results should be reported separately: a completed debug or simulator smoke is an integration check, not a training-quality result.
 
 The two commands are separate jobs. The baseline trains its own Stage 1 teacher from the same official world initialization; it never consumes the full method's teacher. Output directories default to `runs/aligned-8xa800/full` and `runs/aligned-8xa800/wave0_recovery`. Set `--output /absolute/new/run-root` to choose a new root; the variant suffix is appended automatically. No upload package or new weight download is needed with the existing mounts.
 

@@ -7,7 +7,7 @@ import sys
 import pytest
 import torch
 
-from contact_belief_wam.aligned_trainer import rng_state
+from contact_belief_wam.trainer import rng_state
 
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="requires CUDA")
@@ -20,7 +20,7 @@ def test_fresh_process_restore_survives_queued_manual_seed(tmp_path):
     torch.save({"state": state, "probe": probe}, checkpoint)
     script = """
 import sys, torch
-from contact_belief_wam.aligned_trainer import restore_rng
+from contact_belief_wam.trainer import restore_rng
 saved = torch.load(sys.argv[1], weights_only=False)
 assert not torch.cuda.is_initialized()
 torch.manual_seed(42)

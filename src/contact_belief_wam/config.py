@@ -13,6 +13,8 @@ class ContactConfig:
     world_norm_stats: dict | None = None
     mode: str = "full"
     stage: str = "stage1"
+    # Old checkpoints retain their original coupled contact predictor.
+    independent_tactile: bool = False
     k: int = 10
     chunk_size: int = 50
     action_dim: int = 8
@@ -57,8 +59,10 @@ class ContactConfig:
             raise ValueError(f"Unsupported attention backend: {self.attention_backend}")
         if self.mode not in {"pi05", "wave0", "direct_touch", "full"}:
             raise ValueError(f"Unknown mode: {self.mode}")
-        if self.stage not in {"stage1", "stage2", "inference"}:
+        if self.stage not in {"tactile", "stage1", "stage2", "inference"}:
             raise ValueError(f"Unknown stage: {self.stage}")
+        if self.stage == "tactile" and (self.mode != "full" or not self.independent_tactile):
+            raise ValueError("The tactile stage requires full mode and independent_tactile=True")
         if not 2 <= self.k <= self.chunk_size:
             raise ValueError("k must be between 2 and chunk_size")
         if not 0 <= self.belief_warmup_min <= self.belief_warmup_max:
@@ -67,6 +71,10 @@ class ContactConfig:
             raise ValueError("belief_bptt_steps must be 1 or 2")
         if self.action_dim != 8 or self.padded_dim != 32:
             raise ValueError("UniVTAC v1 uses eight absolute targets padded to 32")
+
+    @property
+    def world_only(self):
+        return self.stage in {"tactile", "stage1"}
 
     @property
     def use_belief(self):

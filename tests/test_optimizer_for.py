@@ -5,7 +5,7 @@ import pytest
 import torch
 from torch import nn
 
-from contact_belief_wam.trainer import (
+from contact_belief_wam.legacy.trainer import (
     check_resume_contract,
     optimizer_for,
     training_contract,

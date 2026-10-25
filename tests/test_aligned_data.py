@@ -9,12 +9,12 @@ import h5py
 import numpy as np
 import pytest
 
-from contact_belief_wam.aligned_data import (
+from contact_belief_wam.data import (
     SHARED_TASKS,
     AlignedDataset,
     AlignedProcessor,
     AlignedTaskBalancedSampler,
-    prepare_aligned_data,
+    prepare_data,
 )
 from contact_belief_wam.config import ContactConfig
 
@@ -140,7 +140,7 @@ def test_real_original_sample_matches_reference_processor_and_recurrent_anchor(t
         "cache_root": str(DATA_ROOT / "cache/anytouch2"),
         "tokenizer_path": str(TOKENIZER),
     }
-    prepared = prepare_aligned_data(run)
+    prepared = prepare_data(run)
     assert prepared["validation_episode_ids"] == [14, 20, 51, 60, 71, 74, 82, 86, 91, 92]
     assert prepared["summary"]["stage1_train_original"] == 720
     assert prepared["summary"]["stage1_train_recovery"] == 100

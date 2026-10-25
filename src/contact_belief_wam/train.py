@@ -26,7 +26,7 @@ TASKS = ("insert_hole", "insert_HDMI", "insert_tube", "pull_out_key",
          "grasp_classify", "lift_bottle", "lift_can", "put_bottle_in_shelf")
 POLICY_TASKS = ("insert_hole", "insert_HDMI")
 GPU_COUNT = 8
-STATUS_FILENAME = "aligned_pipeline_status.json"
+STATUS_FILENAME = "train_status.json"
 
 
 def _resolve_path(value, base=PROJECT):
@@ -47,7 +47,7 @@ def _model_values(raw, mode):
                   gradient_checkpointing=True, k=int(raw.get("k", 10)),
                   attention_backend=raw.get("attention_backend", "sdpa"))
     if mode == "wave0":
-        values.update(belief_warmup_min=0, belief_warmup_max=0, belief_bptt_steps=1)
+        values.update(independent_tactile=False, belief_warmup_min=0, belief_warmup_max=0, belief_bptt_steps=1)
     return values
 
 
@@ -103,6 +103,14 @@ def resolve_config(config="configs/aligned_8xa800.yaml", *, variant="full", outp
         stage["accumulation_steps"] = stage["global_batch"] // divisor
         if stage["accumulation_steps"] != 1:
             raise ValueError(f"{name}: this recipe requires gradient accumulation 1")
+    if raw.get("independent_tactile") and raw["mode"] == "full":
+        if "tactile" not in raw:
+            raise ValueError("independent_tactile requires a tactile training configuration")
+        cfg = raw["tactile"]
+        divisor = int(cfg["num_gpus"]) * int(cfg["micro_batch"])
+        if int(cfg["num_gpus"]) not in range(1, 9) or cfg["global_batch"] % divisor:
+            raise ValueError("Invalid tactile GPU count or global batch")
+        cfg["accumulation_steps"] = cfg["global_batch"] // divisor
     raw["model_config"] = _model_values(raw, raw["mode"])
     raw["shared_manifest"] = raw.get("shared_manifest")
     raw["policy_manifests"] = {}
@@ -117,15 +125,19 @@ def resolve_config(config="configs/aligned_8xa800.yaml", *, variant="full", outp
 def _physical_gpus():
     raw = os.environ.get("CUDA_VISIBLE_DEVICES")
     devices = [str(index) for index in range(GPU_COUNT)] if raw is None else [item.strip() for item in raw.split(",")]
-    if len(devices) != GPU_COUNT or any(not item for item in devices):
-        raise ValueError("The aligned workflow requires exactly eight non-empty CUDA_VISIBLE_DEVICES entries")
-    if len(set(devices)) != GPU_COUNT:
-        raise ValueError("CUDA_VISIBLE_DEVICES must contain eight unique GPU IDs")
+    if not devices or any(not item for item in devices):
+        raise ValueError("CUDA_VISIBLE_DEVICES must contain non-empty GPU IDs")
+    if len(set(devices)) != len(devices):
+        raise ValueError("CUDA_VISIBLE_DEVICES must contain unique GPU IDs")
     return devices
 
 
-def plan(run):
+def plan(run, *, stop_after=None):
     devices = _physical_gpus()
+    required = int(run["tactile"]["num_gpus"]) if stop_after == "tactile" else GPU_COUNT
+    if len(devices) < required:
+        raise ValueError(f"This workflow needs {required} visible GPUs; received {len(devices)}")
+    devices = devices[:required]
     stage1 = {"stage": "stage1", "task": "shared_wm",
               "output": str(Path(run["output"]) / "shared_wm"), "gpus": devices,
               "nproc_per_node": 8, "concurrency": 1}
@@ -133,15 +145,27 @@ def plan(run):
                "output": str(Path(run["output"]) / "tasks" / task),
                "gpus": devices[index * 2:index * 2 + 2], "nproc_per_node": 2,
                "concurrency": 2} for index, task in enumerate(POLICY_TASKS)]
-    return {"config": run["config"], "variant": run["variant"], "mode": run["mode"],
+    result = {"config": run["config"], "variant": run["variant"], "mode": run["mode"],
             "workspace": run["workspace"], "output": run["output"],
             "physical_gpus": devices, "stage1": stage1, "stage2": stage2}
+    if run.get("independent_tactile") and run["mode"] == "full":
+        count = int(run["tactile"]["num_gpus"])
+        result["tactile"] = {"stage": "tactile", "task": "tactile_wm",
+                             "output": str(Path(run["output"]) / "tactile_wm"),
+                             "gpus": devices[:count], "nproc_per_node": count, "concurrency": 1}
+    if stop_after == "tactile":
+        result.pop("stage1")
+        result.pop("stage2")
+    elif stop_after == "stage1":
+        result.pop("stage2")
+    return result
 
 
 def stage_run(run, stage, task=None, checkpoint=None):
     result = dict(run)
-    if stage == "stage1":
-        result.update(task="shared_wm", output=str(Path(run["output"]) / "shared_wm"),
+    if stage in {"tactile", "stage1"}:
+        name = "tactile_wm" if stage == "tactile" else "shared_wm"
+        result.update(task=name, output=str(Path(run["output"]) / name),
                       task_manifest=None, task_stats=run["task_stats_by_task"],
                       task_stats_by_task=run["task_stats_by_task"],
                       policy_norm_stats=run["wm_norm_stats"],
@@ -164,6 +188,9 @@ def stage_run(run, stage, task=None, checkpoint=None):
         "world_norm_stats": result["world_norm_stats"]}}, run["mode"])
     result["model_config"].update(policy_norm_stats=result["policy_norm_stats"],
                                   world_norm_stats=result["world_norm_stats"])
+    if stage == "tactile":
+        result["model_config"].update(stage="tactile", belief_warmup_min=0,
+                                      belief_warmup_max=0, belief_bptt_steps=1)
     return result
 
 
@@ -207,13 +234,13 @@ def _pipeline_env(threads):
     return env
 
 
-def _training_command(run_file, stage, *, stage1_checkpoint=None, resume=None, threads=4):
+def _training_command(run_file, stage, *, stage1_checkpoint=None, resume=None, threads=4, nproc=None):
     # Task and teacher paths are already part of the stage-specific run file.
-    nproc = 8 if stage == "stage1" else 2
+    nproc = nproc or (8 if stage == "stage1" else 2)
     command = [sys.executable, "-m", "torch.distributed.run", "--rdzv_backend", "c10d",
                "--rdzv_endpoint", "localhost:0", "--rdzv_id", str(uuid.uuid4()),
                "--nnodes", "1", "--nproc_per_node", str(nproc),
-               "-m", "contact_belief_wam.aligned_trainer", "--run-config", str(run_file),
+               "-m", "contact_belief_wam.trainer", "--run-config", str(run_file),
                "--stage", stage, "--device", "cuda", "--threads", str(threads)]
     if resume:
         command += ["--resume", str(resume)]
@@ -333,30 +360,30 @@ def _run_jobs(records, env, status, persist, *, concurrent=1):
 
 
 def _latest_resume(output, stage):
-    from .aligned_trainer import latest_checkpoint
+    from .trainer import latest_checkpoint
     return latest_checkpoint(output, stage)
 
 
-def _verify_stage1(path, expected_identity=None):
+def _verify_prediction_checkpoint(path, expected_identity=None, *, stage="stage1"):
     path = Path(path)
     meta = json.loads((path / "complete.json").read_text())
-    if meta.get("stage") != "stage1" or not (path / "pretrained_model/model.safetensors").is_file():
-        raise RuntimeError(f"Stage-1 checkpoint is invalid: {path}")
+    if meta.get("stage") != stage or not (path / "pretrained_model/model.safetensors").is_file():
+        raise RuntimeError(f"{stage} checkpoint is invalid: {path}")
     from .paths import sha256
     if sha256(path / "pretrained_model/model.safetensors") != meta.get("model_sha256"):
-        raise RuntimeError("Selected Stage-1 checkpoint failed its model hash check")
+        raise RuntimeError(f"Selected {stage} checkpoint failed its model hash check")
     saved_identity = json.loads((path / "run_identity.json").read_text())
     if expected_identity is not None and saved_identity != expected_identity:
-        raise RuntimeError("Selected Stage-1 checkpoint recipe/data identity differs from this run")
+        raise RuntimeError(f"Selected {stage} checkpoint recipe/data identity differs from this run")
     result = json.loads((path.parents[2] / "result.json").read_text())
     if result.get("complete") is not True or Path(result.get("selected_checkpoint", "")).resolve() != path.resolve():
-        raise RuntimeError("Stage 1 did not finish with this selected checkpoint")
+        raise RuntimeError(f"{stage} did not finish with this selected checkpoint")
     return path
 
 
 def _prepare(run):
-    from .aligned_data import prepare_aligned_data
-    report = prepare_aligned_data(run, data_root=run["data_root"],
+    from .data import prepare_data
+    report = prepare_data(run, data_root=run["data_root"],
                                   original_root=run["original_root"],
                                   recovery_root=run["recovery_root"])
     run.update(shared_manifest=report["shared_manifest"],
@@ -397,17 +424,50 @@ def _find_resume(run, stage, resume):
     return _latest_resume(run["output"], stage)
 
 
+def _run_prediction_stage(run, stage, placement, workflow, env, status, persist, resume, threads):
+    """Shared launch/resume/handoff for tactile dynamics and the visual WM."""
+    from .trainer import _source_identity, training_contract
+    stage_config = stage_run(run, stage)
+    identity = _source_identity(stage_config, stage, training_contract(
+        stage_config, stage, int(run[stage]["num_gpus"])))
+    directory = Path(stage_config["output"])
+    directory.mkdir(parents=True, exist_ok=True)
+    config_path, result_path = directory / "run_config.yaml", directory / "result.json"
+    _atomic_yaml(config_path, stage_config)
+    checkpoint = None
+    if resume == "auto" and result_path.is_file():
+        value = json.loads(result_path.read_text())
+        if value.get("complete") and value.get("selected_checkpoint"):
+            checkpoint = _verify_prediction_checkpoint(value["selected_checkpoint"], identity, stage=stage)
+    if checkpoint is None:
+        record = {"task": stage_config["task"], "stage": stage, "gpus": placement["gpus"],
+                  "log": str(workflow / "logs" / f"{stage}.log"), "state": "pending"}
+        record["command"] = _training_command(config_path, stage, threads=threads,
+            resume=_find_resume(stage_config, stage, resume), nproc=int(run[stage]["num_gpus"]))
+        status[stage] = record
+        persist()
+        _run_jobs([record], env, status[stage], persist)
+        value = json.loads(result_path.read_text())
+        checkpoint = _verify_prediction_checkpoint(value["selected_checkpoint"], identity, stage=stage)
+    status[f"selected_{stage}_checkpoint"] = str(checkpoint)
+    status[f"{stage}_result"] = str(result_path)
+    persist()
+    return checkpoint
+
+
 def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full",
          output=None, resume="none", plan_only=False, device="cuda", threads=4,
-         updates=2, optimizer_device="cpu", micro_batch=2):
+         updates=2, optimizer_device="cpu", micro_batch=2, stop_after=None):
     configure()
     run = resolve_config(config, variant=variant, output=output)
+    if stop_after == "tactile" and not (run.get("independent_tactile") and run["mode"] == "full"):
+        raise ValueError("--stop-after tactile requires full mode with independent_tactile")
     if command not in {"prepare", "debug", "train"}:
         raise ValueError(f"Unknown aligned pipeline command: {command}")
     if threads < 1:
         raise ValueError("threads must be positive")
     if plan_only:
-        return plan(run)
+        return plan(run, stop_after=stop_after)
     if command == "prepare":
         return _prepare(run)
     if command == "debug":
@@ -420,7 +480,7 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
         return run_debug_pipeline(run, updates=updates, device=device, threads=threads,
                                   optimizer_device=optimizer_device, micro_batch=micro_batch,
                                   data_report=prepared)
-    schedule = plan(run)
+    schedule = plan(run, stop_after=stop_after)
     if resume not in {"auto", "none"}:
         raise ValueError("Formal pipeline resume accepts only auto or none")
     _prepare(run)
@@ -430,7 +490,7 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
     workflow = Path(run["output"])
     status_path = workflow / STATUS_FILENAME
     workflow.mkdir(parents=True, exist_ok=True)
-    lock = workflow_lock(workflow / ".aligned_pipeline.lock")
+    lock = workflow_lock(workflow / ".train.lock")
     lock.__enter__()
     if status_path.exists() and resume == "none":
         lock.__exit__(None, None, None)
@@ -446,37 +506,16 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
     persist()
     env = _pipeline_env(threads)
     try:
-        stage1_run = stage_run(run, "stage1")
-        from .aligned_trainer import _source_identity, training_contract
-        expected_stage1_identity = _source_identity(
-            stage1_run, "stage1", training_contract(stage1_run, "stage1", 8))
-        stage1_dir = Path(stage1_run["output"])
-        stage1_dir.mkdir(parents=True, exist_ok=True)
-        stage1_config = stage1_dir / "run_config.yaml"
-        _atomic_yaml(stage1_config, stage1_run)
-        existing_result = stage1_dir / "result.json"
-        if resume == "auto" and existing_result.is_file():
-            value = json.loads(existing_result.read_text())
-            selected = value.get("selected_checkpoint")
-            checkpoint = _verify_stage1(selected, expected_stage1_identity) \
-                if value.get("complete") and selected else None
-        else:
-            checkpoint = None
-        if checkpoint is None:
-            stage1_resume = _find_resume(stage1_run, "stage1", resume)
-            record = {"task": "stage1", "stage": "stage1", "gpus": schedule["stage1"]["gpus"],
-                      "log": str(workflow / "logs/stage1.log"), "state": "pending"}
-            record["command"] = _training_command(stage1_config, "stage1", resume=stage1_resume,
-                                                   threads=threads)
-            status["stage1"] = record
-            persist()
-            _run_jobs([record], env, status["stage1"], persist)
-            result_path = stage1_dir / "result.json"
-            value = json.loads(result_path.read_text())
-            checkpoint = _verify_stage1(value["selected_checkpoint"], expected_stage1_identity)
-        status["selected_stage1_checkpoint"] = str(checkpoint)
-        status["stage1_result"] = str(stage1_dir / "result.json")
-        persist()
+        prediction_stages = ["tactile", "stage1"] if "tactile" in schedule else ["stage1"]
+        for stage in prediction_stages:
+            checkpoint = _run_prediction_stage(run, stage, schedule[stage], workflow, env,
+                                                status, persist, resume, threads)
+            if stage == "tactile":
+                run["tactile_checkpoint"] = str(checkpoint)
+            if stop_after == stage:
+                status.update(state=f"{stage}_complete", finished_at=_utc_now())
+                persist()
+                return status
 
         records = []
         for task, device_spec in zip(POLICY_TASKS, schedule["stage2"]):
@@ -517,7 +556,9 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
 
 def cli_main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("prepare", "debug", "train"))
+    parser.add_argument("command", choices=("prepare", "debug", "train"), nargs="?", default="train")
+    parser.add_argument("--stop-after", choices=("tactile", "stage1"),
+                        help="Finish and validate this stage, then stop; --resume auto continues later")
     parser.add_argument("--config", default=str(PROJECT / "configs/aligned_8xa800.yaml"))
     parser.add_argument("--variant", choices=("full", "wave0_recovery"), default="full")
     parser.add_argument("--output")
@@ -536,7 +577,7 @@ def cli_main(argv=None):
         result = main(args.config, command=args.command, variant=args.variant, output=args.output,
                       resume=args.resume, plan_only=args.plan, device=args.device, threads=args.threads,
                       updates=args.updates, optimizer_device=args.optimizer_device,
-                      micro_batch=args.micro_batch)
+                      micro_batch=args.micro_batch, stop_after=args.stop_after)
     except Exception as exc:
         print(f"aligned pipeline: {exc}", file=sys.stderr)
         return 1

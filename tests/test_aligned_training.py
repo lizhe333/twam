@@ -7,15 +7,15 @@ import pytest
 import torch
 from torch import nn
 
-from contact_belief_wam import aligned_pipeline, aligned_trainer
+from contact_belief_wam import train, trainer
 from contact_belief_wam.paths import sha256
 
 
 def test_reference_lr_schedule_and_scaled_new_group_final_lr():
     peak, final, warmup, steps = 2.5e-5, 2.5e-6, 1000, 10000
-    assert aligned_trainer.lr_at(0, peak, final, warmup, steps) == pytest.approx(peak / (warmup + 1))
-    assert aligned_trainer.lr_at(warmup, peak, final, warmup, steps) == pytest.approx(peak)
-    assert aligned_trainer.lr_at(steps, peak, final, warmup, steps) == pytest.approx(final)
+    assert trainer.lr_at(0, peak, final, warmup, steps) == pytest.approx(peak / (warmup + 1))
+    assert trainer.lr_at(warmup, peak, final, warmup, steps) == pytest.approx(peak)
+    assert trainer.lr_at(steps, peak, final, warmup, steps) == pytest.approx(final)
 
     class TinyPolicy(nn.Module):
         def __init__(self):
@@ -28,8 +28,8 @@ def test_reference_lr_schedule_and_scaled_new_group_final_lr():
     run = {"stage2": {"lr": peak, "lr_new": 1e-4, "warmup": warmup,
                        "final_lr": final, "steps": steps, "weight_decay": 1e-10},
            "fused_adamw": False}
-    optimizer = aligned_trainer.make_optimizer(policy, run, "stage2", device="cpu")
-    aligned_trainer.set_lr(optimizer, run["stage2"], "stage2", steps)
+    optimizer = trainer.make_optimizer(policy, run, "stage2", device="cpu")
+    trainer.set_lr(optimizer, run["stage2"], "stage2", steps)
     values = {group["name"]: group["lr"] for group in optimizer.param_groups}
     assert values == pytest.approx({"policy": final, "new": final * 4})
 
@@ -43,7 +43,7 @@ def test_stage1_optimizer_only_includes_world_and_contact_modules():
             self.contact = nn.Linear(2, 2)
 
     policy = TinyPolicy()
-    optimizer = aligned_trainer.make_optimizer(
+    optimizer = trainer.make_optimizer(
         policy,
         {"stage1": {"lr": 1e-4, "weight_decay": 0.01}, "fused_adamw": False},
         "stage1", device="cpu")
@@ -55,7 +55,7 @@ def test_stage1_optimizer_only_includes_world_and_contact_modules():
 def test_fp32_ema_updates_all_trainable_parameters_and_roundtrips(tmp_path):
     model = nn.Sequential(nn.Linear(3, 2), nn.Linear(2, 1))
     model[1].weight.requires_grad_(False)
-    ema = aligned_trainer.EMA(model, decay=0.99, device="cpu")
+    ema = trainer.EMA(model, decay=0.99, device="cpu")
     assert set(ema.values) == {"0.weight", "0.bias", "1.bias"}
     for value in ema.values.values():
         assert value.dtype == torch.float32
@@ -68,7 +68,7 @@ def test_fp32_ema_updates_all_trainable_parameters_and_roundtrips(tmp_path):
         assert torch.allclose(value, before[name] * 0.99 + dict(model.named_parameters())[name] * 0.01)
     destination = tmp_path / "ema.safetensors"
     ema.save(destination)
-    restored = aligned_trainer.EMA(model, device="cpu", initialize=False)
+    restored = trainer.EMA(model, device="cpu", initialize=False)
     restored.load(destination, model)
     assert set(restored.values) == set(ema.values)
     assert all(torch.equal(restored.values[name], ema.values[name]) for name in ema.values)
@@ -81,7 +81,7 @@ def test_fixed_validation_batches_are_balanced_and_exact():
         def __init__(self):
             self.tasks = [task for task in tasks for _ in range(128)]
 
-    batches = aligned_trainer._fixed_validation_sampler(Dataset(), tasks, 128, 8, 0, 32)
+    batches = trainer._fixed_validation_sampler(Dataset(), tasks, 128, 8, 0, 32)
     assert len(batches) == 4
     assert all(len(batch) == 32 for batch in batches)
     for batch in batches:
@@ -127,7 +127,7 @@ def test_stage1_validation_reports_common_world_loss_and_task_source_components(
 
     run = {"tasks": tasks, "stage1": {"validation_samples_per_task": 128, "micro_batch": 32}}
     monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
-    result = aligned_trainer.validate_stage1(Model(), Dataset(), lambda batch, _device: batch,
+    result = trainer.validate_prediction_stage(Model(), Dataset(), lambda batch, _device: batch,
                                             run, torch.device("cpu"), 1, 0)
     assert result["loss"] == pytest.approx(4.5)
     assert result["metrics"]["visual_initial"] == pytest.approx(9.0)
@@ -138,10 +138,10 @@ def test_stage1_validation_reports_common_world_loss_and_task_source_components(
 
 
 def test_pipeline_plan_uses_eight_stage1_gpus_and_two_parallel_two_gpu_policies(monkeypatch, tmp_path):
-    monkeypatch.setattr(aligned_pipeline, "_physical_gpus", lambda: [str(i) for i in range(8)])
+    monkeypatch.setattr(train, "_physical_gpus", lambda: [str(i) for i in range(8)])
     run = {"config": "recipe.yaml", "variant": "full", "mode": "full",
            "workspace": str(tmp_path), "output": str(tmp_path / "full")}
-    result = aligned_pipeline.plan(run)
+    result = train.plan(run)
     assert result["stage1"]["gpus"] == [str(i) for i in range(8)]
     assert [job["task"] for job in result["stage2"]] == ["insert_hole", "insert_HDMI"]
     assert [job["gpus"] for job in result["stage2"]] == [["0", "1"], ["2", "3"]]
@@ -152,22 +152,22 @@ def test_debug_pipeline_does_not_require_formal_eight_gpu_plan(monkeypatch, tmp_
     import sys
     from types import SimpleNamespace
 
-    monkeypatch.setattr(aligned_pipeline, "configure", lambda: None)
-    monkeypatch.setattr(aligned_pipeline, "resolve_config",
+    monkeypatch.setattr(train, "configure", lambda: None)
+    monkeypatch.setattr(train, "resolve_config",
                         lambda *args, **kwargs: {"output": str(tmp_path), "mode": "full"})
-    monkeypatch.setattr(aligned_pipeline, "_prepare", lambda run: {"prepared": True})
-    monkeypatch.setattr(aligned_pipeline, "plan",
+    monkeypatch.setattr(train, "_prepare", lambda run: {"prepared": True})
+    monkeypatch.setattr(train, "plan",
                         lambda _run: pytest.fail("debug must not validate the formal GPU map"))
     debug = SimpleNamespace(run_debug_pipeline=lambda run, **kwargs: {
         "output": run["output"], "micro_batch": kwargs["micro_batch"]})
     monkeypatch.setitem(sys.modules, "contact_belief_wam.aligned_debug", debug)
-    result = aligned_pipeline.main(command="debug", output=tmp_path / "debug", device="cpu")
+    result = train.main(command="debug", output=tmp_path / "debug", device="cpu")
     assert result["micro_batch"] == 2
 
 
 def test_config_resolves_isolated_variants_and_reference_batch_schedule(tmp_path):
-    full = aligned_pipeline.resolve_config(variant="full", output=tmp_path / "runs")
-    wave0 = aligned_pipeline.resolve_config(variant="wave0_recovery", output=tmp_path / "runs")
+    full = train.resolve_config(variant="full", output=tmp_path / "runs")
+    wave0 = train.resolve_config(variant="wave0_recovery", output=tmp_path / "runs")
     assert full["output"] == str(tmp_path / "runs" / "full")
     assert wave0["output"] == str(tmp_path / "runs" / "wave0_recovery")
     assert (full["mode"], wave0["mode"]) == ("full", "wave0")
@@ -191,13 +191,13 @@ def test_resolved_model_config_preserves_smoke_horizon_override(tmp_path):
     config["k"] = 5
     target = tmp_path / "smoke.yaml"
     target.write_text(yaml.safe_dump(config))
-    resolved = aligned_pipeline.resolve_config(target, variant="full", output=tmp_path / "smoke")
+    resolved = train.resolve_config(target, variant="full", output=tmp_path / "smoke")
     assert resolved["model_config"]["k"] == 5
 
 
 def test_pipeline_training_command_uses_torchrun_and_explicit_resume(tmp_path):
     config = tmp_path / "run_config.yaml"
-    command = aligned_pipeline._training_command(config, "stage2", resume=tmp_path / "checkpoint")
+    command = train._training_command(config, "stage2", resume=tmp_path / "checkpoint")
     assert "torch.distributed.run" in command
     assert command[command.index("--nproc_per_node") + 1] == "2"
     assert command[command.index("--resume") + 1] == str(tmp_path / "checkpoint")
@@ -217,7 +217,7 @@ def test_stage1_handoff_reads_result_from_stage_directory_sibling(tmp_path):
     (checkpoint.parents[2] / "result.json").write_text(json.dumps({
         "complete": True, "selected_checkpoint": str(checkpoint),
     }))
-    assert aligned_pipeline._verify_stage1(checkpoint, identity) == checkpoint
+    assert train._verify_prediction_checkpoint(checkpoint, identity) == checkpoint
 
 
 def test_checkpoint_resume_contract_rejects_changed_optimizer_or_model_bytes(tmp_path):
@@ -234,9 +234,9 @@ def test_checkpoint_resume_contract_rejects_changed_optimizer_or_model_bytes(tmp
         "stage": "stage1", "world_size": 8, "training_contract": contract,
         "model_sha256": sha256(model), "training_sha256": sha256(training)}))
     (checkpoint / "run_identity.json").write_text(json.dumps(identity))
-    aligned_trainer._validate_resume(checkpoint, "stage1", contract, identity, 8)
+    trainer._validate_resume(checkpoint, "stage1", contract, identity, 8)
     with pytest.raises(ValueError, match="contract changed"):
-        aligned_trainer._validate_resume(checkpoint, "stage1", {**contract, "lr": 2e-4}, identity, 8)
+        trainer._validate_resume(checkpoint, "stage1", {**contract, "lr": 2e-4}, identity, 8)
     model.write_bytes(b"changed")
     with pytest.raises(ValueError, match="integrity"):
-        aligned_trainer._validate_resume(checkpoint, "stage1", contract, identity, 8)
+        trainer._validate_resume(checkpoint, "stage1", contract, identity, 8)

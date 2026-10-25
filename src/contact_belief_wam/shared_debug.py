@@ -16,12 +16,12 @@ import torch
 import yaml
 
 from .cloud import model_config
-from .data import ContactDataset, collate_contact
+from .legacy.data import ContactDataset, collate_contact
 from .paths import atomic_json, sha256
 from .preprocessing import PromptTokenizer
 from .sequence import SequenceTrainingModel, observation_at, prepare_batch
 from .shared_pipeline import stage_run
-from .trainer import export_model, optimizer_for, validation
+from .legacy.trainer import export_model, optimizer_for, validation
 
 
 def debug_optimizer(policy, run, device):

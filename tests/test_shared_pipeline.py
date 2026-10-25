@@ -91,7 +91,7 @@ def test_formal_entry_rejects_debug_offload(tmp_path):
 
 
 def test_resume_checks_data_and_curriculum_before_overwriting(tmp_path, monkeypatch):
-    from contact_belief_wam.trainer import training_contract
+    from contact_belief_wam.legacy.trainer import training_contract
     path = configuration(tmp_path)
     run = pipeline.resolve(pipeline.parser().parse_args(["train", "--config", str(path), "--resume", "auto"]))
     case = pipeline.stage_run(run, "stage2", "insert_hole", tmp_path / "teacher")
@@ -109,7 +109,7 @@ def test_resume_checks_data_and_curriculum_before_overwriting(tmp_path, monkeypa
 
 
 def test_resume_contract_detects_changed_statistics(tmp_path):
-    from contact_belief_wam.trainer import training_contract, check_resume_contract
+    from contact_belief_wam.legacy.trainer import training_contract, check_resume_contract
     path = configuration(tmp_path)
     run = pipeline.resolve(pipeline.parser().parse_args(["train", "--config", str(path)]))
     case = pipeline.stage_run(run, "stage1")

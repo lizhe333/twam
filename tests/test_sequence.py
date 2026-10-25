@@ -47,7 +47,7 @@ class TinyPolicy(nn.Module):
 
     def __init__(self, length, *, bptt_steps=2, outputs=None, final_future_from_belief=False):
         super().__init__()
-        self.config = SimpleNamespace(k=2, belief_bptt_steps=bptt_steps)
+        self.config = SimpleNamespace(k=2, belief_bptt_steps=bptt_steps, stage="stage2")
         self.weight = nn.Parameter(torch.tensor(1.0))
         self.outputs = outputs
         self.final_future_from_belief = final_future_from_belief
