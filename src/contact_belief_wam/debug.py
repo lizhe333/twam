@@ -12,11 +12,11 @@ import numpy as np
 import torch
 
 from .cloud import model_config
-from .data import ContactDataset, collate_contact
+from .legacy.data import ContactDataset, collate_contact
 from .paths import atomic_json
 from .preprocessing import PromptTokenizer
 from .sequence import SequenceTrainingModel, observation_at, prepare_batch
-from .trainer import export_model, optimizer_for, validation
+from .legacy.trainer import export_model, optimizer_for, validation
 
 
 def run_debug(run, *, updates=1, stages=("stage1", "stage2"), device="cpu", threads=16):

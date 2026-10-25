@@ -85,13 +85,29 @@ def load_world(model, source):
     return report
 
 
-def initialize(config, *, world_init=None, stage1_checkpoint=None):
+def load_tactile_predictor(model, source):
+    """Transfer only independent tactile dynamics, never the random belief modules."""
+    from .config import ContactConfig
+    source = checkpoint_file(source)
+    saved = ContactConfig.load(source.parent / "config.json")
+    if saved.stage != "tactile" or not saved.independent_tactile or not model.config.independent_tactile:
+        raise ValueError("Expected an independently trained tactile checkpoint")
+    for key in ("k", "width", "vision_width", "tactile_tokens", "world_norm_stats", "encoder_reference"):
+        if getattr(saved, key) != getattr(model.config, key):
+            raise ValueError(f"Tactile checkpoint differs in {key}")
+    prefix = "contact.predictor."
+    with safe_open(source, framework="pt", device="cpu") as f:
+        state = {key[len(prefix):]: f.get_tensor(key) for key in f.keys() if key.startswith(prefix)}
+    model.contact.predictor.load_state_dict(state, strict=True)
+
+
+def initialize(config, *, world_init=None, stage1_checkpoint=None, tactile_checkpoint=None):
     from .model import ContactWAM, WAVE0Policy, wave_config
     checkpoint_file(config.pi05_base)
     base = WAVE0Policy.from_pretrained(config.pi05_base, config=wave_config(config),
                                       strict=True, local_files_only=True)
     model = ContactWAM(config, base_policy=base)
-    if config.aligned and config.stage != "stage1" and config.use_world:
+    if config.aligned and not config.world_only and config.use_world:
         # Inference construction omits the official Stage-2 loader; initialize
         # its independent frozen visual target tower from the same base weights.
         WAVE0Policy._load_frozen_vision_backbone(model.core.world_vision_backbone,
@@ -107,6 +123,11 @@ def initialize(config, *, world_init=None, stage1_checkpoint=None):
             state = {k.removeprefix("contact."): f.get_tensor(k) for k in f.keys() if k.startswith("contact.")}
         model.contact.load_state_dict(state, strict=True)
         report["contact_from_stage1"] = str(stage1_checkpoint)
+    if tactile_checkpoint:
+        if stage1_checkpoint:
+            raise ValueError("Stage-1 transfer already includes tactile weights; do not overwrite them")
+        load_tactile_predictor(model, tactile_checkpoint)
+        report["tactile_checkpoint"] = str(tactile_checkpoint)
     return model, report
 
 

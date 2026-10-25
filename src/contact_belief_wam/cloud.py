@@ -119,7 +119,7 @@ def training_command(config, output, stage, steps, resume=None):
                "--num_machines", "1", "--mixed_precision", config["precision"], "--dynamo_backend", "no"]
     if config["num_gpus"] > 1:
         command.append("--multi_gpu")
-    command += ["--module", "contact_belief_wam.trainer", "--run-config", str(output / "run_config.yaml"),
+    command += ["--module", "contact_belief_wam.legacy.trainer", "--run-config", str(output / "run_config.yaml"),
                 "--stage", stage, "--steps", str(steps)]
     if resume:
         command += ["--resume", str(resume)]

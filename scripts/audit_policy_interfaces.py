@@ -3,7 +3,7 @@ import argparse
 from dataclasses import replace
 import torch
 from contact_belief_wam.config import ContactConfig
-from contact_belief_wam.data import ContactDataset, collate_contact
+from contact_belief_wam.legacy.data import ContactDataset, collate_contact
 from contact_belief_wam.model import ContactWAM
 from contact_belief_wam.paths import PROJECT, atomic_json
 from contact_belief_wam.preprocessing import PromptTokenizer

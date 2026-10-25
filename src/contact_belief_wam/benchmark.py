@@ -192,10 +192,10 @@ def benchmark_worker(run):
     from torch.utils.data import DataLoader
 
     from .benchmark_telemetry import GpuSampler, summarize_gpu_samples
-    from .data import ContactDataset, MixedSequenceSampler, collate_contact
+    from .legacy.data import ContactDataset, MixedSequenceSampler, collate_contact
     from .preprocessing import PromptTokenizer
     from .sequence import SequenceTrainingModel, prepare_batch
-    from .trainer import optimizer_for
+    from .legacy.trainer import optimizer_for
     from .weights import initialize
 
     if run.get("device", "cuda") != "cuda" or not torch.cuda.is_available():

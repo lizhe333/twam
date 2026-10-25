@@ -7,9 +7,9 @@ import pytest
 import torch
 from test_fast_attention import tiny_architecture, cfg
 
-from contact_belief_wam.aligned_data import AlignedProcessor
-from contact_belief_wam.aligned_serve import AlignedPolicyService
-from contact_belief_wam.aligned_serve import inference_autocast_settings
+from contact_belief_wam.data import AlignedProcessor
+from contact_belief_wam.serve import AlignedPolicyService
+from contact_belief_wam.serve import inference_autocast_settings
 from contact_belief_wam.types import ContactPrediction
 
 
@@ -108,7 +108,7 @@ def test_debug_cpu_bf16_is_explicit_and_cpu_fp32_remains_default(monkeypatch):
 
 @pytest.mark.parametrize('mode', ['wave0', 'full'])
 def test_cpu_bf16_service_context_runs_tiny_real_policy(tiny_architecture, tmp_path, monkeypatch, mode):
-    from contact_belief_wam import aligned_data, aligned_serve
+    from contact_belief_wam import data, serve
     from contact_belief_wam.model import ContactWAM
 
     stats = {key: {'q01': [-1.0] * 8, 'q99': [1.0] * 8} for key in ('state', 'actions')}
@@ -138,9 +138,9 @@ def test_cpu_bf16_service_context_runs_tiny_real_policy(tiny_architecture, tmp_p
             return np.asarray(value, dtype=np.float32)
 
     monkeypatch.setenv('CBWAM_DEBUG_CPU_BF16', '1')
-    monkeypatch.setattr(aligned_data, 'AlignedProcessor', StubProcessor)
+    monkeypatch.setattr(data, 'AlignedProcessor', StubProcessor)
     # The real model's contact input is zero tactile for this execution check.
-    monkeypatch.setattr(aligned_serve, 'EncoderProcess', lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(serve, 'EncoderProcess', lambda *_args, **_kwargs: None)
     service = AlignedPolicyService(tmp_path, device='cpu', threads=1, use_ema=False)
     autocast_seen = []
     original_predict = service.model.predict_action_chunk

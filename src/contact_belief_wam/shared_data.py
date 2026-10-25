@@ -6,7 +6,7 @@ from pathlib import Path
 import h5py
 import numpy as np
 
-from .data import build_manifest
+from .legacy.data import build_manifest
 from .paths import atomic_json, read_jsonl, write_jsonl
 
 SHARED_TASKS = (

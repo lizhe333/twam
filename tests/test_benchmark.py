@@ -57,7 +57,7 @@ def test_oom_preserves_successful_case_and_does_not_start_formal_training(tmp_pa
 
     def fake_launch(command, log_path, timeout):
         run = yaml.safe_load(open(command[command.index("--worker-config") + 1]).read())
-        assert "contact_belief_wam.trainer" not in command
+        assert "contact_belief_wam.legacy.trainer" not in command
         assert run["accumulation_steps"] == 1
         calls.append(run["micro_batch"])
         if run["micro_batch"] == 16:

@@ -22,7 +22,7 @@ from lerobot.policies.wave0.modeling_wave0 import WAVE0Policy, WorldActionEncode
 def wave_config(cfg: ContactConfig):
     # The extension owns next-frame timing. Construct the upstream config with its
     # historical h+1 convention, then expose our actual observation horizon k.
-    stage = "stage1" if cfg.stage == "stage1" else "inference" if cfg.use_world else "disabled"
+    stage = "stage1" if cfg.world_only else "inference" if cfg.use_world else "disabled"
     value = WAVE0Config(
         world_model_stage=stage, world_model_future_horizons=(cfg.k - 1,),
         wam_latent_action_num_queries=cfg.k, chunk_size=cfg.chunk_size, n_action_steps=cfg.k,
@@ -111,7 +111,7 @@ class ContactWAM(nn.Module):
         super().__init__()
         self.config = config
         self.base_policy = base_policy if base_policy is not None else WAVE0Policy(wave_config(config))
-        if config.stage != "stage1" and config.use_world:
+        if not config.world_only and config.use_world:
             # Unlike stock deployment, final actions must still be encoded for feedback.
             self.core.world_action_encoder = WorldActionEncoder(32, config.world_width, 2,
                                                                 config.world_heads, config.chunk_size)
@@ -131,6 +131,10 @@ class ContactWAM(nn.Module):
 
     def configure_trainability(self):
         cfg = self.config
+        if cfg.stage == "tactile":
+            self.requires_grad_(False)
+            self.contact.predictor.requires_grad_(True)
+            return
         self.requires_grad_(cfg.stage != "inference")
         if cfg.stage == "stage1":
             self.core.vision_backbone.requires_grad_(False)
@@ -139,6 +143,8 @@ class ContactWAM(nn.Module):
                 self.contact.to_queries.requires_grad_(False)
                 self.contact.to_expert.requires_grad_(False)
                 self.contact.query_gate.requires_grad_(False)
+                if cfg.independent_tactile:
+                    self.contact.predictor.requires_grad_(False)
         elif cfg.stage == "stage2":
             pg = self.core.paligemma_with_expert.paligemma
             pg.vision_tower.requires_grad_(cfg.aligned)
@@ -153,7 +159,7 @@ class ContactWAM(nn.Module):
                 self.core.wam_latent_action_projection.requires_grad_(False)
             if self.contact and cfg.stage2_freeze_belief:
                 self.contact.updater.requires_grad_(False)
-            if self.contact and cfg.stage2_freeze_contact_predictor:
+            if self.contact and (cfg.stage2_freeze_contact_predictor or cfg.independent_tactile):
                 self.contact.predictor.requires_grad_(False)
         if self.contact:
             if cfg.mode == "direct_touch":
@@ -174,9 +180,14 @@ class ContactWAM(nn.Module):
 
     def train(self, mode=True):
         super().train(mode)
+        if self.config.stage == "tactile":
+            self.base_policy.eval()
+            self.contact.eval()
+            self.contact.predictor.train(mode)
+            return self
         # Stock base_policy is constructed in inference mode to keep loading independent
         # of a Stage-1 path. Set actual component modes explicitly here.
-        if self.config.stage == "stage1":
+        if self.config.world_only:
             self.core.vision_backbone.eval()
             self.core.world_action_encoder.train(mode)
             self.core.world_state_encoder.train(mode)
@@ -207,17 +218,17 @@ class ContactWAM(nn.Module):
             current = self.encode_visual(obs.image)
             world_state = obs.world_state if obs.world_state is not None else obs.state
             latent = self.core.world_action_encoder(pad8(actions[:, :self.config.k]).float(), pad8(world_state).float())
-            _, _, expected = self.predict_future(current, world_state, latent, belief, obs.tactile)
+            _, _, expected = self.predict_future(current, world_state, latent, belief, obs.tactile, actions=actions)
         return belief, expected
 
     def encode_visual(self, image):
         with torch.no_grad():
-            if self.config.stage == "stage1":
+            if self.config.world_only:
                 from lerobot.policies.wave0.modeling_wave0 import spatial_pool_image_tokens
                 return spatial_pool_image_tokens(self.core.vision_backbone(image), self.base_policy.config.world_model_spatial_pool_size).float()[:, None]
             return self.core.encode_world_images([image]).float()
 
-    def predict_future(self, current, state, action_tokens, belief, tactile, *, detach_for_flow=False):
+    def predict_future(self, current, state, action_tokens, belief, tactile, *, actions=None, detach_for_flow=False):
         state_token = self.core.world_state_encoder(pad8(state).float())
         if self.config.mode == "full" and self.config.belief_to_world_state:
             state_token = state_token + self.contact.state_gate * self.contact.to_state(belief.mean(1))[:, None]
@@ -225,7 +236,13 @@ class ContactWAM(nn.Module):
         source = initial.detach() if detach_for_flow else initial
         if self.config.mode == "full":
             corrected = self.contact.corrector(source, belief, action_tokens)
-            contact = self.contact.predictor(corrected, action_tokens, tactile, belief)
+            if self.config.independent_tactile:
+                # VLM latent plans have no physical action prefix yet. Predict
+                # contact only when the actual normalized actions are known.
+                contact = (self.contact.predictor(current, actions[:, :self.config.k], state, tactile)
+                           if actions is not None else None)
+            else:
+                contact = self.contact.predictor(corrected, action_tokens, tactile, belief)
         else:
             corrected, contact = source, None
         return initial, corrected, contact
@@ -307,7 +324,38 @@ class ContactWAM(nn.Module):
         context = torch.cat(condition, 1) if condition else obs.state.new_empty(obs.state.shape[0], 0, self.config.expert_width)
         return context, pad, kv, latent, predicted
 
+    def forward_tactile(self, obs, target):
+        """Fit only tactile dynamics to frozen AnyTouch targets, without recurrence."""
+        cfg = self.config
+        current = self.encode_visual(obs.image)
+        state = obs.world_state if obs.world_state is not None else obs.state
+        actions = target.world_actions if target.world_actions is not None else target.actions
+        expected = self.contact.predictor(current, actions[:, :cfg.k], state, obs.tactile.detach())
+        future_touch = target.future_tactile.detach()
+        loss = feature_distance(expected, future_touch)
+        persistence = feature_distance(obs.tactile.detach(), future_touch)
+        zero = torch.zeros_like(loss)
+        valid = target.future_mask.bool()
+        metrics = {"loss": loss, "tactile_future": loss, "tactile_persistence": persistence,
+                   "tactile_gain": persistence - loss}
+        masks = {key: valid for key in metrics}
+        if not self.training:
+            tasks = obs.task if obs.task is not None else [f"sample-{i}" for i in range(len(loss))]
+            neg, neg_valid = WAVE0Policy._make_negative_actions(actions[:, :cfg.k], tasks)
+            wrong = self.contact.predictor(current, neg, state, obs.tactile)
+            metrics["tactile_wrong_action"] = feature_distance(wrong, future_touch)
+            metrics["tactile_action_gap"] = metrics["tactile_wrong_action"] - loss
+            for name in ("tactile_wrong_action", "tactile_action_gap"):
+                masks[name] = valid & neg_valid
+        return {"loss_per_sample": loss * valid, "future_loss_per_sample": loss,
+                "action_loss_per_sample": zero, "action_valid": torch.zeros_like(valid),
+                "belief": obs.state.new_zeros(len(loss), cfg.belief_tokens, cfg.width),
+                "expected_contact": expected, "expectation_valid": valid,
+                "metrics": metrics, "metric_masks": masks}
+
     def forward(self, obs: ContactObservation, target: ContactTargets, *, noise=None, time=None):
+        if self.config.stage == "tactile":
+            return self.forward_tactile(obs, target)
         cfg, b = self.config, obs.state.shape[0]
         world_state = obs.world_state if obs.world_state is not None else obs.state
         world_actions = target.world_actions if target.world_actions is not None else target.actions
@@ -330,13 +378,13 @@ class ContactWAM(nn.Module):
                     "policy_aux_valid": action_valid,
                     "belief": belief, "expected_contact": None, "expectation_valid": torch.zeros_like(target.future_mask),
                     "metrics": {"loss": flow, "flow": flow, "belief_norm": belief.float().norm(dim=-1).mean(1)}}
-        current = self.encode_visual(obs.image) if cfg.use_world or cfg.stage == "stage1" else None
-        future = self.encode_visual(target.future_image) if cfg.use_world or cfg.stage == "stage1" else None
+        current = self.encode_visual(obs.image) if cfg.use_world or cfg.world_only else None
+        future = self.encode_visual(target.future_image) if cfg.use_world or cfg.world_only else None
         expected = None
         world_loss, touch_loss, corrected_loss = zero, zero, zero
         if cfg.use_world or cfg.stage == "stage1":
             action_tokens = self.core.world_action_encoder(pad8(world_actions[:, :cfg.k]).float(), pad8(world_state).float())
-            initial, corrected, expected = self.predict_future(current, world_state, action_tokens, belief, obs.tactile)
+            initial, corrected, expected = self.predict_future(current, world_state, action_tokens, belief, obs.tactile, actions=world_actions)
             visual = (1 - F.cosine_similarity(initial, future, dim=-1)).flatten(1).mean(1)
             delta = F.smooth_l1_loss(initial - current, future - current, reduction="none").flatten(1).mean(1)
             rank = zero
@@ -355,7 +403,7 @@ class ContactWAM(nn.Module):
                 neg, valid_neg = WAVE0Policy._make_negative_actions(pad8(world_actions[:, :cfg.k]), tasks)
                 if valid_neg.any():
                     neg_tokens = self.core.world_action_encoder(neg, pad8(world_state).float())
-                    wrong, _, _ = self.predict_future(current, world_state, neg_tokens, belief, obs.tactile)
+                    wrong, _, _ = self.predict_future(current, world_state, neg_tokens, belief, obs.tactile, actions=neg)
                     wrong_score = (1 - F.cosine_similarity(wrong, future, dim=-1)).flatten(1).mean(1)
                     rank = F.relu(.1 + visual - wrong_score) * valid_neg
             world_loss = visual + .5 * delta + .1 * rank
@@ -368,7 +416,9 @@ class ContactWAM(nn.Module):
             flow = zero
             action_valid = torch.zeros(b, dtype=torch.bool, device=zero.device)
             policy_aux_is_valid = torch.zeros_like(action_valid)
-            future_loss = world_loss + touch_loss + corrected_loss
+            future_loss = world_loss + corrected_loss
+            if not cfg.independent_tactile:
+                future_loss = future_loss + touch_loss
             loss = future_loss * target.future_mask
         else:
             policy_aux_is_valid = policy_aux_valid(
@@ -422,7 +472,7 @@ class ContactWAM(nn.Module):
                 raise ValueError("action_transform must return finite normalized [..., 8] actions")
             return torch.cat((transformed, actions[..., 8:]), dim=-1)
 
-        if self.config.stage == "stage1":
+        if self.config.world_only:
             raise ValueError("Stage 1 checkpoint does not contain an action policy")
         if obs.step is None:
             raise ValueError("ContactObservation.step is required to align cached contact predictions")
@@ -457,7 +507,7 @@ class ContactWAM(nn.Module):
             final_prefix = self.to_world_actions(pad8(actions[:, :cfg.k, :8]))
             world_state = obs.world_state if obs.world_state is not None else obs.state
             latent = self.core.world_action_encoder(final_prefix, pad8(world_state))
-            _, _, expected = self.predict_future(current, world_state, latent, belief, obs.tactile)
+            _, _, expected = self.predict_future(current, world_state, latent, belief, obs.tactile, actions=final_prefix)
         return ContactPrediction(actions[:, :, :8], belief, expected, obs.step + cfg.k,
                                  {"belief_norm": belief.norm(dim=-1), "condition_tokens": condition.shape[1]})
 
@@ -474,11 +524,13 @@ class ContactWAM(nn.Module):
         directory = Path(directory)
         cfg = ContactConfig.load(directory / "config.json")
         old_k = cfg.k
-        if stage and (stage == "stage1") != (cfg.stage == "stage1"):
+        if stage and (stage in {"tactile", "stage1"}) != cfg.world_only:
             raise ValueError("Stage 1 uses a world-only architecture; use weights.initialize for Stage 1 → Stage 2")
         if stage:
             cfg = replace(cfg, stage=stage)
         if k is not None:
+            if cfg.independent_tactile and k != old_k:
+                raise ValueError("Independent tactile dynamics must use its trained prediction horizon k")
             cfg = replace(cfg, k=k)
         model = cls(cfg)
         if cfg.k == old_k:

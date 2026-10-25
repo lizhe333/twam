@@ -63,7 +63,7 @@ def select_debug_groups(tasks, sources, episode_ids, *, stage: str, task: str | 
         # A middle window avoids always testing the episode boundary.
         return {episode: values[len(values) // 2] for episode, values in episodes.items()}
 
-    if stage == "stage1":
+    if stage in {"tactile", "stage1"}:
         candidates = list(shared_tasks)
         if task and task not in candidates:
             candidates.insert(0, task)
@@ -128,7 +128,7 @@ def debug_settings(run, *, updates, device, optimizer_device, micro_batch, threa
 def reject_formal_output(path):
     """Prevent a bounded debug from being placed in a formal output tree."""
     root = Path(path)
-    markers = ("aligned_pipeline_status.json", "pipeline_config.yaml", "run_config.yaml")
+    markers = ("train_status.json", "pipeline_config.yaml", "run_config.yaml")
     found = []
     if root.exists():
         found = [str(candidate) for marker in markers for candidate in root.rglob(marker)]
@@ -382,7 +382,7 @@ def _gradient_summary(policy, optimized_ids):
 
 
 def _required_gradient_groups(mode, stage, norms):
-    required = {"world"} if stage == "stage1" else {"policy"}
+    required = {"contact.predictor"} if stage == "tactile" else ({"world"} if stage == "stage1" else {"policy"})
     if mode == "full":
         required.add(next((key for key in norms if key.startswith("contact.")), "contact"))
     missing = sorted(name for name in required
@@ -428,6 +428,13 @@ def _prediction_values(policy, batch, noise, stage, device):
         raise ValueError("Cannot run fixed-noise check on an empty sequence")
     index = int(valid[-1])
     obs = observation_at(batch, index)
+    if stage == "tactile":
+        action_stream = batch["world_actions"] if "world_actions" in batch else batch["actions"]
+        state = obs.world_state if obs.world_state is not None else obs.state
+        with torch.no_grad():
+            expected = policy.contact.predictor(policy.encode_visual(obs.image),
+                action_stream[:, index, :policy.config.k], state, obs.tactile)
+        return {"expected_contact": expected.detach().float().cpu()}
     if stage == "stage1":
         action_stream = batch["world_actions"] if "world_actions" in batch else batch["actions"]
         actions = action_stream[:, index, :policy.config.k]
@@ -437,7 +444,7 @@ def _prediction_values(policy, batch, noise, stage, device):
         action_tokens = policy.core.world_action_encoder(
             pad8(actions).float(), pad8(world_state).float())
         initial, corrected, expected = policy.predict_future(
-            current, world_state, action_tokens, belief, obs.tactile)
+            current, world_state, action_tokens, belief, obs.tactile, actions=actions)
         values = {"belief": belief.detach().float().cpu(),
                   "world_initial": initial.detach().float().cpu(),
                   "world_corrected": corrected.detach().float().cpu()}
@@ -539,9 +546,9 @@ def _resume_checkpoint_path(run, stage, task, updates, existing, expected_debug)
 def _resume_post_save_checks(run, stage, task, *, updates, device, optimizer_device,
                              micro_batch, threads, report, checkpoint, started):
     """Finish only the restore/inference checks for an already-saved debug step."""
-    from .aligned_trainer import EMA, _load_dataset, make_optimizer, restore_rng, set_lr
+    from .trainer import EMA, _load_dataset, make_optimizer, restore_rng, set_lr
     from .model import ContactWAM
-    from .aligned_data import prepare_aligned_batch
+    from .data import prepare_aligned_batch
 
     execution_device = torch.device(device)
     offload = optimizer_device == "cpu"
@@ -700,15 +707,15 @@ def _resume_post_save_checks(run, stage, task, *, updates, device, optimizer_dev
 
 def _debug_worker(run, stage, *, task=None, updates=2, device="cuda", optimizer_device="cpu",
                   micro_batch=2, threads=4, data_report=None):
-    from .aligned_trainer import (EMA, _export, _load_dataset, _load_model, make_optimizer,
+    from .trainer import (EMA, _export, _load_dataset, _load_model, make_optimizer,
                                   rng_state, restore_rng, set_lr)
     from .model import ContactWAM
     from .sequence import SequenceTrainingModel
-    from .aligned_data import prepare_aligned_batch
+    from .data import prepare_aligned_batch
 
     updates = validate_debug_updates(updates)
     micro_batch = validate_debug_micro_batch(micro_batch)
-    if stage not in {"stage1", "stage2"}:
+    if stage not in {"tactile", "stage1", "stage2"}:
         raise ValueError(f"Unknown aligned debug stage: {stage}")
     execution_device = torch.device(device)
     if execution_device.type != "cuda" or not torch.cuda.is_available():
@@ -1069,7 +1076,7 @@ def run_debug_pipeline(run, *, updates=2, device="cuda", optimizer_device="cpu",
     else:
         _atomic_yaml(config_path, root_config)
 
-    from . import aligned_pipeline
+    from . import train
 
     results = {}
     root_report = {"complete": False, "formal_training": False, "variant": run["variant"],
@@ -1090,17 +1097,26 @@ def run_debug_pipeline(run, *, updates=2, device="cuda", optimizer_device="cpu",
         if not isinstance(previous_models, dict):
             raise RuntimeError(f"Prior incomplete aligned debug at {output} has invalid model results")
         for model_name in previous_models:
-            if model_name not in {"shared_wm", *run["policy_tasks"]}:
+            if model_name not in {"tactile_wm", "shared_wm", *run["policy_tasks"]}:
                 raise RuntimeError(f"Prior summary contains an unknown debug model: {model_name}")
-            model_output = (output / "shared_wm" if model_name == "shared_wm"
+            model_output = (output / model_name if model_name in {"tactile_wm", "shared_wm"}
                             else output / "tasks" / model_name)
             report_path = model_output / "debug_report.json"
             if not report_path.is_file() and not (model_output / "stage1" / "checkpoints").exists() \
-                    and not (model_output / "stage2" / "checkpoints").exists():
+                    and not (model_output / "stage2" / "checkpoints").exists() \
+                    and not (model_output / "tactile" / "checkpoints").exists():
                 raise RuntimeError(f"Prior summary records {model_name} without its report or checkpoint")
     atomic_json(summary_path, root_report)
     try:
-        stage1_run = aligned_pipeline.stage_run(run, "stage1")
+        if run.get("independent_tactile") and run["mode"] == "full":
+            tactile_run = train.stage_run(run, "tactile")
+            tactile_report = _debug_worker(tactile_run, "tactile", task="tactile_wm", updates=updates,
+                device=device, optimizer_device=optimizer_device, micro_batch=micro_batch,
+                threads=threads, data_report=data_report)
+            results["tactile_wm"] = tactile_report
+            run = {**run, "tactile_checkpoint": tactile_report["checkpoint"]}
+            atomic_json(summary_path, {**root_report, "models": results})
+        stage1_run = train.stage_run(run, "stage1")
         stage1_report = _debug_worker(stage1_run, "stage1", updates=updates, device=device,
                                       optimizer_device=optimizer_device, micro_batch=micro_batch,
                                       threads=threads, data_report=data_report)
@@ -1108,7 +1124,7 @@ def run_debug_pipeline(run, *, updates=2, device="cuda", optimizer_device="cpu",
         atomic_json(summary_path, {**root_report, "models": results})
         teacher = Path(stage1_report["checkpoint"])
         for task in run["policy_tasks"]:
-            stage2_run = aligned_pipeline.stage_run(run, "stage2", task, checkpoint=teacher)
+            stage2_run = train.stage_run(run, "stage2", task, checkpoint=teacher)
             report = _debug_worker(stage2_run, "stage2", task=task, updates=updates, device=device,
                                    optimizer_device=optimizer_device, micro_batch=1, threads=threads,
                                    data_report=data_report)

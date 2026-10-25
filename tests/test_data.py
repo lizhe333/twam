@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from contact_belief_wam.config import ContactConfig
-from contact_belief_wam.data import ContactDataset, MixedSequenceSampler, build_manifest, contiguous_segments
+from contact_belief_wam.legacy.data import ContactDataset, MixedSequenceSampler, build_manifest, contiguous_segments
 from contact_belief_wam.paths import read_jsonl, write_jsonl
 from contact_belief_wam.preprocessing import Quantiles
 
@@ -115,7 +115,7 @@ def _write_manifest_hdf5(path, frames=4):
 
 
 def test_build_manifest_requires_eligible_collection_record_for_recovery(tmp_path, monkeypatch):
-    import contact_belief_wam.data as data_module
+    import contact_belief_wam.legacy.data as data_module
 
     workspace = tmp_path / "workspace"
     instructions = workspace / "UniVTAC/instructions"

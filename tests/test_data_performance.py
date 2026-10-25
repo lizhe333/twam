@@ -2,8 +2,8 @@ import h5py
 import numpy as np
 
 from contact_belief_wam.config import ContactConfig
-import contact_belief_wam.data as data_module
-from contact_belief_wam.data import ContactDataset
+import contact_belief_wam.legacy.data as data_module
+from contact_belief_wam.legacy.data import ContactDataset
 from contact_belief_wam.feature_cache import prepare_mmap_cache
 from contact_belief_wam.paths import write_jsonl
 

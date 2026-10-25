@@ -1,31 +1,39 @@
 # 架构与数据约定
 
-当前训练使用 [WAVE-0 对齐配置](aligned_training.md)。下文的绝对动作和冻结视觉塔约定属于旧入口；对齐入口采用 chunk 起点相对的前 7 维动作、绝对夹爪、32 维 flow 监督，并在 Stage 2 训练策略视觉塔，保留独立冻结的未来视觉目标塔。Contact Belief 和触觉预测的信息流保持不变。策略统计与共享 WM 统计分别复用参考实现，已执行动作以此前区间的起点为锚点；仿真接口仍接收 8 维绝对目标。
+当前默认配置为 `configs/aligned_8xa800.yaml`，启用 `independent_tactile: true`。训练入口及操作见 [独立触觉训练](tactile_training.md) 和 [WAVE-0 对齐配方](aligned_training.md)。
 
-## 模型
+## 模块
 
-策略主干沿用官方 PyTorch WAVE-0 / π0.5。WAVE-0 世界模型维持 width 1024、12 层、16 heads、FFN 4096；接触扩展使用 width 512、8 heads、FFN 2048 的两层 decoder。belief 状态由 4 个 512 维 token 表示。冻结 AnyTouch2 读入左右触觉相机各 4 帧的历史窗口，经原始投影特征池化为每侧 4 个 token，总计 8×512；cache 保留原始 step 和编码元数据以检查帧对齐。
+`ContactWAM` 是 WAVE-0 与接触模块的组合类。原有 Visual WM 保持 width 1024、12 层、16 heads、FFN 4096；独立 Tactile WM 和接触模块使用 width 512、8 heads、FFN 2048 的两层 decoder。
 
-`full` 模式的五条 belief 通路均开启：belief 调整 latent-action queries、世界模型 state、未来视觉 corrector、接触预测器和动作 Expert 条件。其余模式用于消融：`pi05` 不使用世界模型或 belief；`wave0` 使用世界模型而不使用 belief；`direct_touch` 只将触觉 belief 接入动作 Expert。正式全量训练以 `full` 为默认。
+- **Visual WM**：读取当前视觉、状态及动作 latent，预测未来视觉变化。
+- **TactileWorldModel**：读取当前冻结视觉特征、当前触觉、状态及真实动作前缀，用自己的动作/状态投影预测未来触觉。它不读取 belief 或预测的未来视觉。
+- **BeliefUpdater**：读取当前真实触觉、上一轮对当前时刻的预测、两者差异、历史 belief、状态及已执行动作，输出 4×512 belief token。
+- **FutureCorrector**：用 belief 和动作 latent 修正未来视觉。
+- **Action Expert**：读取视觉/语言上下文、未来视觉条件及 belief 条件生成动作。
 
-`k` 在执行、query 数和未来监督间隔中共用一个值。默认 `k=10`，也可用 `k=5`；策略 action chunk 长度为 50。belief 历史随机预热 0–4 步，反向梯度只保留末尾 1–2 步（默认 BPTT=2），避免把整段 episode 展开成计算图。
+默认独立版本中，belief 调整 latent-action queries、视觉 WM state、FutureCorrector 和 Action Expert 条件，不输入 Tactile WM。旧 checkpoint 缺少 independent_tactile 字段时继续使用原来的 ContactPredictor：其输入包含修正后的未来视觉与 belief。两种 Predictor 权重不互换。
 
-## 权重和输入适配
+冻结 AnyTouch2 读取左右传感器各 4 帧历史，去掉特殊 token 后在时间维求平均、空间池化到每侧 2×2，得到总共 8×512 的触觉 latent。未来触觉目标使用同一冻结编码器；当前模型预测 t+k 一个时刻，不是完整未来序列。
 
-WAVE-0 的状态和动作输入内部按 32 维 padding 设计；本任务执行端是 8 维。不能按某个 14→8 的观察形状直接切片重置投影层。初始化应保留形状匹配的官方张量，只对确实改变的层显式初始化并记录加载清单。相机输入使用 UniVTAC `cam_high` 对应切片接入 WAVE-0 的高位相机特征。
+## 在线反馈
 
-官方 WAVE-0 世界模型严格加载已在本地实际通过：167 个张量加载、3 个形状适配转换、0 个重初始化、0 个未使用，记录在 `reports/official_world_load.json`。Stage 1 和 Stage 2 的有界真实 batch debug、checkpoint 保存和恢复都已完成。π0.5 base 复用本地已有的官方未微调 JAX `pi05_base`，经官方转换器转成 PyTorch；唯一重新初始化的是策略不使用的词表输出头。不会另行下载 PyTorch/Hugging Face π0.5 权重；该 base 不是旧任务微调策略。
+策略先根据上一轮预测与当前真实触觉更新 belief，再生成动作。触觉 WM 使用最终生成、边界处理并转换到 shared-WM 归一化空间的前 k 步动作重新计算预期触觉。服务保存 belief、预期触觉和 target_step；只有 target_step 与下一次观测时刻一致时，预期才参与更新。真实未来触觉不会作为部署输入。
 
-## 数据时间轴
+默认 k=10，动作 chunk 长度 50。独立触觉模型加载时不允许改 k；不同预测时域需要相应训练和验证。后续 belief 学习仍使用随机历史预热 0–4 步，默认保留末尾两步梯度。独立 tactile 阶段不进行 belief 预热或递归反传。
 
-原始 UniVTAC HDF5 的 `embodiment/joint` 有 9 列，前 8 列用于本任务。当前观测状态取当前帧，动作监督取下一帧的 8 维**绝对关节目标**，不是关节增量。数据帧按 `step` 的连续性分段，未来目标不得跨越 episode 或断段。`k` 的执行/query/未来目标时间偏移保持一致。
+## 数据和初始化
 
-每个任务单独用训练 split 汇总动作和状态的 `q01/q99` 统计并保存为 JSON。归一化为 `[-1,1]` 的线性缩放，超出分位数的值不裁剪。最终清单中每个任务有 100 条原始演示和 50 条含实测受阻、最终成功的恢复 episode，按 1:1 抽样；原始和恢复来源分别做 90/10 与 45/5 训练/验证划分。v1–v4 诊断数据、失败轨迹及显式排除项不进入训练。最终数量、帧统计和缓存核对见 [`../IMPLEMENTATION.md`](../IMPLEMENTATION.md)，采集控制器与扰动分布见 [`recovery.md`](recovery.md)。
+UniVTAC joint 有 9 列，本任务使用前 8 列。轨迹下一帧关节位置作为动作监督代理；aligned 数据处理将前 7 维转换为相对 chunk 起点的位置，第 8 维夹爪保持绝对值。WAVE-0 内部补齐到 32 维，flow matching 监督 32 维；仿真执行端仍接收 8 维绝对目标。
 
-AnyTouch2 输入从 HDF5 左右 `rgb_marker` 序列读取，按同一 episode 和分段构造历史窗口。冻结编码器已为全部清单 episode 生成 `[N,8,512]` `float16` cache；所有值有限，缓存帧数和 `raw_step` 均与 HDF5 一致。两任务合计 76,958 帧。缓存只包含 token、原始 step、帧索引和编码器元数据；训练仍读取完整 HDF5 相机、状态和动作。
+策略与世界模型分别复用参考任务统计和八任务共享统计。历史执行动作使用此前区间起点作为锚点。数据按 episode 和原始 step 连续性分段，历史窗口与未来目标不得跨段。
 
-## 训练阶段与记录
+触觉阶段和 Stage1 使用八任务共享训练集：720 条原始训练轨迹与 100 条插入恢复轨迹；验证保留 80 条原始轨迹。Stage2 每个插入任务使用 100 条原始和 50 条恢复轨迹。扰动/受阻保持区间的动作可用于动力学学习，但按采集记录屏蔽策略模仿监督。额外的恢复诊断验证应使用未参与训练的 episode，不能把当前训练恢复集当作泛化验证集。
 
-默认 `full` 模式以已转换的 pi05 base 和已加载的 WAVE-0 世界模块初始化。Stage 1 训练 2,000 步，更新世界模型及动作/状态条件编码器、Contact Belief、Future Corrector 和 Contact Predictor；视觉骨干与动作接口投影保持冻结。若无可用世界模块初始化，Stage 1 步数自动改为 20,000。Stage 2 训练 10,000 步，冻结视觉塔、视觉投影和 WAVE-0 世界模块，更新策略语言/动作部分、latent-action queries、future resampler 与 Contact Belief 扩展。AnyTouch2 始终冻结。`pi05` 与 `direct_touch` 没有 Stage 1 世界模型目标，会跳过该阶段。固定验证集每 500 步记录未来视觉和触觉损失，每 1,000 步保存 checkpoint；这些指标供 A800 训练时观察，不设通过门槛。
+π0.5 和视觉 WM 从配置指定的基础权重初始化，保留原有 32 维接口和明确的相机切片转换。独立触觉阶段不训练视觉编码器。后续阶段只从 tactile checkpoint 传递训练过的 Predictor，并检查时域、尺寸和归一化约定；不传递该 checkpoint 中随机的 belief/corrector 参数。
 
-真实 batch 前向/反向、梯度和 checkpoint 恢复已在开发机完成；正式训练尚未开始，云端训练曲线和任务成功率要在用户手动提交 A800 作业后评估。启动与续训命令见 [`cloud.md`](cloud.md)。
+## 训练边界
+
+默认顺序为 tactile → stage1 → stage2。tactile 只更新触觉 Predictor，按触觉误差选 checkpoint，并记录 Persistence 与错误动作对照。Stage1 冻结该 Predictor，训练视觉世界模块和接触状态相关模块。Stage2 冻结世界模块、Predictor 和配置指定的 Updater，训练策略、接口投影与 FutureCorrector；策略视觉塔参与训练，未来视觉监督塔独立冻结。
+
+尚未实现 blocked/normal 标签监督的 Belief 专项训练；当前 belief 仍通过预测目标间接学习。回归测试验证代码连接、梯度和恢复行为，不代表接触判断准确率或正式闭环效果。旧训练与调试记录见 IMPLEMENTATION.md，不能作为独立触觉版本的训练结果。

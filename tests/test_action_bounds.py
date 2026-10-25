@@ -88,7 +88,7 @@ def test_service_without_bounds_keeps_baseline_predict_call(monkeypatch):
 
 
 def test_predict_action_chunk_transforms_before_world_action_encoder():
-    cfg = SimpleNamespace(stage="stage2", mode="full", use_world=True, belief_to_expert=True,
+    cfg = SimpleNamespace(stage="stage2", world_only=False, mode="full", use_world=True, belief_to_expert=True,
                           chunk_size=50, k=2, num_inference_steps=1)
     captured = {}
 
@@ -109,7 +109,7 @@ def test_predict_action_chunk_transforms_before_world_action_encoder():
                            encode_visual=lambda image: torch.ones((1, 2, 8)),
                            policy_condition=lambda obs, belief, current: (torch.ones((1, 1, 8)), None, None, None, None),
                            expert_velocity=lambda pad, kv, condition, actions, time: torch.zeros_like(actions),
-                           predict_future=lambda current, state, latent, belief, tactile:
+                           predict_future=lambda current, state, latent, belief, tactile, *, actions=None:
                                (None, None, torch.ones((1, 8, 8))))
     obs = ContactObservation(image=torch.zeros((1, 3, 8, 8)), state=torch.zeros((1, 8)), tactile=None,
                              step=torch.tensor([3]))

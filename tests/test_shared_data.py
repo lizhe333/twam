@@ -5,7 +5,7 @@ import h5py
 import numpy as np
 
 from contact_belief_wam.config import ContactConfig
-from contact_belief_wam.data import ContactDataset, MixedSequenceSampler, _blocked_hold_ranges
+from contact_belief_wam.legacy.data import ContactDataset, MixedSequenceSampler, _blocked_hold_ranges
 from contact_belief_wam.paths import write_jsonl
 from contact_belief_wam.shared_data import SHARED_TASKS, prepare_shared_data
 
@@ -31,7 +31,7 @@ def _write_episode(path, frames=4, joint_value=0.0, tags=None):
 
 
 def test_prepare_shared_data_builds_all_manifests_and_train_only_stats(tmp_path, monkeypatch):
-    import contact_belief_wam.data as data_module
+    import contact_belief_wam.legacy.data as data_module
 
     workspace = tmp_path / "workspace"
     instructions = workspace / "UniVTAC/instructions"

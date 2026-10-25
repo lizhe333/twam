@@ -76,6 +76,10 @@ class SequenceTrainingModel(nn.Module):
         cfg = self.policy.config
         b, length = batch["sequence_mask"].shape
         first_grad = max(0, length - cfg.belief_bptt_steps)
+        if getattr(cfg, "stage", None) == "tactile":
+            # Independent dynamics uses each valid window directly; no updater
+            # warmup and no prediction-to-belief computation graph.
+            first_grad = 0
         belief, expected, target_step = None, None, None
         history_valid = torch.zeros(b, dtype=torch.bool, device=batch["state"].device)
         expected_valid = history_valid.clone()
@@ -116,6 +120,8 @@ class SequenceTrainingModel(nn.Module):
                             "alignment", "policy_visual_future"} else valid
                         if key == "flow" and action_valid is not None:
                             mask = valid & action_valid.bool()
+                        if key in output.get("metric_masks", {}):
+                            mask = valid & output["metric_masks"][key]
                         policy_aux_is_valid = output.get("policy_aux_valid")
                         if key in {"alignment", "policy_visual_future"} and policy_aux_is_valid is not None:
                             mask = valid & batch["future_mask"][:, index] & policy_aux_is_valid.bool()

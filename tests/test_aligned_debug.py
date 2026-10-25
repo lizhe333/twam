@@ -216,7 +216,7 @@ def test_stage1_fixed_noise_probe_includes_world_prediction_for_wave0_path():
         def encode_visual(self, image):
             return image.mean(dim=(1, 2, 3))[:, None, None]
 
-        def predict_future(self, current, state, tokens, belief, tactile):
+        def predict_future(self, current, state, tokens, belief, tactile, *, actions=None):
             initial = current + tokens.mean(dim=(1, 2))[:, None, None]
             return initial, initial, None
 

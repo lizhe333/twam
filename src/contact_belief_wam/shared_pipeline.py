@@ -97,7 +97,7 @@ def execute_stage(run, stage, steps, *, dry_run=False):
     candidates = cloud.complete_checkpoints(directory, stage)
     resume = candidates[-1][1] if run["resume"] == "auto" and candidates else None
     if resume and not dry_run:
-        from .trainer import check_resume_contract
+        from .legacy.trainer import check_resume_contract
         check_resume_contract(run, json.loads((resume / "complete.json").read_text()))
     if resume and candidates[-1][0] >= steps:
         if stage == "stage2" and not dry_run:

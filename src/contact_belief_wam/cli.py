@@ -17,8 +17,8 @@ def main(argv=None):
     configure()
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv and argv[0] == "train":
-        from .cloud import main as cloud_main
-        return cloud_main(argv[1:])
+        from .train import cli_main
+        return cli_main(argv[1:])
     parser = argparse.ArgumentParser(prog="cbwam")
     sub = parser.add_subparsers(dest="command", required=True)
     prep = sub.add_parser("prepare", help="Recovery collection, manifests/statistics, tactile caches, or official-world extraction")
@@ -62,12 +62,12 @@ def main(argv=None):
     evaluate.add_argument("--port", type=int, default=18780)
     evaluate.add_argument("--k", type=int)
     evaluate.add_argument("--max-policy-steps", type=int)
-    sub.add_parser("train", help="Two-stage A800 training (use train --help for all cloud parameters)")
+    sub.add_parser("train", help="Training workflow (use train --help for stages and configuration)")
     args = parser.parse_args(argv)
     if args.command == "prepare":
         tasks = ["insert_hole", "insert_HDMI"] if args.task == "both" else [args.task]
         if args.action == "manifest":
-            from .data import build_manifest
+            from .legacy.data import build_manifest
             print(json.dumps(build_manifest(args.data_root, args.original_root, args.recovery_root, tasks), indent=2))
         elif args.action == "cache":
             from .tactile import AnyTouchEncoder, cache_episodes

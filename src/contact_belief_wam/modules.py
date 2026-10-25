@@ -88,12 +88,46 @@ class ContactPredictor(nn.Module):
         return self.output(self.decoder(queries, torch.cat(memory, 1)))
 
 
+class TactileWorldModel(nn.Module):
+    """Independent action-conditioned tactile dynamics; no belief or visual future.
+
+    Inputs use the shared WM normalization. Its own action/state projections
+    remain stable when the visual world model is trained in a later stage.
+    """
+
+    def __init__(self, cfg):
+        super().__init__()
+        self.k = cfg.k
+        self.query = nn.Parameter(torch.randn(1, cfg.tactile_tokens, cfg.width) * .02)
+        self.action_position = nn.Parameter(torch.randn(1, cfg.k, cfg.width) * .02)
+        self.types = nn.Parameter(torch.randn(4, cfg.width) * .02)
+        self.vision_in = nn.Linear(cfg.vision_width, cfg.width)
+        self.action_in = nn.Linear(cfg.action_dim, cfg.width)
+        self.state_in = nn.Linear(cfg.action_dim, cfg.width)
+        self.touch_in = nn.Linear(cfg.width, cfg.width)
+        self.decoder = decoder(cfg)
+        self.output = nn.Linear(cfg.width, cfg.width)
+
+    def forward(self, current_visual, actions, state, tactile):
+        if actions.shape[1] != self.k:
+            raise ValueError(f"Expected {self.k} future actions, got {actions.shape[1]}")
+        touch = self.touch_in(tactile.float())
+        memory = torch.cat([
+            self.vision_in(current_visual.flatten(1, 2).float()) + self.types[0],
+            touch + self.types[1],
+            self.action_in(actions[..., :8].float()) + self.action_position + self.types[2],
+            self.state_in(state[..., :8].float())[:, None] + self.types[3],
+        ], dim=1)
+        queries = self.query.expand(tactile.shape[0], -1, -1) + touch
+        return self.output(self.decoder(queries, memory))
+
+
 class ContactModules(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         self.updater = BeliefUpdater(cfg)
         self.corrector = FutureCorrector(cfg)
-        self.predictor = ContactPredictor(cfg)
+        self.predictor = TactileWorldModel(cfg) if cfg.independent_tactile else ContactPredictor(cfg)
         self.to_queries = nn.Linear(cfg.width, cfg.vision_width)
         self.to_state = nn.Linear(cfg.width, cfg.world_width)
         self.to_expert = nn.Sequential(nn.LayerNorm(cfg.width), nn.Linear(cfg.width, cfg.expert_width))
