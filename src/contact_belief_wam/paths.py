@@ -105,7 +105,7 @@ def configure():
 def atomic_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile("w", dir=path.parent, delete=False) as f:
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as f:
         json.dump(value, f, indent=2, ensure_ascii=False, allow_nan=False)
         f.write("\n")
         tmp = Path(f.name)
@@ -128,7 +128,7 @@ def read_jsonl(path):
 def write_jsonl(path, rows):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile("w", dir=path.parent, delete=False) as f:
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as f:
         for row in rows:
             f.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n")
         tmp = Path(f.name)

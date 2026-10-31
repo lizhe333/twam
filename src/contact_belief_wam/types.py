@@ -22,6 +22,7 @@ class ContactObservation:
     # model input and is intentionally absent from deployment visual encoding.
     task: Any = None
     world_state: Any = None
+    wrist_image: Any = None
 
 
 @dataclass
@@ -35,6 +36,7 @@ class ContactTargets:
     # World-model losses continue to use all real actions.
     policy_action_mask: Any = None
     world_actions: Any = None
+    future_wrist_image: Any = None
 
 
 @dataclass

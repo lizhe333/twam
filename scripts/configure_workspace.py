@@ -12,14 +12,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def configuration(workspace):
     workspace = Path(workspace).expanduser().resolve()
-    text = (ROOT / "configs/aligned_8xa800.yaml").read_text()
+    text = (ROOT / "configs/aligned_4xa800.yaml").read_text()
     # Preserve the original data, cache, normalization, and weight locations.
     # New checkpoints and derived alignment files belong to this checkout.
     raw = {key: value.replace("/zhe_li/tactile-wam", str(workspace)) if isinstance(value, str) else value
            for key, value in yaml.safe_load(text).items()}
     raw.update(
         workspace=str(workspace),
-        output=str(ROOT / "runs/aligned-8xa800"),
+        output=str(ROOT / "runs/contact-head-wrist-two-stage-4gpu"),
         aligned_manifest_dir=str(ROOT / "data/manifests/aligned"),
         shared_manifest=str(ROOT / "data/manifests/aligned/shared.jsonl"),
         policy_manifest_dir=str(ROOT / "data/manifests/aligned/policy_all_train"),
@@ -27,7 +27,6 @@ def configuration(workspace):
         wm_stats=str(ROOT / "data/stats/aligned/wm_norm_stats.json"),
         reference_root=str(ROOT / "vendor/aligned_reference"),
         baseline_dir=str(ROOT / "vendor/aligned_reference/baseline"),
-        reference_wm_stats=str(ROOT / "vendor/aligned_reference/wm_norm_stats.json"),
     )
     return raw
 

@@ -31,16 +31,18 @@ flowchart LR
 
 新代码从四个文件开始读：`train.py` 组织阶段与进程，`trainer.py` 运行单阶段训练，`data.py` 处理 WAVE-0 对齐数据，`serve.py` 维护在线反馈。旧的绝对动作数据/训练实现放在 `legacy/`，旧 `aligned_train.sh` 仅转发到 `train.sh`。
 
-默认 `full` 顺序为 `tactile → stage1 → stage2`。`tactile` 只训练独立预测器，输入当前视觉/触觉、状态和真实动作前缀，输出冻结 AnyTouch2 的未来 latent；它不读取 belief 或未来视觉。触觉阶段按触觉验证误差选 checkpoint，并记录 persistence 和错误动作对照。后两阶段加载并冻结该预测器。`wave0_recovery` 跳过触觉阶段，保留原有 WAVE-0 两阶段目标。这里尚未增加带 blocked/normal 标签的 Belief 专项阶段。
+默认 `full` 顺序为 `stage1 → stage2`，使用 head＋wrist 双视角。Stage 1 冻结已训练的八任务视觉 WM，训练独立 Tactile WM、Belief Updater 和 Future Corrector；Stage 2 冻结两个 WM，让 Belief、Corrector 和各任务策略继续学习。Updater 使用单独的 2.5e-5 学习率分组。不添加接触状态分类标签。
 
-旧耦合预测器的 checkpoint 不能直接当成独立触觉预训练权重；新配置需使用新的输出目录。实际操作见 [独立触觉训练](docs/tactile_training.md)。
+默认四卡配置为 `configs/aligned_4xa800.yaml`：Stage 1 四卡、每卡 batch 32、累积两次；Stage 2 两个任务各两卡并行，每卡 batch 8、累积四次。八卡配置 `configs/aligned_8xa800.yaml` 的 Stage 2 每个任务使用四卡、每卡 batch 8、累积两次。有效 batch 分别保持 256 和每任务 64。Stage 2 使用 Adam 状态分片，EMA 保留在 GPU；新配置峰值显存需在云端实测。已有完整 Stage 1 时，可用 `--stage1-checkpoint` 直接训练 Stage 2，见训练说明。
+
+`wave0_recovery` 直接复用同一个冻结视觉 WM，再使用相同数据和动作屏蔽训练策略。旧 checkpoint 可读取，但旧三阶段或单视角 run 不能精确续训新配方。实际操作见 [双视角两阶段训练](docs/tactile_training.md)。
 
 ## 目录
 
 | 路径 | 内容 |
 |---|---|
 | `src/contact_belief_wam/` | 模型、belief 更新、未来修正、数据管线、训练、服务与仿真适配 |
-| `configs/` | 独立触觉预训练、WAVE-0 两阶段配方、恢复采集配置 |
+| `configs/` | 双视角两阶段配方、恢复采集配置 |
 | `scripts/` | 环境准备、配置生成、训练、评测/仿真与审计入口 |
 | `tests/` | 梯度、冻结、时间对齐、缓存、恢复训练与服务协议回归 |
 | `vendor/wave0/` | 实际使用的 WAVE-0 / LeRobot 源码与本地 attention 修改 |
@@ -90,7 +92,7 @@ bash scripts/train.sh train --config configs/workspace.local.yaml --variant full
 "$CBW_PYTHON" -m pytest -q tests
 ```
 
-正式训练和 bounded debug 的参数见 [aligned_training.md](docs/aligned_training.md)，在此 checkout 中使用 `scripts/train.sh` 和生成的本地配置。旧配方及旧绝对动作 checkpoint 不用于续训新的 aligned 版本。`full` 是完整方法，`wave0_recovery` 使用相同恢复数据训练独立的对照 teacher。
+正式训练和 bounded debug 的参数见 [aligned_training.md](docs/aligned_training.md)，在此 checkout 中使用 `scripts/train.sh` 和生成的本地配置。旧配方及旧绝对动作 checkpoint 不用于续训新的 aligned 版本。`full` 是完整方法，`wave0_recovery` 复用相同冻结视觉 WM，并使用相同恢复数据训练对照策略。
 
 评测需要另外可用的 UniVTAC / Isaac Sim 环境，设置 `TWAM_ROOT`（外部资产根目录）与 `SIM_PREFIX`（仿真 Python 环境）。本仓库已包含 `scripts/sim-env.sh`，不要求从旧策略目录加载仿真启动脚本。示例：
 
@@ -105,7 +107,7 @@ bash scripts/train.sh train --config configs/workspace.local.yaml --variant full
 
 下述正式作业记录属于独立触觉改动之前的版本；新版本尚未完成正式训练。
 
-- 已实现：AnyTouch2 接入、递归 belief、future correction、接触预测、恢复数据训练、独立触觉预训练、WAVE-0 两阶段训练和在线推理接口；已有 smoke 与回归检查。
+- 已实现：AnyTouch2 接入、递归 belief、future correction、接触预测、恢复数据训练、独立触觉 WM、双视角两阶段训练和在线推理接口；已有 smoke 与回归检查。
 - 最近的 `aligned-wave0-fast-v1/full` 正式作业已完成 Stage 1（5,000 步），Stage 2 因多卡 NCCL 同步超时中止，尚无完整方法的正式闭环成功率结果。本次整理不修复该训练故障，也不启动训练。
 - 尚未实现独立的学习型任务进度/恢复价值预测头；现有受阻检测与恢复采集规则不能等同于该模块。
 - 基础策略是 WAVE-0 的 PyTorch π0.5 路线；并未把原来按任务微调过的 JAX checkpoint 自动迁移进来。

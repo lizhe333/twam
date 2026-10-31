@@ -15,6 +15,9 @@ class ContactConfig:
     stage: str = "stage1"
     # Old checkpoints retain their original coupled contact predictor.
     independent_tactile: bool = False
+    # Legacy checkpoints default to their original single-camera/trainable WM.
+    camera_mode: str = "head_only"
+    stage1_freeze_world: bool = False
     k: int = 10
     chunk_size: int = 50
     action_dim: int = 8
@@ -49,12 +52,16 @@ class ContactConfig:
     belief_warmup_min: int = 0
     belief_warmup_max: int = 4
     belief_bptt_steps: int = 2
+    # Execution-only optimization: recurrence remains sequential and differentiable.
+    batch_stage2_policy: bool = False
     counterfactual_history_prob: float = 0.0
     pi05_base: str = ""
     tokenizer_path: str = ""
     encoder_reference: str = "anytouch2-four-frames-gsmini-v1"
 
     def __post_init__(self):
+        if self.camera_mode not in {"head_only", "head_wrist"}:
+            raise ValueError(f"Unsupported camera mode: {self.camera_mode}")
         if self.attention_backend not in {"eager", "sdpa"}:
             raise ValueError(f"Unsupported attention backend: {self.attention_backend}")
         if self.mode not in {"pi05", "wave0", "direct_touch", "full"}:

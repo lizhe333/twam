@@ -1,6 +1,8 @@
 # 对齐版工程检查记录
 
-本轮将训练与部署的动作表示、归一化、图像处理、tokenizer、优化器、学习率和 EMA 约定对齐到 `wave0-univtac-fast`，保留 Contact Belief、触觉预测及恢复数据这些方法差异。正式入口为 `scripts/aligned_train.sh`，配置为 `configs/aligned_8xa800.yaml`。没有启动正式训练，也没有重新下载基础权重或制作上传包。
+2026-10-30 归档说明：本文保留历史工程检查结论；已完成的调试 stdout 和 smoke 视频已清理，文中这些旧路径不再表示文件仍然存在。精简验证证据保留在工作区 `contact-belief-wam/outputs/aligned_validation/`，清理清单见 `reports/artifact-cleanup-20261030/verification.json`。
+
+本轮将训练与部署的动作表示、归一化、图像处理、tokenizer、优化器、学习率和 EMA 约定对齐到 `wave0/single-view`，保留 Contact Belief、触觉预测及恢复数据这些方法差异。正式入口为 `scripts/aligned_train.sh`，配置为 `configs/aligned_8xa800.yaml`。没有启动正式训练，也没有重新下载基础权重或制作上传包。
 
 ## 数据与训练约定
 

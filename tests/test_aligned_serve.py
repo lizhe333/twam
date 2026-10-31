@@ -64,6 +64,21 @@ def test_previous_interval_anchor_and_reset():
     assert not value.seen[-1].executed_valid.any()
 
 
+def test_dual_view_service_requires_and_preprocesses_wrist():
+    value = service()
+    value.cfg.camera_mode = "head_wrist"
+    value.reset('test')
+    request = message(0, np.zeros(8, np.float32))
+    with pytest.raises(ValueError, match='wrist_image'):
+        value.infer(request)
+    request['wrist_image'] = np.full((240, 320, 3), 200, np.uint8)
+    value.infer(request)
+    wrist = value.seen[-1].wrist_image
+    assert wrist.shape == (1, 3, 224, 224)
+    torch.testing.assert_close(wrist[0, :, 112, 112], torch.full((3,), 200 / 127.5 - 1))
+    assert not torch.equal(wrist, value.seen[-1].image)
+
+
 def test_relative_action_bounds_roundtrip():
     value = service()
     bounds = np.array([[-.1,.1]]*7+[[0,.15]],np.float32)

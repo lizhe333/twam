@@ -1,83 +1,38 @@
-# Aligned Contact-Belief training
+# Aligned two-stage training
 
-The public entry is now `python -m contact_belief_wam train` or `bash scripts/train.sh`. The default `full` recipe adds an independent `tactile` phase before the WAVE-0 stages described below. See [tactile_training.md](tactile_training.md) for its objective, transfer rules, and validation. Old coupled checkpoints remain loadable but cannot resume this new recipe.
+The default full recipe reuses the trained eight-task **head + wrist** WAVE-0 world model. Stage 1 trains the independent tactile predictor, Belief Updater and Future Corrector while freezing the visual world model and its action/state encoders. Stage 2 freezes the tactile predictor and visual world modules, and trains each task policy jointly with its Updater and Corrector. No contact-state classification labels or separate tactile pretraining phase are required. See [the complete recipe](tactile_training.md) for initialization, losses, data, commands and validation.
 
-The aligned pipeline uses `wave0-univtac-fast` as its training reference and changes the Contact/tactile method. It preserves the reference model initialization, data transforms, optimizer and schedule conventions, validation cadence, and stage budgets. `full` adds the aligned Contact-Belief method. `wave0_recovery` provides the WAVE-0 comparison with the same recovery-data setting.
+The pinned reference in `vendor/aligned_reference` supplies preprocessing, task statistics and segment boundaries. Actions use `q[t+i+1] - q[t]` for seven arm coordinates and absolute gripper position, padded to 32 dimensions for flow supervision. Shared-world statistics come from the selected pretrained WM. Current and future head/wrist frames use identical time indices and PIL resize-pad; camera order is head, wrist. Policy vision learns in Stage 2; the unaugmented visual target tower and AnyTouch2 remain frozen.
 
-The pinned reference files and their hashes are in `vendor/aligned_reference/SOURCE.json`. The aligned input uses `q[t+i+1] - q[t]` for the first seven action coordinates, absolute gripper position, and 32-dimensional flow supervision including the padded coordinates. Policy normalization is copied from the reference task statistics; world inputs use its shared eight-task statistics. Historical executed actions use the previous interval's anchor. No statistics are recomputed from recovery data. The exact SentencePiece state prompt and PIL resize-pad are shared by training and aligned deployment. Stage 2 trains the policy vision tower and uses a separate frozen, unaugmented vision tower for future supervision.
+| Stage | Per-GPU batch | Gradient accumulation | Global batch | Maximum updates |
+| --- | ---: | ---: | ---: | ---: |
+| Shared contact Stage 1, four GPUs | 32 | 2 | 256 | 5,000 |
+| Each task Stage 2, two GPUs (four-GPU recipe) | 8 | 4 | 64 | 10,000 |
+| Each task Stage 2, four GPUs (eight-GPU recipe) | 8 | 2 | 64 | 10,000 |
 
-Stage 1 uses 720 original training episodes plus 100 recovery episodes, with the same 80 original validation episodes as the reference. Each local batch of 32 has four sequences from each task; the two insertion tasks contribute two original and two recovery sequences each. Stage 2 uses all 100 original and 50 recovery episodes per insertion task, sampled 1:1. Perturbation and blocked-hold actions remain available to the world model but are masked out of policy supervision for both variants. The full method retains random history lengths 0–4, the final two differentiable updates, and its Contact-specific losses and switches; the WAVE-0 baseline has no recurrent Contact history.
+The default `configs/aligned_4xa800.yaml` needs four GPUs throughout: Stage 1 uses all four, then the two task policies run concurrently on two GPUs each. `configs/aligned_8xa800.yaml` uses eight GPUs for Stage 1 and four per task for Stage 2. Stage 2 exhausted 80-GB A800 memory at batch 32 and again at batch 16 with unsharded Adam; both recipes now use batch 8 with optimizer state sharding. Memory sufficiency still requires a GPU run; the four-GPU recipe holds twice as much optimizer state per rank as the eight-GPU recipe. Changing GPU count, optimizer layout or accumulation requires a new run rather than exact resumption of an existing run. Use `--stage1-checkpoint /path/to/completed/shared_wm/stage1/checkpoints/step_XXXXXXXX` to initialize new policies from a completed teacher without retraining Stage 1. This verifies the selected teacher's model hash, latent configuration and base encoder weights; it preserves the original provenance instead of rewriting it for the new recipe.
 
-The default recipe is `configs/aligned_8xa800.yaml`:
+Stage 1 uses learning rate 1e-4, warmup 500, final 2.5e-6 and weight decay 0.01. It validates every 500 updates and selects by tactile plus corrected-visual error, averaged equally over tasks. Stage 2 uses 2.5e-5 for policy and Belief Updater, 1e-4 for other new parameters, warmup 1,000 and weight decay 1e-10. EMA decay is 0.99. Formal training retains FP32 trainable parameters, BF16 autocast, SDPA, fused AdamW and gradient checkpointing.
 
-| Stage | Data and models | Per-GPU batch | Global batch | Updates |
-|---|---|---:|---:|---:|
-| Tactile (`full` only) | Independent current-observation/action-conditioned tactile predictor; no belief or predicted visual input | 32 on 2 GPUs | 64 | 5,000 |
-| Shared Stage 1 | Eight-task shared world model; original demonstrations and insertion-task recovery episodes | 32 on 8 GPUs | 256 | 5,000 |
-| Stage 2: `insert_hole` | Independent policy initialized from the shared checkpoint | 32 on 2 GPUs | 64 | 10,000 |
-| Stage 2: `insert_HDMI` | Independent policy initialized from the same shared checkpoint | 32 on 2 GPUs | 64 | 10,000 |
+Stage 2 sets `shard_optimizer_state: true` and `ema_device: cuda`. PyTorch ZeroRedundancyOptimizer distributes Adam moments across the ranks of each task; parameters and gradients remain replicated under DDP. This follows the successful dual-view WAVE-0 run (`wave0-shared-8task-head-wrist-gpu-003`), which used two ranks per task, micro batch 8, accumulation 4 and GPU EMA, reaching about 73.16 GiB peak allocated memory. ContactWAM retains two differentiable recurrent time steps, so that peak cannot be used as its memory estimate. EMA is a separate smoothed set of trainable weights used at export/inference, not an input to the training loss. Keeping it on GPU avoids transferring approximately 12.59 GiB of parameters to CPU each update.
 
-Gradient accumulation is one. Stage 1 uses the reference `1e-4` learning rate, 500-step warmup, cosine decay to `2.5e-6`, and `0.01` weight decay. It validates 128 samples per task every 500 updates, selects by the common visual-world objective, and follows the reference early stopping rule (patience four, minimum 2,000 updates, maximum 5,000). Stage 2 uses policy and new-module learning rates `2.5e-5` and `1e-4`, 1,000-step warmup, cosine decay, and `1e-10` weight decay. Both policies use the same Stage 1 model and normalization inputs, then train independently. Stage 2 mixes original and recovery examples from its first update. EMA decay is `0.99`, Stage 2 only; trainable parameters use FP32, and EMA state lives on rank-zero GPU during formal A800 training. SDPA, fused AdamW, BF16 autocast and gradient checkpointing are enabled. Stage 2 runs the two tasks concurrently on GPUs 0–1 and 2–3; the remaining four GPUs are idle.
+Every rank writes its own `optimizer.rankNN.pt` shard. The complete marker includes all shard hashes and appears only after every shard is saved; resume verifies layout, hashes, rank count and parameter mapping without consolidating full Adam state onto GPU 0. `memory.rankNN.jsonl` records initialization, the first two updates' phases, periodic peaks and the phase of any OOM. These logs include the local estimated Adam allocation and EMA placement; an early forward alone does not establish memory sufficiency for subsequent optimizer updates.
 
-## Prepare and bounded debug
+The sequence forward reuses frozen world-vision features when the same sample/frame appears as both a future target and a later observation, or as left padding. Exact decoded-frame indices account for clipping at the end of an episode; the cache is local to one batch and never shares features across samples. It does not cache the trainable, augmented policy vision tower. Independent tactile history warmup and the final inference contact prediction call the tactile predictor directly, skipping visual futures and Corrector outputs that were discarded. Both differentiable time steps, all losses, GPU EMA and gradient checkpointing are retained. For a full five-observation Stage 2 window, this reduces visual WM and Corrector forwards from seven to four and frozen two-camera image encodings from fourteen batches to twelve; shorter/padded histories have different savings. This is a compute-count comparison, not a measured A800 speedup.
 
-Prepare the real manifests, normalization statistics, and frozen tactile features with the recipe's data paths:
+The reuse changes are covered by reduced-width FP32/BF16 loss/gradient comparisons and frame-alignment tests. After changing runtime sources, start a new output directory and reuse the completed Stage 1 checkpoint; an old Stage 2 run fails the exact-resume source-identity check. Do not rewrite its provenance to bypass that check.
 
-```bash
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh prepare \
-  --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml
-```
+`wave0_recovery` reuses the same frozen visual checkpoint and skips contact Stage 1. It trains policies using the same task-specific data and action masks. It never consumes the full method's contact checkpoint. Both variants need independent output directories; use `--resume auto` only for the same recipe, data and code identity.
 
-Run the bounded checks separately for each variant. The debug output path is separate from the formal run path in the config. At most two optimizer updates are made for each model: the independent tactile predictor (full only), shared Stage 1 model and each of the two Stage 2 policies. The checks use real HDF5 windows and cached tactile features. Stage 1 includes two original windows from the same task to exercise task-preserving ranking, along with a recovery window. Each Stage 2 debug checks an original and a recovery window for that policy's task. A smaller micro-batch and CPU optimizer state may be used to fit the complete model on the developer GPU; these are debug-only execution settings.
+To perform bounded real-model integration checks on an available GPU:
 
 ```bash
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh debug \
-  --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
-  --variant full \
-  --output /zhe_li/tactile-wam/contact-belief-wam/outputs/aligned_debug \
-  --device cuda --optimizer-device cpu --updates 2 --micro-batch 2
-
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh debug \
-  --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
-  --variant wave0_recovery \
-  --output /zhe_li/tactile-wam/contact-belief-wam/outputs/aligned_debug \
+export CBW_PYTHON=/zhe_li/tactile-wam/contact-belief-wam/.venv/bin/python
+bash scripts/train.sh debug --config configs/workspace.local.yaml \
+  --variant full --output /absolute/new/debug-run \
   --device cuda --optimizer-device cpu --updates 2 --micro-batch 2
 ```
 
-Stage 1 uses a two-example, same-task original micro-batch for task-preserving ranking and also processes one recovery example. It requires two sequence positions for full-mode BPTT and one for `wave0_recovery`. Each Stage-2 policy processes one original and one recovery example. Debug verifies finite real-batch losses and gradients, active Contact-Belief gradients, frozen-parameter stability, recurrent sequence backpropagation, model/EMA export, optimizer and LR-schedule-position restoration, RNG restoration, and identical fixed-noise inference between the in-memory update and checkpoint reload. The report records the exact debug settings, sampled tasks and sources, update traces, restored-state checks, and that formal training was not launched. The CPU optimizer and offloaded temporary BF16 model copies are debug-only; the formal recipe remains unchanged. Do not use a debug checkpoint to initialize an A800 run.
+The debug checks real recurrent data, gradients, frozen parameters, optimizer/RNG restoration, export and fixed-noise inference after reload. Debug settings do not change the formal recipe. Completed debug checks do not establish convergence, multi-GPU memory sufficiency or policy success rate.
 
-The report and logs are written under `outputs/aligned_debug/<variant>/`. CPU-master offload disables PyTorch's memory-efficient SDPA backend for that debug call because its backward kernel rejects the compact attention-mask row stride produced by activation offload; math and Flash SDPA remain available. Formal training keeps its configured SDPA path. A completed model is not updated again when the same debug command is rerun. If a process is interrupted after a complete checkpoint is saved, rerunning the identical command finishes its saved restore/inference checks without another optimizer update. Missing or inconsistent checkpoints are rejected; inspect such an incomplete report before choosing a fresh debug output.
-
-## Formal A800 recipe
-
-The commands below document the intended A800 job; this repository change does not launch formal training. Run each variant in its own output directory and use `--resume none` only for a new run:
-
-```bash
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh train \
-  --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
-  --variant full --resume none
-
-bash /zhe_li/tactile-wam/contact-belief-wam/scripts/train.sh train \
-  --config /zhe_li/tactile-wam/contact-belief-wam/configs/aligned_8xa800.yaml \
-  --variant wave0_recovery --resume none
-```
-
-The formal recipe keeps the reference GPU counts, micro-batches, global batches, update counts, FP32 trainable parameters, and GPU EMA. It does not use the developer debug's CPU optimizer state or reduced micro-batch. For the default full configuration, independent tactile training runs first; Stage 1 then loads and freezes its predictor, and each task-specific Stage 2 starts from the completed shared checkpoint. The baseline skips tactile training. Training and simulation results should be reported separately: a completed debug or simulator smoke is an integration check, not a training-quality result.
-
-The two commands are separate jobs. The baseline trains its own Stage 1 teacher from the same official world initialization; it never consumes the full method's teacher. Output directories default to `runs/aligned-8xa800/full` and `runs/aligned-8xa800/wave0_recovery`. Set `--output /absolute/new/run-root` to choose a new root; the variant suffix is appended automatically. No upload package or new weight download is needed with the existing mounts.
-
-To resume the same run, repeat the corresponding command with `--resume auto`. The pipeline restores the latest complete checkpoint per stage/task, including optimizer, schedule position, EMA, random state and sampler position. Finished Stage 1 is reused. Do not resume an old absolute-action run with the aligned entry.
-
-The final policies are under `<run-root>/<variant>/tasks/<task>/export/final`. Inference selects EMA by default and retains the world action encoder for contact prediction. A local evaluation command is:
-
-```bash
-/zhe_li/tactile-wam/contact-belief-wam/.venv/bin/python -m contact_belief_wam eval \
-  --task insert_hole \
-  --checkpoint /zhe_li/tactile-wam/contact-belief-wam/runs/aligned-8xa800/full/tasks/insert_hole/export/final \
-  --output /zhe_li/tactile-wam/contact-belief-wam/outputs/aligned_trained_eval/insert_hole \
-  --seeds 1000000 --device cpu --port 18781
-```
-
-The policy device in this example is CPU; UniVTAC uses the local GPU. `--k 5 --max-policy-steps 10` requests a short timing/alignment check rather than a complete default-budget episode. Formal A800 memory use and throughput still need confirmation in the submitted eight-card job.
-
-Aligned CPU inference remains FP32 by default. For a local simulator smoke test on a CPU with BF16 acceleration, set `CBWAM_DEBUG_CPU_BF16=1` before starting the evaluator. The aligned service reports `effective_autocast` in inference diagnostics (`cpu:bfloat16`, `cuda:bfloat16`, or `disabled`). This switch affects serving only; it does not change the formal training precision or recipe.
+Final policies are under `<run-root>/<variant>/tasks/<task>/export/final`. Serving loads their camera mode and the simulator adapter supplies both views. Independent tactile checkpoints retain their trained k; do not override k for timing tests. CPU serving remains FP32 unless `CBWAM_DEBUG_CPU_BF16=1` is explicitly enabled. Use independent simulation seeds for the final comparison.

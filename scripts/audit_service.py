@@ -21,10 +21,12 @@ def main():
             for step in (0, client.metadata["k"]):
                 frame = 24 + step
                 window = np.stack([np.stack([decode_rgb(f[key][i]) for i in window_indices(frame)]) for key in tactile_keys(f)])
+                views = ({"wrist_image": decode_rgb(f["observation/wrist/rgb"][frame])}
+                         if client.metadata.get("camera_mode") == "head_wrist" else {})
                 result = client.call(op="infer", episode=episode, step=step,
                                      image=decode_rgb(f["observation/head/rgb"][frame]),
                                      state=f["embodiment/joint"][frame, :8], tactile_window=window,
-                                     executed_actions=executed, prompt=row["prompt"])
+                                     executed_actions=executed, prompt=row["prompt"], **views)
                 assert result["actions"].shape == (50, 8) and np.isfinite(result["actions"]).all()
                 diagnostics = result["diagnostics"]
                 diagnostics["belief_norm"] = diagnostics["belief_norm"].tolist()

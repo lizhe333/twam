@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-31",
+  "implementation": "Existing JAX Pi0.5 UniVTAC code integrated into OpenPI; model files preserved",
+  "environment": {
+    "python": "3.11.11",
+    "jax": "0.5.3",
+    "flax": "0.10.2",
+    "orbax-checkpoint": "0.11.13"
+  },
+  "tests": {
+    "data_config_camera_execution": 42,
+    "reduced_real_model_update_and_orbax": 2,
+    "integrated_training_loop_save_and_resume": 1,
+    "total_passed": 45
+  },
+  "data_checks": {
+    "tasks": [
+      "insert_hole",
+      "lift_can"
+    ],
+    "cameras": [
+      "head_only",
+      "head_wrist"
+    ],
+    "sample_positions": [
+      "first",
+      "middle",
+      "last"
+    ],
+    "transformed_fields": "Exact array equality against existing adapters, including language tokens, state, actions, images and masks"
+  },
+  "training_checks": {
+    "architecture": "Real Pi0/Gemma/SigLIP classes with smaller widths/depth for local verification",
+    "update": "Old/new losses, updated parameters, optimizer and EMA matched in a shared JIT compilation",
+    "note": "Independent XLA compilations differed in rounding of near-zero attention-bias gradients on the synthetic fixture; bitwise identity across independent compilations is not claimed",
+    "ema_settings": [
+      null,
+      0.99
+    ],
+    "checkpoint": "Orbax restore preserves parameters, optimizer, EMA and step; inference params item preserves EMA/raw split",
+    "loop": "Actual integrated loop saved step 1 and resumed through step 2 without fingerprint receipts"
+  },
+  "converter_check": {
+    "status": "valid",
+    "source_task": "insert_hole",
+    "episodes": 1,
+    "transitions_checked": 155,
+    "image_samples_checked": 4,
+    "action_horizon": 50,
+    "destination": "Temporary directory, removed after validation"
+  },
+  "production_checkpoint_loading": {
+    "head_only": {
+      "checkpoint": "outputs/checkpoints/pi05_univtac_insert_hole_full/paper-bs64-10k-001-pair0/10000",
+      "leaves": 51,
+      "parameters": 3353433872,
+      "camera_mode": "head_only"
+    },
+    "head_wrist": {
+      "checkpoint": "outputs/checkpoints/pi05_univtac_insert_hole_full/head-wrist-bs64-10k-2gpu-002-pair2/10000",
+      "leaves": 51,
+      "parameters": 3353433872,
+      "camera_mode": "head_wrist"
+    }
+  },
+  "existing_checkpoints_discovered": 16,
+  "entrypoints": [
+    "train.py --univtac plan",
+    "train.py --univtac --help",
+    "serve_policy.py --univtac --help",
+    "parallel queue plan",
+    "eval.py --list"
+  ],
+  "static_checks": [
+    "Python syntax",
+    "Shell syntax",
+    "Ruff F checks",
+    "git diff --check"
+  ],
+  "limitations": [
+    "No complete retraining or full-size multi-GPU optimizer resume",
+    "No simulator rollout or success-rate comparison",
+    "Existing environment reused; clean installation was not tested"
+  ],
+  "cleanup": "Temporary test scripts, datasets, checkpoints, compilation caches and logs removed",
+  "production_data_and_weights_modified": false,
+  "hash_or_fingerprint_validation_added": false
+}

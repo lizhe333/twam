@@ -22,7 +22,7 @@ from contact_belief_wam.config import ContactConfig
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE = PROJECT_ROOT.parent
 DATA_ROOT = PROJECT_ROOT / "data"
-REFERENCE_ROOT = WORKSPACE / "wave0-univtac-fast"
+REFERENCE_ROOT = WORKSPACE / "wave0/single-view"
 TOKENIZER = WORKSPACE / "models/pi05_base/big_vision/paligemma_tokenizer.model"
 WM_STATS = WORKSPACE / "outputs/wave0-shared-8task-mb32-002/artifacts/wm_norm_stats.json"
 

@@ -87,10 +87,15 @@ def test_service_without_bounds_keeps_baseline_predict_call(monkeypatch):
     np.testing.assert_allclose(result["actions"], qpos, atol=1e-6)
 
 
-def test_predict_action_chunk_transforms_before_world_action_encoder():
+@pytest.mark.parametrize("independent", [False, True])
+def test_predict_action_chunk_transforms_before_contact_prediction(independent):
     cfg = SimpleNamespace(stage="stage2", world_only=False, mode="full", use_world=True, belief_to_expert=True,
-                          chunk_size=50, k=2, num_inference_steps=1)
+                          chunk_size=50, k=2, num_inference_steps=1, independent_tactile=independent)
     captured = {}
+
+    def tactile_predictor(current, actions, state, tactile):
+        captured["predicted_actions"] = actions.clone()
+        return torch.ones((1, 8, 8))
 
     class FakeCore:
         @staticmethod
@@ -102,11 +107,11 @@ def test_predict_action_chunk_transforms_before_world_action_encoder():
             captured["encoded_actions"] = actions.clone()
             return actions
 
-    fake = SimpleNamespace(config=cfg, core=FakeCore(),
+    fake = SimpleNamespace(config=cfg, core=FakeCore(), contact=SimpleNamespace(predictor=tactile_predictor),
                            eval=lambda: None,
                            to_world_actions=lambda actions: actions,
                            update_belief=lambda obs: torch.ones((1, 4, 8)),
-                           encode_visual=lambda image: torch.ones((1, 2, 8)),
+                           encode_visual=lambda image, wrist_image=None: torch.ones((1, 2, 8)),
                            policy_condition=lambda obs, belief, current: (torch.ones((1, 1, 8)), None, None, None, None),
                            expert_velocity=lambda pad, kv, condition, actions, time: torch.zeros_like(actions),
                            predict_future=lambda current, state, latent, belief, tactile, *, actions=None:
@@ -116,7 +121,10 @@ def test_predict_action_chunk_transforms_before_world_action_encoder():
 
     prediction = ContactWAM.predict_action_chunk(fake, obs, action_transform=lambda actions: torch.zeros_like(actions))
 
-    assert torch.count_nonzero(captured["encoded_actions"][:, :, :8]) == 0
+    key = "predicted_actions" if independent else "encoded_actions"
+    assert torch.count_nonzero(captured[key][:, :, :8]) == 0
+    if independent:
+        assert "encoded_actions" not in captured
     assert torch.count_nonzero(prediction.actions) == 0
 
 

@@ -234,6 +234,9 @@ def prepare_data(run, *, data_root=None, original_root=None, recovery_root=None)
     Contact-Belief manifest paths remain authoritative.
     """
     del original_root, recovery_root
+    expert_only = run.get("expert_only", False)
+    if type(expert_only) is not bool:
+        raise ValueError("expert_only must be a boolean")
     workspace = Path(run.get("workspace", WORKSPACE)).resolve()
     data_root = Path(data_root or run.get("data_root", PROJECT / "data")).resolve()
     tasks = tuple(run.get("tasks", run.get("shared_tasks", SHARED_TASKS)))
@@ -242,20 +245,40 @@ def prepare_data(run, *, data_root=None, original_root=None, recovery_root=None)
     if any(task not in SHARED_TASKS for task in tasks):
         raise ValueError(f"Unsupported aligned tasks: {tasks}")
 
-    reference_root = Path(run.get("reference_root", PROJECT.parent / "wave0-univtac-fast")).resolve()
+    validate_every = run.get("stage1", {}).get("validate_every", 500)
+    if type(validate_every) is not int or validate_every < 0:
+        raise ValueError("stage1.validate_every must be a nonnegative integer")
+    default_holdouts = VALIDATION_EPISODE_IDS if validate_every else ()
+    validation_ids = tuple(int(value) for value in run.get("wm_validation_episode_ids", default_holdouts))
+    if validate_every == 0:
+        if validation_ids:
+            raise ValueError("Disabled Stage-1 validation requires wm_validation_episode_ids: []")
+    elif len(validation_ids) != 10 or len(set(validation_ids)) != 10 or any(value not in range(100) for value in validation_ids):
+        raise ValueError("Stage-1 validation requires the fixed ten original episode IDs")
+
+    reference_root = Path(run.get("reference_root", workspace / "wave0-univtac-fast")).resolve()
     baseline_dir = Path(run.get("baseline_dir", reference_root / "baseline")).resolve()
     source_wm_stats = Path(
         run.get("reference_wm_stats", run.get("source_wm_stats", run.get("wm_norm")))
         or workspace / "outputs/wave0-shared-8task-mb32-002/artifacts/wm_norm_stats.json"
     ).resolve()
+    namespace = "aligned_expert_only" if expert_only else "aligned"
+    if validate_every == 0:
+        namespace += "_all_train"
     aligned_manifest_dir = Path(
-        run.get("aligned_manifest_dir", data_root / "manifests/aligned")
+        run.get("aligned_manifest_dir", data_root / "manifests" / namespace)
     ).resolve()
     policy_manifest_dir = Path(
         run.get("policy_manifest_dir", aligned_manifest_dir / "policy_all_train")
     ).resolve()
-    task_stats_dir = Path(run.get("task_stats_dir", data_root / "stats/aligned/tasks")).resolve()
-    wm_stats = Path(run.get("wm_stats", data_root / "stats/aligned/wm_norm_stats.json")).resolve()
+    task_stats_dir = Path(run.get("task_stats_dir", data_root / "stats" / namespace / "tasks")).resolve()
+    wm_stats = Path(run.get("wm_stats", data_root / "stats" / namespace / "wm_norm_stats.json")).resolve()
+    preparation_path = aligned_manifest_dir / "preparation.json"
+    if preparation_path.is_file():
+        previous = json.loads(preparation_path.read_text())
+        if previous.get("expert_only", False) != expert_only:
+            raise ValueError("Data source mode differs from existing preparation; use separate "
+                             "aligned_manifest_dir and policy_manifest_dir to preserve old manifests")
     cache_root = Path(run.get("cache_root", run.get("tactile_cache", data_root / "cache/anytouch2"))).resolve()
     tokenizer_path = Path(
         run.get("tokenizer_path", workspace / "models/pi05_base/big_vision/paligemma_tokenizer.model")
@@ -263,9 +286,6 @@ def prepare_data(run, *, data_root=None, original_root=None, recovery_root=None)
     if not tokenizer_path.is_file():
         raise FileNotFoundError(f"Missing reference SentencePiece tokenizer: {tokenizer_path}")
 
-    validation_ids = tuple(int(value) for value in run.get("wm_validation_episode_ids", VALIDATION_EPISODE_IDS))
-    if len(validation_ids) != 10 or len(set(validation_ids)) != 10 or any(value not in range(100) for value in validation_ids):
-        raise ValueError("Stage-1 validation requires the fixed ten original episode IDs")
     reference_segments = _baseline_segments(baseline_dir, tasks)
 
     copied_task_stats = {}
@@ -284,6 +304,10 @@ def prepare_data(run, *, data_root=None, original_root=None, recovery_root=None)
         recoveries = []
         prompt = json.loads((baseline_dir / task / "instruction.json").read_text())["seen"][0]
         for source_row in read_jsonl(source_manifest):
+            # Exclude Recovery before any file/cache access or fingerprinting.
+            # Original-only training must also work when Recovery is absent.
+            if expert_only and source_row.get("source") == "recovery":
+                continue
             row = dict(source_row)
             row["prompt"] = prompt
             if row.get("source") == "original":
@@ -303,7 +327,7 @@ def prepare_data(run, *, data_root=None, original_root=None, recovery_root=None)
                 raise ValueError(f"Unknown source in {source_manifest}: {row.get('source')!r}")
         if set(original) != set(range(100)):
             raise ValueError(f"Aligned original rows must cover 100 episodes for {task}; got {len(original)}")
-        if task in {"insert_hole", "insert_HDMI"} and len(recoveries) != 50:
+        if not expert_only and task in {"insert_hole", "insert_HDMI"} and len(recoveries) != 50:
             raise ValueError(f"Aligned Stage-2 expects 50 recovery episodes for {task}, got {len(recoveries)}")
         ordered_original = [original[index] for index in range(100)]
         task_policy_rows = [dict(row, split="train") for row in ordered_original] + recoveries
@@ -321,14 +345,16 @@ def prepare_data(run, *, data_root=None, original_root=None, recovery_root=None)
 
     val_counts = {task: sum(row["task"] == task and row["split"] == "val" for row in shared_rows)
                   for task in tasks}
-    if sum(val_counts.values()) != 10 * len(tasks):
-        raise ValueError("Aligned validation manifest must contain only the fixed original holdouts")
+    if sum(val_counts.values()) != len(validation_ids) * len(tasks):
+        raise ValueError("Aligned validation manifest must match the configured original holdouts")
     if sum(row["split"] == "val" and row["source"] == "recovery" for row in shared_rows):
         raise ValueError("Recovery episodes cannot appear in Stage-1 validation")
 
     episode_fingerprint = _fingerprint_rows(shared_rows, data_root)
     policy_fingerprints = {task: _fingerprint_rows(rows, data_root) for task, rows in policy_rows.items()}
     summary = {
+        "expert_only": expert_only,
+        "validation_episode_ids": list(validation_ids),
         "tasks": {
             task: {
                 "stage1_train_original": sum(row["task"] == task and row["source"] == "original" and row["split"] == "train" for row in shared_rows),
@@ -347,7 +373,6 @@ def prepare_data(run, *, data_root=None, original_root=None, recovery_root=None)
         "shared_manifest": str(shared_path),
         "episode_fingerprint": episode_fingerprint,
     }
-    preparation_path = aligned_manifest_dir / "preparation.json"
     atomic_json(preparation_path, summary)
     return {
         "aligned_manifest_dir": str(aligned_manifest_dir),
@@ -374,7 +399,7 @@ class AlignedDataset(Dataset):
 
     def __init__(self, manifest, data_root, cache_root, task_stats, wm_stats, config: ContactConfig,
                  split="train", seed=42, policy_action_mask=True, *, tokenizer_path=None,
-                 valid_future_only=None):
+                 valid_future_only=None, allow_review=False, policy_supervised_only=False):
         self.rows = [row for row in (read_jsonl(manifest) if isinstance(manifest, (str, os.PathLike)) else manifest)
                      if split in {"all", "all_train"} or row["split"] == split]
         self.root, self.cache_root = Path(data_root), Path(cache_root)
@@ -389,6 +414,11 @@ class AlignedDataset(Dataset):
         self.processors = {}
         self.index, self.sources, self.tasks = [], [], []
         for rid, row in enumerate(self.rows):
+            if row.get("data_format") == "wave0-hdmi-contact-v1":
+                from .takeover_dataset import validate_contract
+                validate_contract(row, allow_review=allow_review)
+                if not self.policy_action_mask:
+                    raise ValueError("Takeover supervision boundaries cannot be disabled")
             task = row["task"]
             if task not in self.task_stats:
                 raise ValueError(f"Missing reference task normalization for {task}")
@@ -400,6 +430,12 @@ class AlignedDataset(Dataset):
             for start, stop in row["segments"]:
                 final_anchor = stop - config.k if self.valid_future_only else stop - 1
                 for frame in range(int(start), max(int(start), int(final_anchor))):
+                    # Keep the whole episode as recurrent context, but draw BC
+                    # anchors only where an admissible next action exists.
+                    if (policy_supervised_only and row.get("data_format") == "wave0-hdmi-contact-v1"
+                            and not any(r["start"] <= frame < r["stop"]
+                                        for r in row["policy_supervision_ranges"])):
+                        continue
                     # ``range(start, stop-k)`` means frame+k remains inside the
                     # same segment, which avoids cross-boundary future leakage.
                     self.index.append((rid, int(start), int(stop), frame))
@@ -417,10 +453,27 @@ class AlignedDataset(Dataset):
             self._episodes.move_to_end(rid)
             return self._episodes[rid]
         row = self.rows[rid]
+        if row.get("data_format") == "wave0-hdmi-contact-v1":
+            from .takeover_dataset import load_episode
+            cameras = ("head", "wrist") if self.config.camera_mode == "head_wrist" else ("head",)
+            episode = load_episode(self.root / row["path"], row,
+                                   row.get("feature_cache_root", self.cache_root), cameras=cameras)
+            self._episodes[rid] = episode
+            while len(self._episodes) > 4:
+                self._episodes.popitem(last=False)
+            return episode
         with h5py.File(self.root / row["path"], "r") as handle:
             joints = np.asarray(handle["embodiment/joint"][:, :8], np.float32)
-            images = handle["observation/head/rgb"][:]
+            cameras = ("head", "wrist") if self.config.camera_mode == "head_wrist" else ("head",)
+            images = {}
+            for camera in cameras:
+                key = f"observation/{camera}/rgb"
+                if key not in handle:
+                    raise ValueError(f"Missing {camera} RGB in {row['episode_id']}")
+                images[camera] = handle[key][:]
             steps = handle["step"][:]
+            if any(len(value) != len(steps) for value in images.values()):
+                raise ValueError(f"Camera frame count differs from steps in {row['episode_id']}")
             tags = None
             if "atom/tag" in handle:
                 raw_tags = handle["atom/tag"][:]
@@ -451,6 +504,9 @@ class AlignedDataset(Dataset):
         rng = np.random.default_rng(draw_seed)
         rid, start, stop, current = self.index[index]
         row = self.rows[rid]
+        if row.get("data_format") == "wave0-hdmi-contact-v1":
+            from .takeover_dataset import sample_episode
+            return sample_episode(self, row, self._load(rid), start, stop, current, rng, index)
         joints, encoded, tactile, raw_steps, atom_tags = self._load(rid)
         cfg = self.config
 
@@ -474,12 +530,15 @@ class AlignedDataset(Dataset):
 
         decode_indices = np.concatenate((frames.reshape(-1), future_indices.reshape(-1)))
         unique_indices, inverse = np.unique(decode_indices, return_inverse=True)
-        decoded = np.stack([decode(encoded[frame]) for frame in unique_indices])
         sequence_frames = frames.size
-        image = decoded[inverse[:sequence_frames]].reshape(sequence_length, 224, 224, 3)
-        future_image = decoded[inverse[sequence_frames:]].reshape(sequence_length, 224, 224, 3)
-        image = image.transpose(0, 3, 1, 2).astype(np.float32) / 127.5 - 1.0
-        future_image = future_image.transpose(0, 3, 1, 2).astype(np.float32) / 127.5 - 1.0
+        views = {}
+        for camera, camera_frames in encoded.items():
+            decoded = np.stack([decode(camera_frames[frame]) for frame in unique_indices])
+            image = decoded[inverse[:sequence_frames]].reshape(sequence_length, 224, 224, 3)
+            future_image = decoded[inverse[sequence_frames:]].reshape(sequence_length, 224, 224, 3)
+            key = "image" if camera == "head" else "wrist_image"
+            views[key] = image.transpose(0, 3, 1, 2).astype(np.float32) / 127.5 - 1.0
+            views["future_" + key] = future_image.transpose(0, 3, 1, 2).astype(np.float32) / 127.5 - 1.0
 
         task_processor = self.processors[row["task"]]
         normalized_state = task_processor.normalize(joints[frames], "state")
@@ -528,8 +587,11 @@ class AlignedDataset(Dataset):
             policy_action_mask &= ~excluded
 
         return {
-            "image": image,
-            "future_image": future_image,
+            **views,
+            # Exact frame identities allow frozen target-vision reuse within
+            # this sequence, including left padding and clipped future frames.
+            "visual_frame_index": frames.copy(),
+            "future_visual_frame_index": future_indices.copy(),
             "state": state,
             "world_state": world_state,
             "actions": actions,
@@ -561,8 +623,15 @@ class AlignedDataset(Dataset):
 
 def prepare_aligned_batch(batch, device):
     """Move preprocessed batch tensors to ``device`` without repeating work."""
-    return {key: value.to(device, non_blocking=True) if isinstance(value, torch.Tensor) else value
+    # Frame identities are used only for host-side cache lookup. Avoid a GPU
+    # copy followed immediately by a synchronizing GPU-to-CPU copy.
+    host_metadata = {"visual_frame_index", "future_visual_frame_index"}
+    result = {key: value.to(device, non_blocking=True)
+            if isinstance(value, torch.Tensor) and key not in host_metadata else value
             for key, value in batch.items()}
+    if "sequence_mask" in batch:
+        result["_sequence_active"] = batch["sequence_mask"].any(dim=0).tolist()
+    return result
 
 
 class AlignedTaskBalancedSampler(Sampler):

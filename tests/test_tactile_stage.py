@@ -68,7 +68,7 @@ def test_tactile_checkpoint_transfer_excludes_belief_and_roundtrips(tiny_archite
     destination = cm.ContactWAM(configuration("stage1"))
     prior = {n: p.detach().clone() for n, p in destination.contact.updater.named_parameters()}
     load_tactile_predictor(destination, tmp_path)
-    assert all(not p.requires_grad for p in destination.contact.predictor.parameters())
+    assert all(p.requires_grad for p in destination.contact.predictor.parameters())
     for name, parameter in destination.contact.updater.named_parameters():
         torch.testing.assert_close(parameter, prior[name], atol=0, rtol=0)
     for name, parameter in destination.contact.predictor.named_parameters():
@@ -129,17 +129,23 @@ def test_tactile_stage_selects_checkpoint_by_tactile_error(monkeypatch):
     assert result["metrics"]["tactile_persistence"] == pytest.approx(.75)
 
 
-def test_stage1_refuses_random_frozen_tactile_weights(monkeypatch):
+def test_stage1_initializes_tactile_weights_without_separate_pretraining(monkeypatch):
+    from contact_belief_wam import weights
     run = {"model_config": {"independent_tactile": True}, "mode": "full", "world_init": "unused"}
-    with pytest.raises(ValueError, match="tactile_checkpoint"):
-        trainer._load_model(run, "stage1")
+    def initialize(config, **kwargs):
+        assert config.stage == "stage1" and config.independent_tactile
+        assert kwargs["tactile_checkpoint"] is None
+        return "policy", None
+    monkeypatch.setattr(weights, "initialize", initialize)
+    assert trainer._load_model(run, "stage1") == ("policy", None)
 
 
-def test_plan_and_command_expose_independent_stage(monkeypatch, tmp_path):
-    monkeypatch.setattr(train, "_physical_gpus", lambda: list(map(str, range(8))))
+def test_plan_trains_independent_predictor_inside_stage1(monkeypatch, tmp_path):
+    monkeypatch.setattr(train, "_physical_gpus", lambda count: list(map(str, range(count))))
     run = {"config": "recipe", "variant": "full", "mode": "full", "workspace": str(tmp_path),
            "output": str(tmp_path), "independent_tactile": True, "tactile": {"num_gpus": 2}}
-    assert train.plan(run)["tactile"]["gpus"] == ["0", "1"]
+    assert "tactile" not in train.plan(run)
+    assert train.plan(run)["stage1"]["gpus"] == list(map(str, range(4)))
     run["mode"] = "wave0"
     assert "tactile" not in train.plan(run)
     command = train._training_command("run.yaml", "tactile", nproc=1)
@@ -147,40 +153,39 @@ def test_plan_and_command_expose_independent_stage(monkeypatch, tmp_path):
     assert command[command.index("--stage") + 1] == "tactile"
 
 
-def test_tactile_can_run_alone_on_two_gpus(monkeypatch, tmp_path):
+def test_obsolete_tactile_stop_is_rejected(monkeypatch, tmp_path):
     monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "3,5")
     run = {"config": "recipe", "variant": "full", "mode": "full", "workspace": str(tmp_path),
            "output": str(tmp_path), "independent_tactile": True, "tactile": {"num_gpus": 2}}
-    result = train.plan(run, stop_after="tactile")
-    assert result["tactile"]["gpus"] == ["3", "5"]
-    with pytest.raises(ValueError, match="8 visible GPUs"):
+    with pytest.raises(ValueError, match="two-stage"):
+        train.plan(run, stop_after="tactile")
+    with pytest.raises(ValueError, match="4 visible GPUs"):
         train.plan(run)
 
 
-def test_workflow_passes_tactile_checkpoint_then_can_stop_before_world_training(monkeypatch, tmp_path):
+def test_workflow_can_stop_after_joint_stage1_and_resume(monkeypatch, tmp_path):
     run = {"config": "recipe", "variant": "full", "mode": "full", "workspace": str(tmp_path),
            "output": str(tmp_path / "run"), "independent_tactile": True,
            "world_init": "/unused/world", "tactile": {"num_gpus": 2}}
     monkeypatch.setattr(train, "resolve_config", lambda *a, **k: run.copy())
-    monkeypatch.setattr(train, "_physical_gpus", lambda: list(map(str, range(8))))
+    monkeypatch.setattr(train, "_physical_gpus", lambda count: list(map(str, range(count))))
     monkeypatch.setattr(train, "_prepare", lambda run: None)
     monkeypatch.setattr(train, "_require_prepared", lambda run: None)
     monkeypatch.setattr(train, "_pipeline_env", lambda threads: {})
     calls = []
-    checkpoint = tmp_path / "tactile_checkpoint"
+    checkpoint = tmp_path / "stage1_checkpoint"
     def prediction_stage(value, stage, *args):
         calls.append(stage)
-        if stage == "stage1":
-            assert value["tactile_checkpoint"] == str(checkpoint)
+        assert "tactile_checkpoint" not in value
         return checkpoint
     monkeypatch.setattr(train, "_run_prediction_stage", prediction_stage)
     monkeypatch.setattr(train, "_run_jobs", lambda *a, **k: pytest.fail("policy jobs started"))
-    result = train.main(stop_after="tactile")
-    assert calls == ["tactile"]
-    assert result["state"] == "tactile_complete"
+    result = train.main(stop_after="stage1")
+    assert calls == ["stage1"]
+    assert result["state"] == "stage1_complete"
     calls.clear()
     result = train.main(resume="auto", stop_after="stage1")
-    assert calls == ["tactile", "stage1"]
+    assert calls == ["stage1"]
     assert result["state"] == "stage1_complete"
 
 
@@ -203,8 +208,10 @@ def test_sequence_tactile_phase_never_warms_up_belief_and_masks_wrong_actions():
 
 def test_public_train_entry_reports_plan_and_configuration_errors(monkeypatch, capsys):
     from contact_belief_wam.cli import main
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "0,1,2,3,4,5,6,7")
+    assert main(["train", "--plan", "--stop-after", "stage1"]) == 0
+    output = capsys.readouterr().out
+    assert '"stage1"' in output and '"tactile"' not in output
     monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "0,1")
-    assert main(["train", "--plan", "--stop-after", "tactile"]) == 0
-    assert '"tactile"' in capsys.readouterr().out
-    assert main(["train", "--plan", "--stop-after", "tactile", "--variant", "wave0_recovery"]) == 1
-    assert "requires full mode" in capsys.readouterr().err
+    assert main(["train", "--plan"]) == 1
+    assert "4 visible GPUs" in capsys.readouterr().err

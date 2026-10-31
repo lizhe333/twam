@@ -1,0 +1,26 @@
+{
+  "openpi_commit": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "task": "insert_hole",
+  "split": "full",
+  "hashes": {
+    "openpi_lock": "793488b5a55bb87200db90a61fd0af51922b686d94e1da4f4c587ab119b37d74",
+    "dataset": "a5bdb7dfefdad9d1386ec6ee8df9715722260f9f7a089e22086b81312d25cc50",
+    "norm_stats": "e82896bbd7ea32db265568c9018350e32b06c45945361f7b9e2e8b005daa938f"
+  },
+  "adapter_sha256": "571da04a89aa85686f20c3b8d0e62a51f614d85628f17cdcab6c85b8043f6216",
+  "training": {
+    "mode": "full",
+    "run": "paper-bs64-10k-001-pair0",
+    "batch_size": 64,
+    "fsdp_devices": 2,
+    "seed": 42,
+    "lr": {
+      "warmup_steps": 1000,
+      "peak_lr": 2.5e-05,
+      "decay_steps": 10000,
+      "decay_lr": 2.5e-06
+    },
+    "ema": 0.99,
+    "camera_mode": "head_only"
+  }
+}

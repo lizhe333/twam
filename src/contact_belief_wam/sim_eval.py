@@ -56,10 +56,14 @@ class Adapter:
         if self.chunk is None or self.position == self.k:
             frames = list(self.touch)
             window = np.stack([frames[max(0, len(frames) - 1 + offset)] for offset in (-6, -4, -2, 0)], axis=1)
+            views = {}
+            if self.client.metadata.get("camera_mode") == "head_wrist":
+                views["wrist_image"] = cpu(observation["observation"]["wrist"]["rgb"])
             result = self.client.call(op="infer", episode=self.episode, step=self.step,
                                       image=cpu(observation["observation"]["head"]["rgb"]),
                                       state=cpu(observation["embodiment"]["joint"])[:8],
                                       tactile_window=window, executed_actions=np.asarray(self.executed, np.float32).reshape(-1, 8),
+                                      **views,
                                       prompt=self.prompt)
             self.chunk = np.asarray(result["actions"], np.float32)
             if self.chunk.shape != (50, 8) or not np.isfinite(self.chunk).all():

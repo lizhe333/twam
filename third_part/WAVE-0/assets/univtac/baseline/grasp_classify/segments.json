@@ -1,0 +1,1602 @@
+[
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 0,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 57,
+    "valid_count": 56,
+    "raw_steps": [
+      200,
+      312
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/0.hdf5",
+    "source_sha256": "d5e87530acbca57325ef637cf5e0efed0f3026acab59981df6d2f807352333f7",
+    "source_size_bytes": 44635690,
+    "segment_id": "grasp_classify:0:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 1,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      194,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/1.hdf5",
+    "source_sha256": "923f0be0e05e82a6e818630f79e74c503e83d437ceeebba4ea032683c65331f2",
+    "source_size_bytes": 44319915,
+    "segment_id": "grasp_classify:1:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 2,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      200,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/2.hdf5",
+    "source_sha256": "78679e69c9aa1f61b44fb9d74ab4aa763e488d9462a9141613aab9634b0ff8a5",
+    "source_size_bytes": 40859328,
+    "segment_id": "grasp_classify:2:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 3,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      194,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/3.hdf5",
+    "source_sha256": "4a420ddd8364160a557cf9ad703c412495fabf13c27bf72eb2368112a7273489",
+    "source_size_bytes": 42378208,
+    "segment_id": "grasp_classify:3:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 4,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      198,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/4.hdf5",
+    "source_sha256": "aef6696bec432d074327d06794aa0dd501177caf3379c3b88b858057f9170e84",
+    "source_size_bytes": 40841388,
+    "segment_id": "grasp_classify:4:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 5,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      196,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/5.hdf5",
+    "source_sha256": "b2a44648577c16fcae18af3b70f856d666c669bbf2f652318ff41cc23f43d0d1",
+    "source_size_bytes": 42434746,
+    "segment_id": "grasp_classify:5:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 6,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      196,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/6.hdf5",
+    "source_sha256": "0b584564ccc89c2d87410ddb3e8cc68f2bb1ce963bc145bde189bfdeb7d29635",
+    "source_size_bytes": 43399132,
+    "segment_id": "grasp_classify:6:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 7,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      196,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/7.hdf5",
+    "source_sha256": "8b26112397ec1a722a84a753318ff03ecefa3268e8ed3e9bcdb2da4162c3b09a",
+    "source_size_bytes": 40854960,
+    "segment_id": "grasp_classify:7:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 8,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/8.hdf5",
+    "source_sha256": "83b30d7251a75c6b0a5f0108cf0a2ac46cf2ca22cca1cad8e00fe8eb6c3a12c0",
+    "source_size_bytes": 42424000,
+    "segment_id": "grasp_classify:8:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 9,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      196,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/9.hdf5",
+    "source_sha256": "c9b29755663f81ff2b973685b4ddc0123e146fb08fb0f220ef3cbd01cd0a61ea",
+    "source_size_bytes": 42482513,
+    "segment_id": "grasp_classify:9:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 10,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/10.hdf5",
+    "source_sha256": "aaf3f75d64562ac3b872ee52c487b5fdb2818d1fc36ec074f97b4e2e1b7233a1",
+    "source_size_bytes": 42394138,
+    "segment_id": "grasp_classify:10:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 11,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      200,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/11.hdf5",
+    "source_sha256": "96fd5c544e75331dd202653807f7650be97c48040211af2e9d8e1c93648d185f",
+    "source_size_bytes": 44113940,
+    "segment_id": "grasp_classify:11:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 12,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/12.hdf5",
+    "source_sha256": "5b884d89911caaba2bc2da40e156300971701f16cc0b53291af77ac4b5b2c030",
+    "source_size_bytes": 43146930,
+    "segment_id": "grasp_classify:12:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 13,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      200,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/13.hdf5",
+    "source_sha256": "e140d56a5e6e711926c126ae335e613ee554999ad339bfe4f1de4b5b5b5d7cc5",
+    "source_size_bytes": 43233775,
+    "segment_id": "grasp_classify:13:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 14,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      200,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/14.hdf5",
+    "source_sha256": "d80dfcaf063dfd620b0a0e55ae4e4d22e32156e823b2cbea21af44cdfec014ec",
+    "source_size_bytes": 41639120,
+    "segment_id": "grasp_classify:14:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 15,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 50,
+    "valid_count": 49,
+    "raw_steps": [
+      192,
+      290
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/15.hdf5",
+    "source_sha256": "e789d7dc69e13ae66a09a98122181b25afb164440f727582d2b647867a5838e2",
+    "source_size_bytes": 39230650,
+    "segment_id": "grasp_classify:15:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 16,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      194,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/16.hdf5",
+    "source_sha256": "53bc6825a9b2c7ce95e6e69ad842f684946f2dfec526e8cb089316d4fe383e2b",
+    "source_size_bytes": 41527453,
+    "segment_id": "grasp_classify:16:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 17,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/17.hdf5",
+    "source_sha256": "d550c7957542228e3965f976fbd57635a9da5db4f88c2abf566798b630666ec4",
+    "source_size_bytes": 43196485,
+    "segment_id": "grasp_classify:17:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 18,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      196,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/18.hdf5",
+    "source_sha256": "4d0ccd22eed1c8278eaa1911e10fb721820cdff83e807c7efc3c551c0a4a5e57",
+    "source_size_bytes": 42409636,
+    "segment_id": "grasp_classify:18:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 19,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/19.hdf5",
+    "source_sha256": "a526a658987e0eee959b2c5cd91bc6c60150e8e0f2893cb6e72fc13774779f4e",
+    "source_size_bytes": 43981832,
+    "segment_id": "grasp_classify:19:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 20,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      200,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/20.hdf5",
+    "source_sha256": "f4bb9a641df203f94ab43bc5c6a94747642bfa37413aa1e9501c9ec86969d9bb",
+    "source_size_bytes": 43139065,
+    "segment_id": "grasp_classify:20:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 21,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      196,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/21.hdf5",
+    "source_sha256": "e0f7c7d651419cbbbf113a884d38dcb4b766c09612e4697770b23e36c21665ee",
+    "source_size_bytes": 44835944,
+    "segment_id": "grasp_classify:21:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 22,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      200,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/22.hdf5",
+    "source_sha256": "ba560c2359b745a441b9f13a935bd365679eb8227ac60c1ea2ad58d32283b619",
+    "source_size_bytes": 42333928,
+    "segment_id": "grasp_classify:22:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 23,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/23.hdf5",
+    "source_sha256": "906fda34da80c2e5c1e75bdc1a9512698d878035c3a32282d23174ba4f8bba32",
+    "source_size_bytes": 43530190,
+    "segment_id": "grasp_classify:23:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 24,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/24.hdf5",
+    "source_sha256": "70013644812cafea0c045d9963290cb30c7e0e3e2b1d53bc6ae228cf31d7b50f",
+    "source_size_bytes": 43304848,
+    "segment_id": "grasp_classify:24:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 25,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 57,
+    "valid_count": 56,
+    "raw_steps": [
+      198,
+      310
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/25.hdf5",
+    "source_sha256": "17fe99bef9f296fcb803301597b38b6e527a28a1ed88f64f189eaa8eda19d54d",
+    "source_size_bytes": 44723185,
+    "segment_id": "grasp_classify:25:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 26,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      200,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/26.hdf5",
+    "source_sha256": "c02fb1524048aeecdf805ebed04c03995558bdb2b4a217aaec2ebd3a251db4cb",
+    "source_size_bytes": 41522100,
+    "segment_id": "grasp_classify:26:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 27,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      194,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/27.hdf5",
+    "source_sha256": "26102f93d18897a8b3187aa68b5dc7d0ac85c6510b1dc72903a7a2452993034c",
+    "source_size_bytes": 44317055,
+    "segment_id": "grasp_classify:27:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 28,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      196,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/28.hdf5",
+    "source_sha256": "0a24d879058e0f8893839fd1379f6f07132979ff7e74d05ad107cf57eba1d081",
+    "source_size_bytes": 43989840,
+    "segment_id": "grasp_classify:28:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 29,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      198,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/29.hdf5",
+    "source_sha256": "ff8b5618a8071234fc317c9f5d1cf6be756c12acf27313b029384814a32d6cd1",
+    "source_size_bytes": 41618136,
+    "segment_id": "grasp_classify:29:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 30,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/30.hdf5",
+    "source_sha256": "a5f2710a40f82514e90fed8bb3faf356db3abb0f265cf4508cf4046ec05bba33",
+    "source_size_bytes": 44345820,
+    "segment_id": "grasp_classify:30:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 31,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/31.hdf5",
+    "source_sha256": "be3668ea33b5d7ac9136a9d1c5c663cce9a1cf5cc866944375416428f7b2faac",
+    "source_size_bytes": 43202480,
+    "segment_id": "grasp_classify:31:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 32,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      196,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/32.hdf5",
+    "source_sha256": "826fe2410672d05e1ab0789d2dfa4e21960ce54c121bb003358f51910eaac23c",
+    "source_size_bytes": 40849448,
+    "segment_id": "grasp_classify:32:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 33,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      196,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/33.hdf5",
+    "source_sha256": "5b737648bf4bbb1b4c2b954fe1ca7c8dcbb1808f19e16d9b41d5dafa32be07aa",
+    "source_size_bytes": 40829740,
+    "segment_id": "grasp_classify:33:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 34,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/34.hdf5",
+    "source_sha256": "3ef80b33ec3f6dda57fec4c5b262552974b1c9f199175e833344ff428f675d46",
+    "source_size_bytes": 45059552,
+    "segment_id": "grasp_classify:34:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 35,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/35.hdf5",
+    "source_sha256": "9312904228dccb747fca6e107683fed59b857a2436c6420d1039a35c71caa994",
+    "source_size_bytes": 43008388,
+    "segment_id": "grasp_classify:35:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 36,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      196,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/36.hdf5",
+    "source_sha256": "2d63b2bf032a5a0b38345825479baa79c36a011a0c58e2c86c44a210540c4328",
+    "source_size_bytes": 44635184,
+    "segment_id": "grasp_classify:36:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 37,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      200,
+      310
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/37.hdf5",
+    "source_sha256": "2c7b7b8d5e802cd7d054dd1e0c75ca0fc8d86f17aa386587f83a2f02e9ced3bf",
+    "source_size_bytes": 45164664,
+    "segment_id": "grasp_classify:37:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 38,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      200,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/38.hdf5",
+    "source_sha256": "ef6823e55d3bec6ceaf493835e3d080360b95939cbcb8ebb20b4af13a5c1d8e3",
+    "source_size_bytes": 43220608,
+    "segment_id": "grasp_classify:38:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 39,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      194,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/39.hdf5",
+    "source_sha256": "cee817c554c63be7b69d928c0916b24893c5cf0dd9000a8a3b4de80c0ba12a4a",
+    "source_size_bytes": 43140165,
+    "segment_id": "grasp_classify:39:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 40,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/40.hdf5",
+    "source_sha256": "7a3987dad6a31af946641c29cdc1f1fa7cc80dbeb4d7d52cf52af2d4e6cc7e8a",
+    "source_size_bytes": 44022488,
+    "segment_id": "grasp_classify:40:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 41,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      196,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/41.hdf5",
+    "source_sha256": "d9f407acf177817376e3f2e5fb57354a3f8e4d237305399a51e1c95110fad86d",
+    "source_size_bytes": 42366382,
+    "segment_id": "grasp_classify:41:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 42,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      194,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/42.hdf5",
+    "source_sha256": "c1a3bb4a4e8f249dd13d43deadfe31d1b5dce701208f091594441ed05736b8b4",
+    "source_size_bytes": 42325951,
+    "segment_id": "grasp_classify:42:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 43,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      200,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/43.hdf5",
+    "source_sha256": "26a1601ac9bd265516bfa054e0efa7fa18178dc1b930daf65dc767ea6b991fd7",
+    "source_size_bytes": 42317296,
+    "segment_id": "grasp_classify:43:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 44,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/44.hdf5",
+    "source_sha256": "af8ccdb9cc798e382ae4fd98de7a41afa3544bdd5efee979628b477ded1f6d88",
+    "source_size_bytes": 43227010,
+    "segment_id": "grasp_classify:44:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 45,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 51,
+    "valid_count": 50,
+    "raw_steps": [
+      196,
+      296
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/45.hdf5",
+    "source_sha256": "6ff7e46115a00c973402b621b96f2c065760931d7fabb3c37c95d7bec8aaedee",
+    "source_size_bytes": 40023373,
+    "segment_id": "grasp_classify:45:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 46,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      200,
+      310
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/46.hdf5",
+    "source_sha256": "0a4908b46666baf5c545df7329eb9b9321cb9b19988bc1046a118f5c5236343c",
+    "source_size_bytes": 43937200,
+    "segment_id": "grasp_classify:46:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 47,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      196,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/47.hdf5",
+    "source_sha256": "ebe2a3dab60683a8e60d7f6cde13300c9251373164475cb05894cdd248185c77",
+    "source_size_bytes": 43377532,
+    "segment_id": "grasp_classify:47:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 48,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      198,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/48.hdf5",
+    "source_sha256": "182f92907c493e8eef7961a40cf92338e7b2a4a0b5ce10ff5fe93b1b9e2737eb",
+    "source_size_bytes": 41764024,
+    "segment_id": "grasp_classify:48:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 49,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 50,
+    "valid_count": 49,
+    "raw_steps": [
+      190,
+      288
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/49.hdf5",
+    "source_sha256": "9aae502d9897cd9198adc66039df70e93fbfebe9993a83add5b75f60d4515691",
+    "source_size_bytes": 40194200,
+    "segment_id": "grasp_classify:49:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 50,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      200,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/50.hdf5",
+    "source_sha256": "626a6e23fb13e7f270bb684b3304efb14d7473f947c1ac52b012a7a7c6a2201c",
+    "source_size_bytes": 42676387,
+    "segment_id": "grasp_classify:50:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 51,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/51.hdf5",
+    "source_sha256": "1852e92cce71f6eb24daa44fd79de06df3db0eed8ea30157721864a0dee57c65",
+    "source_size_bytes": 43261440,
+    "segment_id": "grasp_classify:51:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 52,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 51,
+    "valid_count": 50,
+    "raw_steps": [
+      196,
+      296
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/52.hdf5",
+    "source_sha256": "aab4b79542ddd1538c1953aa29181483834527705bf032249223c7751b169c10",
+    "source_size_bytes": 40006237,
+    "segment_id": "grasp_classify:52:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 53,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 49,
+    "valid_count": 48,
+    "raw_steps": [
+      198,
+      294
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/53.hdf5",
+    "source_sha256": "93411d52b7de4c94471e9ebf92785f828d5c0c97d0a98eb97b18a7e58f06d7c7",
+    "source_size_bytes": 39511261,
+    "segment_id": "grasp_classify:53:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 54,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      196,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/54.hdf5",
+    "source_sha256": "66fe88e17bd46393434ba263a3da8bde010b449a0c2801080c11206a01075598",
+    "source_size_bytes": 40787048,
+    "segment_id": "grasp_classify:54:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 55,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 57,
+    "valid_count": 56,
+    "raw_steps": [
+      200,
+      312
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/55.hdf5",
+    "source_sha256": "9024d81896b2f5cd5455b543d65b7ef955476b3abd14c36b2c4b3a668b2b109f",
+    "source_size_bytes": 45358393,
+    "segment_id": "grasp_classify:55:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 56,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 49,
+    "valid_count": 48,
+    "raw_steps": [
+      192,
+      288
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/56.hdf5",
+    "source_sha256": "508c4d065f5173c2df145a0662cb4a0985f15b5c278b5b80f454433f37901285",
+    "source_size_bytes": 39108726,
+    "segment_id": "grasp_classify:56:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 57,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      196,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/57.hdf5",
+    "source_sha256": "de5aa28302d7360bb7ee95041fc4341946b330b7a2f2dde71f365531044e774f",
+    "source_size_bytes": 43132795,
+    "segment_id": "grasp_classify:57:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 58,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      198,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/58.hdf5",
+    "source_sha256": "7d475a956bc299dd0ff0e47e2d7fd5d9fd662cf38e904a009bcc3f58e2450fd1",
+    "source_size_bytes": 41560101,
+    "segment_id": "grasp_classify:58:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 59,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/59.hdf5",
+    "source_sha256": "22d1e2bff8b35cff0dd921ff972447ecacc6e8c33897f0b5a6d2f406aed738cf",
+    "source_size_bytes": 45141312,
+    "segment_id": "grasp_classify:59:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 60,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/60.hdf5",
+    "source_sha256": "0228dbfa0e160ff5060d9d0cecbbb59b9c730d670e015d82b1579be84a883ee7",
+    "source_size_bytes": 44045630,
+    "segment_id": "grasp_classify:60:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 61,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/61.hdf5",
+    "source_sha256": "0a874b0abe4f0312cf805d911205ede17b55a0f1a1cc2e692002296995cfdf8f",
+    "source_size_bytes": 44722824,
+    "segment_id": "grasp_classify:61:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 62,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      196,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/62.hdf5",
+    "source_sha256": "7b92caefef8dc3735343a45637c28b216074e76e158f22b171eac245fba5481c",
+    "source_size_bytes": 45120480,
+    "segment_id": "grasp_classify:62:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 63,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      196,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/63.hdf5",
+    "source_sha256": "bd293df572bb6ec29eaaeee07686b5bcdded6f18b89bc51f48867c753169f3b4",
+    "source_size_bytes": 40777272,
+    "segment_id": "grasp_classify:63:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 64,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/64.hdf5",
+    "source_sha256": "c0489750dd592b7713de53a8aef54c8fad8e9c5dd041fbb2cf29e0133896bd6c",
+    "source_size_bytes": 45012680,
+    "segment_id": "grasp_classify:64:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 65,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 51,
+    "valid_count": 50,
+    "raw_steps": [
+      194,
+      294
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/65.hdf5",
+    "source_sha256": "d24a22f7fc3393af268266a941665847242d6705ad6c3ab28c3fc60a66dea3b7",
+    "source_size_bytes": 39964825,
+    "segment_id": "grasp_classify:65:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 66,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      196,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/66.hdf5",
+    "source_sha256": "1d21b29826234cf3431aa307f8ba003526feaed5f1a2326771da1f2308ce74fc",
+    "source_size_bytes": 40845808,
+    "segment_id": "grasp_classify:66:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 67,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/67.hdf5",
+    "source_sha256": "caba164f85008703894274d7936c7de06431a83344f3402c71213ec2d4b4e2c9",
+    "source_size_bytes": 44852296,
+    "segment_id": "grasp_classify:67:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 68,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 51,
+    "valid_count": 50,
+    "raw_steps": [
+      198,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/68.hdf5",
+    "source_sha256": "6060ac72708867572affdc9beceb55215e42d8b4e8f25879dda3439aad445677",
+    "source_size_bytes": 40681987,
+    "segment_id": "grasp_classify:68:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 69,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      192,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/69.hdf5",
+    "source_sha256": "650b79f3132d9825205d6934dad2f112a8e65da347a3757bbf0ec812ea00b59d",
+    "source_size_bytes": 43195330,
+    "segment_id": "grasp_classify:69:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 70,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 51,
+    "valid_count": 50,
+    "raw_steps": [
+      200,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/70.hdf5",
+    "source_sha256": "fcb8ccfbe170fb71c7c59fe29e630baf64735c6e3abf008e9dfed9b16927ec30",
+    "source_size_bytes": 40039438,
+    "segment_id": "grasp_classify:70:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 71,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      200,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/71.hdf5",
+    "source_sha256": "6c56f2055c8014b84ecba5feff5cafb2071b50de95fddcfa3400aa213f1f0899",
+    "source_size_bytes": 41549395,
+    "segment_id": "grasp_classify:71:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 72,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/72.hdf5",
+    "source_sha256": "c6a0fa960bcf94fd4195fb3cd6314c3282572c3ad088efc2ea50d3a1ee5fff8c",
+    "source_size_bytes": 42375616,
+    "segment_id": "grasp_classify:72:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 73,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      200,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/73.hdf5",
+    "source_sha256": "9be161fc1019d00e7a8d41e9cd19b3e402e1dcad948a9d74f593b8f89a0936ed",
+    "source_size_bytes": 44054485,
+    "segment_id": "grasp_classify:73:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 74,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 49,
+    "valid_count": 48,
+    "raw_steps": [
+      192,
+      288
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/74.hdf5",
+    "source_sha256": "ff1578038ce7ed51bee5569d3e4c54089a8923fd04caecfb53fcb1d78bc10e83",
+    "source_size_bytes": 38483045,
+    "segment_id": "grasp_classify:74:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 75,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      198,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/75.hdf5",
+    "source_sha256": "7d0d5eec63b76536206a2fceca03b12fcda1e694215ff2dde402bca2c387c8cb",
+    "source_size_bytes": 41680199,
+    "segment_id": "grasp_classify:75:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 76,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 55,
+    "valid_count": 54,
+    "raw_steps": [
+      198,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/76.hdf5",
+    "source_sha256": "9d8388e32dfc97bec3922f8e6ec9082c48d5beab4db8fc961ffa8c9f09736ff0",
+    "source_size_bytes": 44284055,
+    "segment_id": "grasp_classify:76:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 77,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/77.hdf5",
+    "source_sha256": "d9e52afcebf4f173882f752a576693c00282e000cb756204412e04adfe948702",
+    "source_size_bytes": 44025568,
+    "segment_id": "grasp_classify:77:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 78,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/78.hdf5",
+    "source_sha256": "1888529def644e96975f2ba7f9e8985152485582620dc2feaefaf4d4384a6e22",
+    "source_size_bytes": 44599736,
+    "segment_id": "grasp_classify:78:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 79,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      202,
+      306
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/79.hdf5",
+    "source_sha256": "6dc43423158b79f5fcf4556ee641394995216c1a10dc125616ff850cd1a55dfc",
+    "source_size_bytes": 41535297,
+    "segment_id": "grasp_classify:79:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 80,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      198,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/80.hdf5",
+    "source_sha256": "3ec0b27c80f88ce3ff5217f8152f2a015c492f1ae46127d1936f71b3c72417ba",
+    "source_size_bytes": 42270036,
+    "segment_id": "grasp_classify:80:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 81,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      196,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/81.hdf5",
+    "source_sha256": "d0959d7877bbdbdcee3d8b18c47e5c810a582d03cd081a0f06a65791417c81b8",
+    "source_size_bytes": 41575047,
+    "segment_id": "grasp_classify:81:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 82,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/82.hdf5",
+    "source_sha256": "6785f30a639fc31d6709d75f95967d3cf32fbbb17b39241292ed5cd39e3b4719",
+    "source_size_bytes": 42426106,
+    "segment_id": "grasp_classify:82:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 83,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/83.hdf5",
+    "source_sha256": "7205534a5ee1890292a47eee4b4fea427075e51a2d09270d913274c9afd1f706",
+    "source_size_bytes": 43956184,
+    "segment_id": "grasp_classify:83:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 84,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      196,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/84.hdf5",
+    "source_sha256": "7e136c9f8155af8ee7c6162efceaa075392cea08d59a1413d2886719e758aba4",
+    "source_size_bytes": 41615698,
+    "segment_id": "grasp_classify:84:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 85,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 49,
+    "valid_count": 48,
+    "raw_steps": [
+      192,
+      288
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/85.hdf5",
+    "source_sha256": "91317f007ae218af1e86688eb1ac0a4007cfcb4b59cf443a238b2752d0b3993b",
+    "source_size_bytes": 38487014,
+    "segment_id": "grasp_classify:85:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 86,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 50,
+    "valid_count": 49,
+    "raw_steps": [
+      190,
+      288
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/86.hdf5",
+    "source_sha256": "fff4e7ea6504a1c7efcd22bc9c115e8bbd6bb0061352ef5c781bf802912e098c",
+    "source_size_bytes": 39212000,
+    "segment_id": "grasp_classify:86:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 87,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      194,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/87.hdf5",
+    "source_sha256": "1bb447269d891bdac78b6af67e0c433eab0ab1385641135cc3462436ea22350d",
+    "source_size_bytes": 41607165,
+    "segment_id": "grasp_classify:87:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 88,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/88.hdf5",
+    "source_sha256": "0ee153dc5763f00123283425336ec6f7ee0023b23e82c545b0be43597e25b682",
+    "source_size_bytes": 43992304,
+    "segment_id": "grasp_classify:88:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 89,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      196,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/89.hdf5",
+    "source_sha256": "a9fc1af31a0b929ab52674ada4b5471d4f4cd21d5b01fa87a51e5f834ae75691",
+    "source_size_bytes": 42474328,
+    "segment_id": "grasp_classify:89:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 90,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 43,
+    "valid_count": 42,
+    "raw_steps": [
+      186,
+      270
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/90.hdf5",
+    "source_sha256": "b7b704386d1c134774a92fe248e59f8aff0e4a2287a0d8a8855f5aa14b9ec201",
+    "source_size_bytes": 33776627,
+    "segment_id": "grasp_classify:90:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 91,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      198,
+      302
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/91.hdf5",
+    "source_sha256": "b56403cea02fba08b32ebb6f44ffc9bed8605d75acc886781a89c788e0abf6b0",
+    "source_size_bytes": 42599802,
+    "segment_id": "grasp_classify:91:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 92,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 52,
+    "valid_count": 51,
+    "raw_steps": [
+      196,
+      298
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/92.hdf5",
+    "source_sha256": "1b76523ae381a6a554302413ff5208dd1e68b4ede5de9e48d8242cf1fb9a1921",
+    "source_size_bytes": 40843208,
+    "segment_id": "grasp_classify:92:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 93,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 57,
+    "valid_count": 56,
+    "raw_steps": [
+      198,
+      310
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/93.hdf5",
+    "source_sha256": "d873ca905a0f0b1ee2e5c299267f1ed7028943b8b7d9e80ab9f2ff36a629d832",
+    "source_size_bytes": 45600586,
+    "segment_id": "grasp_classify:93:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 94,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 51,
+    "valid_count": 50,
+    "raw_steps": [
+      192,
+      292
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/94.hdf5",
+    "source_sha256": "32a5b3158eb477f5cf19e223ebd82c3f5d19d26e95fb874b0d0bfc9034061b9c",
+    "source_size_bytes": 41097178,
+    "segment_id": "grasp_classify:94:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 95,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/95.hdf5",
+    "source_sha256": "50ea737ce2a55e7e21ac7d47d75ed7adc082d65345ddab40b27df15249dae3be",
+    "source_size_bytes": 44027640,
+    "segment_id": "grasp_classify:95:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 96,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 56,
+    "valid_count": 55,
+    "raw_steps": [
+      198,
+      308
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/96.hdf5",
+    "source_sha256": "9aa78a872d86615f19f3261fe027e6fefac717a08b1e9a413d0b097bfa1c86c0",
+    "source_size_bytes": 44949624,
+    "segment_id": "grasp_classify:96:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 97,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 54,
+    "valid_count": 53,
+    "raw_steps": [
+      198,
+      304
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/97.hdf5",
+    "source_sha256": "cde87bd9b190130361e4b98de5047faf7350253a6c0307e6447c3953d4d9ddb4",
+    "source_size_bytes": 43574740,
+    "segment_id": "grasp_classify:97:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 98,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 53,
+    "valid_count": 52,
+    "raw_steps": [
+      196,
+      300
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/98.hdf5",
+    "source_sha256": "7fd325fa39c3bf025f8b60c7bd71804621b8fcea60a9c396acb8f07c7baf3cc0",
+    "source_size_bytes": 41651208,
+    "segment_id": "grasp_classify:98:0"
+  },
+  {
+    "task": "grasp_classify",
+    "source_episode_id": 99,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 51,
+    "valid_count": 50,
+    "raw_steps": [
+      196,
+      296
+    ],
+    "source_path": "UniVTAC/data/isaac45/grasp_classify/hdf5/99.hdf5",
+    "source_sha256": "ca8e878d08bbc9c25dc50dfb9669a83335b94f1648deaad01626ba24cea4d569",
+    "source_size_bytes": 40012663,
+    "segment_id": "grasp_classify:99:0"
+  }
+]

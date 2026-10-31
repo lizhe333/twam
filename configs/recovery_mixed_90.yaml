@@ -1,0 +1,83 @@
+# Collection and review only. Old campaign remains stopped and immutable.
+output_root: /zhe_li/tactile-wam/twam/data/recovery_mixed_v3
+policy_device: cuda
+device: cuda:0
+port: 18891
+model_python: /zhe_li/tactile-wam/contact-belief-wam/.venv/bin/python
+chunk_size: 50
+execute_steps: 10
+physical_steps_per_action: 2
+training_enabled: false
+detector:
+  min_command_mm: 0.2
+  progress_ratio: 0.2
+  tactile_persistence_observations: 3
+  resumed_progress_mm: 0.04
+import_manifests:
+  - /zhe_li/tactile-wam/twam/data/insert_hole_perturb_preview_v1/review_bundle/review_manifest.jsonl
+  - /zhe_li/tactile-wam/twam/data/recovery_oracle_v2/manifests/insert_HDMI/recovery.jsonl
+  - /zhe_li/tactile-wam/twam/data/recovery_oracle_v2/manifests/insert_HDMI/normal.jsonl
+  - /zhe_li/tactile-wam/twam/data/recovery_oracle_v2/manifests/insert_hole/normal.jsonl
+tasks:
+  insert_HDMI:
+    checkpoint: /zhe_li/tactile-wam/outputs/wave0-shared-8task-head-wrist-gpu-003/tasks/insert_HDMI/stage2/checkpoints/step_00010000
+    recovery_target: 25
+    normal_target: 10
+    self_corrected_target: 10
+    seed_start: 6000000
+    natural_limit: 100
+    perturb_limit: 200
+    recovery_limit: 100
+    max_perturb_per_seed: 4
+    perturb_amplitudes_mm: [0.5, 1.0, 2.0]
+    budget: 600
+    teacher_revision: hdmi-oracle-v2
+    teacher:
+      retreat_mm: 2.0
+      translation_mm: 0.5
+      lateral_cap_mm: 3.0
+      retreat_actions: 20
+      lateral_actions: 10
+      insert_actions: 10
+      max_cycles: 3
+      max_insert_steps: 20
+      min_progress_mm: 0.04
+      xy_tolerance_mm: 0.15
+      rotation_cap_deg: 3.0
+      rotation_step_deg: 1.0
+      rotation_actions: 2
+      rotation_tolerance_deg: 0.2
+      unload_cap_mm: 2.0
+      clearance_mm: 0.5
+      max_grasp_translation_mm: 40.0
+  insert_hole:
+    checkpoint: /zhe_li/tactile-wam/outputs/wave0-shared-8task-head-wrist-gpu-003/tasks/insert_hole/stage2/checkpoints/step_00010000
+    recovery_target: 25
+    normal_target: 10
+    self_corrected_target: 10
+    seed_start: 7000000
+    natural_limit: 100
+    perturb_limit: 200
+    recovery_limit: 100
+    max_perturb_per_seed: 4
+    perturb_amplitudes_mm: [0.75, 1.5, 3.0, 4.0]
+    budget: 317
+    teacher_revision: hole-bounded-contact-alignment-v1
+    teacher:
+      retreat_mm: 2.0
+      translation_mm: 0.5
+      lateral_cap_mm: 5.0
+      retreat_actions: 10
+      lateral_actions: 5
+      insert_actions: 2
+      max_cycles: 3
+      max_insert_steps: 200
+      min_progress_mm: 0.04
+      xy_tolerance_mm: 0.15
+      rotation_cap_deg: 35.0
+      rotation_step_deg: 1.0
+      rotation_actions: 2
+      rotation_tolerance_deg: 2.0
+      unload_cap_mm: 6.0
+      clearance_mm: 0.5
+      max_grasp_translation_mm: 40.0
