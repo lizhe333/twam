@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+WAVE0_PROJECT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+export TWAM_ROOT="${TWAM_ROOT:-$(cd "$WAVE0_PROJECT/.." && pwd)}"
+export WAVE0_ROOT="$WAVE0_PROJECT"
+export PYTHONPATH="$WAVE0_PROJECT/src${PYTHONPATH:+:$PYTHONPATH}"
+WAVE0_PYTHON="${WAVE0_PYTHON:-$TWAM_ROOT/contact-belief-wam/.venv/bin/python}"
+exec "$WAVE0_PYTHON" -m lerobot.scripts.lerobot_train --univtac "$@"

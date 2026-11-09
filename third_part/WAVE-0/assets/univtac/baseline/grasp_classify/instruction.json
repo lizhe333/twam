@@ -1,0 +1,8 @@
+{
+  "seen": [
+    "Touch the cylinders to perceive their surface texture, classify each object, and place it at the goal region for its class."
+  ],
+  "unseen": [
+    "Use tactile contact to distinguish the similar-looking cylinders by texture, then sort each cylinder to its assigned class goal."
+  ]
+}

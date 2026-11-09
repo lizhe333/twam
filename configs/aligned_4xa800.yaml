@@ -1,0 +1,74 @@
+# Four-GPU aligned ContactWAM recipe: Stage 1 accumulates twice at batch 32. `prepare` materializes isolated
+# aligned manifests/statistics; outputs are namespaced by --variant.
+task: shared_wm
+tasks: [insert_hole, insert_HDMI, insert_tube, pull_out_key, grasp_classify, lift_bottle, lift_can, put_bottle_in_shelf]
+policy_tasks: [insert_hole, insert_HDMI]
+data_root: /zhe_li/tactile-wam/contact-belief-wam/data
+original_root: /zhe_li/tactile-wam/UniVTAC/data/isaac45
+recovery_root: /zhe_li/tactile-wam/contact-belief-wam/data/recovery
+aligned_manifest_dir: /zhe_li/tactile-wam/contact-belief-wam/data/manifests/aligned
+shared_manifest: /zhe_li/tactile-wam/contact-belief-wam/data/manifests/aligned/shared.jsonl
+policy_manifest_dir: /zhe_li/tactile-wam/contact-belief-wam/data/manifests/aligned/policy_all_train
+task_stats_dir: /zhe_li/tactile-wam/contact-belief-wam/data/stats/aligned/tasks
+wm_stats: /zhe_li/tactile-wam/contact-belief-wam/data/stats/aligned/wm_norm_stats.json
+tactile_cache: /zhe_li/tactile-wam/contact-belief-wam/data/cache/anytouch2
+pi05_base: /zhe_li/tactile-wam/contact-belief-wam/models/pi05_base_local_debug
+tokenizer_path: /zhe_li/tactile-wam/models/pi05_base/big_vision/paligemma_tokenizer.model
+world_init: /zhe_li/tactile-wam/outputs/wave0-shared-8task-head-wrist-001/shared_wm/stage1/checkpoints/step_00005000/pretrained_model
+reference_wm_stats: /zhe_li/tactile-wam/outputs/wave0-shared-8task-head-wrist-001/shared_wm/stage1/checkpoints/step_00005000/wm_norm_stats.json
+output: /zhe_li/tactile-wam/contact-belief-wam/runs/contact-head-wrist-two-stage-4gpu
+workspace: /zhe_li/tactile-wam
+seed: 42
+precision: bf16
+gradient_checkpointing: true
+attention_backend: sdpa
+k: 10
+camera_mode: head_wrist
+stage1_freeze_world: true
+policy_augmentation: true
+fused_adamw: true
+num_gpus: 4
+workers: 4
+micro_batch: 32
+global_batch: 256
+data_mix: '1:1'
+ema_decay: 0.99
+grad_clip: 1.0
+log_every: 10
+save_every: 1000
+keep_checkpoints: 2
+belief_warmup_min: 0
+belief_warmup_max: 4
+belief_bptt_steps: 2
+stage2_freeze_belief: false
+stage2_freeze_contact_predictor: true
+independent_tactile: true
+# Stage 1: 4 GPUs × batch 32 × accumulation 2 = global batch 256.
+# Stage 2: two parallel tasks, each 2 GPUs × batch 8 × accumulation 4 = global batch 64.
+stage1:
+  num_gpus: 4
+  micro_batch: 32
+  global_batch: 256
+  steps: 5000
+  lr: 0.0001
+  warmup: 500
+  final_lr: 0.0000025
+  weight_decay: 0.01
+  validate_every: 500
+  selection_metric: contact_total
+  validation_samples_per_task: 128
+  early_stop_patience: 4
+  early_stop_min_steps: 2000
+stage2:
+  num_gpus: 2
+  micro_batch: 8
+  global_batch: 64
+  shard_optimizer_state: true
+  ema_device: cuda
+  steps: 10000
+  lr: 0.000025
+  lr_new: 0.0001
+  lr_belief: 0.000025
+  warmup: 1000
+  final_lr: 0.0000025
+  weight_decay: 0.0000000001

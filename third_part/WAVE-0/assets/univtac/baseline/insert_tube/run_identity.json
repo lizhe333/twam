@@ -1,0 +1,25 @@
+{
+  "openpi_commit": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "task": "insert_tube",
+  "split": "full",
+  "hashes": {
+    "openpi_lock": "793488b5a55bb87200db90a61fd0af51922b686d94e1da4f4c587ab119b37d74",
+    "dataset": "c1d02cbfc68d89cf2b5070df9f5f9aabed12f08d43ea0e95bd3811ebd73cc51f",
+    "norm_stats": "aaac85a9572d7a77fd0cf2d1bb626a853fc30e278733b6b8afdd6ddf93ef7d05"
+  },
+  "adapter_sha256": "498c63ffb7f293f5b360a528eb84b727b00c25a3cf49829b175b620c7952d17a",
+  "training": {
+    "mode": "full",
+    "run": "full-bs64-10k-001",
+    "batch_size": 64,
+    "fsdp_devices": 4,
+    "seed": 42,
+    "lr": {
+      "warmup_steps": 1000,
+      "peak_lr": 2.5e-05,
+      "decay_steps": 10000,
+      "decay_lr": 2.5e-06
+    },
+    "ema": 0.99
+  }
+}

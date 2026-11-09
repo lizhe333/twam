@@ -266,20 +266,37 @@ def inference_autocast_settings(device):
     return False, 'disabled'
 
 
+def prepare_inference_model(model, device, backbone_precision='float32'):
+    """Convert only the policy backbone, after loading EMA and before GPU allocation."""
+    if backbone_precision not in ('float32', 'bfloat16'):
+        raise ValueError(f'Unsupported backbone precision: {backbone_precision}')
+    if any(p.device.type != 'cpu' for p in model.parameters()):
+        raise ValueError('Inference preparation requires a CPU-loaded model')
+    before = sum(p.numel() * p.element_size() for p in model.parameters())
+    if backbone_precision == 'bfloat16':
+        model.core.paligemma_with_expert.to_bfloat16_for_selected_params('bfloat16')
+    after = sum(p.numel() * p.element_size() for p in model.parameters())
+    model.to(device).eval()
+    return dict(backbone_precision=backbone_precision, world_contact_precision='float32',
+                parameter_bytes_before=before, parameter_bytes_after=after)
+
+
 class AlignedPolicyService(PolicyService):
     def __init__(self, checkpoint, device='cpu', k=None, anytouch_source=None, anytouch_checkpoint=None,
-                 tactile_device='cpu', threads=16, use_ema=True):
+                 tactile_device='cpu', threads=16, use_ema=True, backbone_precision='float32'):
         from .data import AlignedProcessor
         from .model import ContactWAM
         path = Path(checkpoint)
         self.device = torch.device(device)
         self._autocast_enabled, self._effective_autocast = inference_autocast_settings(self.device)
         torch.set_num_threads(threads)
-        self.model = ContactWAM.from_pretrained(path, stage='inference', device=device, k=k).eval()
+        print(json.dumps({'serving_phase': 'load_checkpoint_on_cpu', 'checkpoint': str(path)}), flush=True)
+        self.model = ContactWAM.from_pretrained(path, stage='inference', device='cpu', k=k).eval()
         self.cfg = self.model.config
         if not self.cfg.aligned:
             raise ValueError('Aligned service requires an aligned checkpoint')
         if use_ema:
+            print(json.dumps({'serving_phase': 'load_ema_on_cpu'}), flush=True)
             values = load_file(str(path / 'ema.safetensors'), device='cpu')
             expected = self.model.state_dict()
             query_key = 'base_policy.model.wam_latent_action_queries'
@@ -290,6 +307,9 @@ class AlignedPolicyService(PolicyService):
             if not values or any(n not in expected or v.shape != expected[n].shape for n, v in values.items()):
                 raise ValueError('EMA keys/shapes do not match this model')
             self.model.load_state_dict(values, strict=False)
+            del values, expected
+        precision = prepare_inference_model(self.model, self.device, backbone_precision)
+        print(json.dumps({'serving_phase': 'policy_on_device', 'device': str(self.device), **precision}), flush=True)
         self.processor = AlignedProcessor(path / 'norm_stats.json', path / 'tokenizer.model', '')
         self.world_processor = AlignedProcessor(path / 'wm_norm_stats.json', path / 'tokenizer.model', '')
         self.encoder = EncoderProcess(anytouch_source or WORKSPACE / 'AnyTouch2', anytouch_checkpoint,
@@ -298,11 +318,14 @@ class AlignedPolicyService(PolicyService):
         self.lock = threading.Lock()
         self._closed = False
         self.metadata = {'mode': self.cfg.mode, 'k': self.cfg.k, 'chunk_size': self.cfg.chunk_size,
+                         'camera_mode': self.cfg.camera_mode,
                          'action_dim': 8, 'action_space': 'absolute_joint',
                          'model_action_space': 'first7_chunk_relative_absolute_gripper',
                          'physical_steps_per_action': 2, 'policy_device': str(device),
                          'tactile_device': tactile_device if self.encoder else 'disabled', 'use_ema': use_ema,
-                         'effective_autocast': self._effective_autocast}
+                         'effective_autocast': self._effective_autocast,
+                         'checkpoint': str(path.resolve()),
+                         'encoder': self.encoder.metadata if self.encoder else None, **precision}
 
     def _autocast_context(self):
         # Defaults to disabled for CPU to preserve existing evaluation behavior.
@@ -330,9 +353,12 @@ class AlignedPolicyService(PolicyService):
 
     @torch.inference_mode()
     def infer(self, message):
-        allowed = {'op','episode','step','image','state','tactile_window','executed_actions','prompt'}
+        allowed = {'op','episode','step','image','wrist_image','state','tactile_window','executed_actions','prompt'}
         if set(message) - allowed:
             raise ValueError(f'Unexpected policy inputs: {sorted(set(message)-allowed)}')
+        dual_view = getattr(self.cfg, 'camera_mode', 'head_only') == 'head_wrist'
+        if dual_view and message.get('wrist_image') is None:
+            raise ValueError('head_wrist checkpoint requires wrist_image')
         episode, step = str(message['episode']), int(message['step'])
         if episode not in self.sessions:
             raise ValueError('Reset episode before inference')
@@ -348,6 +374,11 @@ class AlignedPolicyService(PolicyService):
             raise ValueError('Expected finite raw eight-joint state')
         self.processor.prompt = str(message['prompt']).strip().replace('_',' ').replace('\n',' ')
         observation = self.processor.observation(np.asarray(message['image']), raw_state)
+        wrist_image = None
+        if dual_view:
+            from .data import resize
+            pixels = resize(np.asarray(message['wrist_image'])).transpose(2, 0, 1)
+            wrist_image = torch.from_numpy(pixels).float()[None].to(self.device) / 127.5 - 1
         world_state = self.world_processor.normalize(raw_state, 'state').astype(np.float32)
         executed = np.asarray(message.get('executed_actions', []), np.float32).reshape(-1,8)
         if len(executed) > self.cfg.k or not np.isfinite(executed).all():
@@ -365,6 +396,7 @@ class AlignedPolicyService(PolicyService):
         expected_valid = session.expected is not None and session.target_step == step
         obs = ContactObservation(
             image=observation['observation.images.head'][None].to(self.device)*2-1,
+            wrist_image=wrist_image,
             state=observation['observation.state'][None].to(self.device),
             world_state=tensor(world_state[None]), tactile=tensor(tactile),
             tokens=observation['observation.language.tokens'][None].to(self.device),
@@ -423,6 +455,8 @@ def serve(checkpoint, host="127.0.0.1", port=18780, **kwargs):
         config_path = Path(checkpoint) / "config.json"
         if config_path.is_file() and json.loads(config_path.read_text()).get("aligned", False):
             service_type = AlignedPolicyService
+        elif kwargs.pop('backbone_precision', 'float32') != 'float32':
+            raise ValueError('Backbone precision override requires an aligned checkpoint')
         service = service_type(checkpoint, **kwargs)
         print(json.dumps({"ready": True, "host": host, "port": port, **service.metadata}), flush=True)
         with websocket_serve(handler, host, port, max_size=None, compression=None, ping_interval=None) as server:

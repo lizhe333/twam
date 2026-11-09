@@ -137,18 +137,28 @@ def test_stage1_validation_reports_common_world_loss_and_task_source_components(
     assert result["per_task_source"]["task_7"]["original"]["visual_corrected"] == pytest.approx(32.0)
 
 
-def test_pipeline_plan_uses_eight_stage1_gpus_and_two_parallel_two_gpu_policies(monkeypatch, tmp_path):
-    monkeypatch.setattr(train, "_physical_gpus", lambda: [str(i) for i in range(8)])
-    run = {"config": "recipe.yaml", "variant": "full", "mode": "full",
-           "workspace": str(tmp_path), "output": str(tmp_path / "full")}
+@pytest.mark.parametrize("gpus,accumulation", [(4, 2), (8, 1)])
+def test_pipeline_plan_uses_configured_stage1_gpus_and_two_parallel_policies(monkeypatch, tmp_path, gpus, accumulation):
+    devices = [str(i + 2) for i in range(gpus)]
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", ",".join(devices))
+    run = train.resolve_config(f"configs/aligned_{gpus}xa800.yaml", output=tmp_path)
     result = train.plan(run)
-    assert result["stage1"]["gpus"] == [str(i) for i in range(8)]
+    assert result["stage1"]["gpus"] == devices
+    assert result["stage1"]["nproc_per_node"] == gpus
+    assert run["stage1"]["accumulation_steps"] == accumulation
     assert [job["task"] for job in result["stage2"]] == ["insert_hole", "insert_HDMI"]
-    assert [job["gpus"] for job in result["stage2"]] == [["0", "1"], ["2", "3"]]
+    per_task = run["stage2"]["num_gpus"]
+    assert [job["gpus"] for job in result["stage2"]] == [devices[:per_task], devices[per_task:2 * per_task]]
+    assert [job["nproc_per_node"] for job in result["stage2"]] == [per_task, per_task]
     assert [job["concurrency"] for job in result["stage2"]] == [2, 2]
+    monkeypatch.delenv("CUDA_VISIBLE_DEVICES")
+    assert train.plan(run)["stage1"]["gpus"] == list(map(str, range(gpus)))
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "0,1")
+    with pytest.raises(ValueError, match=f"{gpus} visible GPUs"):
+        train.plan(run)
 
 
-def test_debug_pipeline_does_not_require_formal_eight_gpu_plan(monkeypatch, tmp_path):
+def test_debug_pipeline_does_not_require_formal_gpu_plan(monkeypatch, tmp_path):
     import sys
     from types import SimpleNamespace
 
@@ -171,7 +181,9 @@ def test_config_resolves_isolated_variants_and_reference_batch_schedule(tmp_path
     assert full["output"] == str(tmp_path / "runs" / "full")
     assert wave0["output"] == str(tmp_path / "runs" / "wave0_recovery")
     assert (full["mode"], wave0["mode"]) == ("full", "wave0")
-    assert full["stage1"]["accumulation_steps"] == full["stage2"]["accumulation_steps"] == 1
+    assert full["stage1"]["num_gpus"] == 4
+    assert full["stage1"]["accumulation_steps"] == 2
+    assert full["stage2"]["accumulation_steps"] == 4
     assert full["stage1"]["global_batch"] == 256
     assert full["stage2"]["global_batch"] == 64
     assert full["stage1"]["steps"] == 5000 and full["stage2"]["steps"] == 10000
@@ -181,6 +193,18 @@ def test_config_resolves_isolated_variants_and_reference_batch_schedule(tmp_path
     assert wave0["model_config"]["belief_warmup_min"] == 0
     assert wave0["model_config"]["belief_warmup_max"] == 0
     assert wave0["model_config"]["belief_bptt_steps"] == 1
+
+
+@pytest.mark.parametrize("batch", [0, -128, 100, 256.0])
+def test_config_rejects_invalid_accumulation_batch(tmp_path, batch):
+    import yaml
+    source = Path(__file__).parents[1] / "configs/aligned_4xa800.yaml"
+    config = yaml.safe_load(source.read_text())
+    config["stage1"]["global_batch"] = batch
+    target = tmp_path / "invalid.yaml"
+    target.write_text(yaml.safe_dump(config))
+    with pytest.raises(ValueError, match="global_batch"):
+        train.resolve_config(target)
 
 
 def test_resolved_model_config_preserves_smoke_horizon_override(tmp_path):

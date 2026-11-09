@@ -16,6 +16,9 @@ from .paths import PROJECT, WORKSPACE, configure, read_jsonl
 def main(argv=None):
     configure()
     argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == "collect-takeover":
+        from .takeover_collect import main as takeover_main
+        return takeover_main(argv[1:])
     if argv and argv[0] == "train":
         from .train import cli_main
         return cli_main(argv[1:])
@@ -49,10 +52,13 @@ def main(argv=None):
     server.add_argument("--port", type=int, default=18780)
     server.add_argument("--device", default="cpu")
     server.add_argument("--tactile-device", default="cpu")
+    server.add_argument("--backbone-precision", choices=("float32", "bfloat16"), default="float32")
     server.add_argument("--anytouch-source", type=Path, default=WORKSPACE / "AnyTouch2")
     server.add_argument("--anytouch-checkpoint", type=Path)
     server.add_argument("--k", type=int)
     server.add_argument("--threads", type=int, default=12)
+    server.add_argument("--no-ema", dest="use_ema", action="store_false", default=argparse.SUPPRESS,
+                        help="Serve ordinary model weights without loading ema.safetensors")
     evaluate = sub.add_parser("eval", help="Launch a policy server and the independent UniVTAC adapter")
     evaluate.add_argument("--task", required=True, choices=["insert_hole", "insert_HDMI"])
     evaluate.add_argument("--checkpoint", type=Path, required=True)
@@ -63,6 +69,7 @@ def main(argv=None):
     evaluate.add_argument("--k", type=int)
     evaluate.add_argument("--max-policy-steps", type=int)
     sub.add_parser("train", help="Training workflow (use train --help for stages and configuration)")
+    sub.add_parser("collect-takeover", help="Bounded HDMI natural-failure recovery pilot (use collect-takeover --help)")
     args = parser.parse_args(argv)
     if args.command == "prepare":
         tasks = ["insert_hole", "insert_HDMI"] if args.task == "both" else [args.task]

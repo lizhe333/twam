@@ -47,8 +47,11 @@ def extract_world(source, destination):
 
 
 def load_world(model, source):
-    """Take cam_high; copy compatible encoders including internally padded 32-D input."""
+    """Load all world modules; frozen reuse is exact, legacy conversion remains optional."""
     source = checkpoint_file(source)
+    config = getattr(model, "config", None)
+    if config is not None and config.stage1_freeze_world:
+        validate_world_contract(config, source)
     dst = model.core.state_dict()
     selected = {k: v for k, v in dst.items() if k.split(".")[0] in WORLD_NAMES}
     report = {"source": str(source), "loaded": [], "converted": [], "reinitialized": [], "unused": []}
@@ -62,6 +65,8 @@ def load_world(model, source):
             if tensor.shape == value.shape:
                 updates[key] = tensor
                 report["loaded"].append(key)
+            elif config is not None and config.stage1_freeze_world:
+                raise ValueError(f"Frozen pretrained world tensor must match exactly: {key}: {tuple(tensor.shape)} -> {tuple(value.shape)}")
             elif key in {"world_model.camera_embedding", "world_model.future_queries"} and tensor.shape[1] == 3 and value.shape[1] == 1:
                 sliced = tensor[:, :1]
                 if sliced.shape != value.shape:
@@ -85,6 +90,43 @@ def load_world(model, source):
     return report
 
 
+def validate_world_contract(config, source):
+    """Reject a different camera order, horizon or normalization before reuse."""
+    source = checkpoint_file(source)
+    metadata = source.parent / "config.json"
+    if not metadata.is_file():
+        raise ValueError("Frozen world reuse requires its training config.json")
+    saved = json.loads(metadata.read_text())
+    if saved.get("type") == "contact_wave0":
+        for key in ("camera_mode", "k", "world_width", "world_depth", "world_heads", "world_ffn"):
+            default = "head_only" if key == "camera_mode" else None
+            if saved.get(key, default) != getattr(config, key):
+                raise ValueError(f"World checkpoint differs in {key}")
+        stats = saved.get("world_norm_stats")
+    else:
+        cameras = [key for key in saved.get("input_features", {})
+                   if key.startswith("observation.images.") and ".empty_camera_" not in key]
+        expected = ["observation.images.head"]
+        if config.camera_mode == "head_wrist":
+            expected.append("observation.images.wrist")
+        if cameras != expected:
+            raise ValueError(f"World camera order differs: {cameras} != {expected}")
+        values = {"world_model_future_horizons": [config.k - 1], "chunk_size": config.chunk_size,
+                  "world_model_width": config.world_width, "world_model_depth": config.world_depth,
+                  "world_model_num_heads": config.world_heads, "world_model_mlp_dim": config.world_ffn,
+                  "world_model_spatial_pool_size": config.vision_pool}
+        for key, value in values.items():
+            if saved.get(key) != value:
+                raise ValueError(f"World checkpoint differs in {key}")
+        stats_file = source.parent.parent / "wm_norm_stats.json"
+        if not stats_file.is_file():
+            raise ValueError("Frozen world reuse requires the checkpoint's wm_norm_stats.json")
+        stats = json.loads(stats_file.read_text())
+        stats = stats.get("norm_stats", stats)
+    if config.world_norm_stats is None or stats != config.world_norm_stats:
+        raise ValueError("World checkpoint normalization differs from the configured shared WM statistics")
+
+
 def load_tactile_predictor(model, source):
     """Transfer only independent tactile dynamics, never the random belief modules."""
     from .config import ContactConfig
@@ -92,7 +134,7 @@ def load_tactile_predictor(model, source):
     saved = ContactConfig.load(source.parent / "config.json")
     if saved.stage != "tactile" or not saved.independent_tactile or not model.config.independent_tactile:
         raise ValueError("Expected an independently trained tactile checkpoint")
-    for key in ("k", "width", "vision_width", "tactile_tokens", "world_norm_stats", "encoder_reference"):
+    for key in ("camera_mode", "k", "width", "vision_width", "tactile_tokens", "world_norm_stats", "encoder_reference"):
         if getattr(saved, key) != getattr(model.config, key):
             raise ValueError(f"Tactile checkpoint differs in {key}")
     prefix = "contact.predictor."

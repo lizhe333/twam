@@ -21,7 +21,7 @@
 
 ## 配置模板
 
-当前对齐版以 `wave0-univtac-fast` 为参考：Stage 1 使用 8 卡、每卡 32、global batch 256；Stage 2 的两个插入任务分别使用 2 卡、每卡 32、每任务 global batch 64，同时执行，均为 GA=1。动作、图像、tokenizer、双统计归一化、优化器和学习率计划均按参考实现对齐。`full` 和 `wave0_recovery` 共用数据、统计与采样规则，分别训练自己的 Stage 1 teacher。
+当前对齐版以 `wave0/single-view` 为参考：Stage 1 使用 8 卡、每卡 32、global batch 256；Stage 2 的两个插入任务分别使用 2 卡、每卡 32、每任务 global batch 64，同时执行，均为 GA=1。动作、图像、tokenizer、双统计归一化、优化器和学习率计划均按参考实现对齐。`full` 和 `wave0_recovery` 共用数据、统计与采样规则，分别训练自己的 Stage 1 teacher。
 
 之前的 [`configs/shared_8xa800_bs64.yaml`](configs/shared_8xa800_bs64.yaml)、`scripts/shared_train.sh` 及下面单任务模板保留给旧实验。旧绝对动作 checkpoint 不用于续训新的对齐版本。
 

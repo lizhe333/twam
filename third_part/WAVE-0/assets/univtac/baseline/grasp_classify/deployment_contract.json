@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "task": "grasp_classify",
+  "prompt": "Touch the cylinders to perceive their surface texture, classify each object, and place it at the goal region for its class.",
+  "policy_step_budget": 300,
+  "action_budget": {
+    "unit": "policy_actions",
+    "policy_actions": 300,
+    "native_step_limit": 300,
+    "physical_steps_per_policy_action": 2,
+    "physical_call_budget": 600,
+    "max_valid_actions_per_segment": 56,
+    "derivation": "max(native_step_lim, ceil(1.5 * max_valid_actions_per_segment))",
+    "evaluation_report_local_physics_call_limit": 600
+  },
+  "baseline_camera_comparison": {
+    "source_mode": "head_only",
+    "target_mode": "head_only",
+    "matched": true,
+    "provenance": {
+      "kind": "checkpoint_camera_contract",
+      "path": "outputs/checkpoints/pi05_univtac_grasp_classify_full/paper-bs64-10k-001-pair0/camera_contract.json",
+      "note": "Copied verbatim from the selected checkpoint run."
+    }
+  },
+  "source_training": {
+    "run": "paper-bs64-10k-001-pair0",
+    "selection": "paper_pair",
+    "batch_size": 64,
+    "seed": 42,
+    "training_steps": 10000,
+    "adapter_sha256": "571da04a89aa85686f20c3b8d0e62a51f614d85628f17cdcab6c85b8043f6216"
+  },
+  "normalization": {
+    "snapshot": "norm_stats.json",
+    "source_path": "assets/pi05_univtac/full/grasp_classify/norm_stats.json",
+    "sha256": "f5b495e06d5c9ada61f399398428ca37528ad18dff3f635205ef405068a32b77",
+    "matches_run_identity": true
+  },
+  "data_snapshot": {
+    "manifest": "manifest.json",
+    "segments": "segments.json",
+    "segment_count": 100,
+    "source_episode_count": 100,
+    "duplicate_source_episode_ids": []
+  },
+  "target": {
+    "camera_mode": "head_only",
+    "model_views": [
+      "base_0_rgb"
+    ],
+    "adapter_release": "head-only-v1",
+    "chunk_size": 50,
+    "execute_steps": 10
+  },
+  "source_paths": {
+    "instruction": "UniVTAC/instructions/grasp_classify.json",
+    "data_manifest": "assets/pi05_univtac/full/grasp_classify/manifest.json",
+    "norm_stats": "assets/pi05_univtac/full/grasp_classify/norm_stats.json",
+    "segments_scan": "pi05-univtac/reports/data-scan.json",
+    "segments_selector": "segments entries where task == 'grasp_classify' (scan order retained)",
+    "run_identity": "outputs/checkpoints/pi05_univtac_grasp_classify_full/paper-bs64-10k-001-pair0/run_identity.json",
+    "source_camera_contract": "outputs/checkpoints/pi05_univtac_grasp_classify_full/paper-bs64-10k-001-pair0/camera_contract.json",
+    "action_budget_config": "pi05-univtac/configs/tasks.json",
+    "action_budget_implementation": "pi05-univtac/src/pi05_univtac/constants.py",
+    "action_budget_application": "pi05-univtac/src/pi05_univtac/sim_runner.py",
+    "action_budget_eval_audit": "reports/eval-protocol-audit/comparison.csv"
+  }
+}

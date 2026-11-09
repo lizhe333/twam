@@ -1,0 +1,20 @@
+{
+  "single": {
+    "camera": "head_only",
+    "project": "WAVE-0",
+    "config": "configs/univtac/shared_wm_8xa800_fast.yaml",
+    "training_run": "wave0-shared-8task-fast-003",
+    "teacher": "outputs/wave0-shared-8task-mb32-002/shared_wm/stage1/checkpoints/step_00004500",
+    "suite": "wave0-single-view",
+    "evaluator": "eval-wave0-checkpoints.py"
+  },
+  "dual": {
+    "camera": "head_wrist",
+    "project": "WAVE-0",
+    "config": "configs/univtac/shared_wm_head_wrist_8xa800_gpu.yaml",
+    "training_run": "wave0-shared-8task-head-wrist-gpu-003",
+    "teacher": "outputs/wave0-shared-8task-head-wrist-001/shared_wm/stage1/checkpoints/step_00005000",
+    "suite": "wave0-dual-view",
+    "evaluator": "eval-wave0-dual-view.py"
+  }
+}

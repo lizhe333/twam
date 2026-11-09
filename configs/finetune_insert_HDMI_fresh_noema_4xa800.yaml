@@ -1,0 +1,81 @@
+# Restart BOTH adaptation stages from expert-only TWAM model.safetensors.
+# No source EMA, no training EMA. Stage 1: 5000 updates; Stage 2: 10000 updates.
+tasks:
+- insert_HDMI
+policy_tasks:
+- insert_HDMI
+expert_only: false
+finetune_from: /zhe_li/tactile-wam/twam/runs/head-only-expert-only-8task-all-train-fast-mb16-003/full/tasks/insert_HDMI/export/final
+finetune_use_ema: false
+finetune_data_dir: /zhe_li/tactile-wam/twam/data/hdmi_finetune_fresh_noema_v1
+finetune_validation:
+  recovery_groups: 0
+  control_groups: 0
+wm_validation_episode_ids: []
+original_manifest: /zhe_li/tactile-wam/contact-belief-wam/data/manifests/aligned_expert_only_all_train/policy_all_train/insert_HDMI.jsonl
+recovery_manifest: /zhe_li/tactile-wam/twam/data/recovery_mixed_v3/review_manifest.jsonl
+recovery_cache: /zhe_li/tactile-wam/twam/data/recovery_mixed_v3/cache
+data_root: /zhe_li/tactile-wam/contact-belief-wam/data
+original_root: /zhe_li/tactile-wam/UniVTAC/data/isaac45
+recovery_root: /zhe_li/tactile-wam/contact-belief-wam/data/recovery
+tactile_cache: /zhe_li/tactile-wam/contact-belief-wam/data/cache/anytouch2
+pi05_base: /zhe_li/tactile-wam/contact-belief-wam/models/pi05_base_local_debug
+tokenizer_path: /zhe_li/tactile-wam/models/pi05_base/big_vision/paligemma_tokenizer.model
+world_init: /zhe_li/tactile-wam/twam/runs/head-only-expert-only-8task-all-train-fast-mb16-003/full/tasks/insert_HDMI/export/final
+output: /zhe_li/tactile-wam/twam/runs/hdmi-head-only-recovery-finetune-003-fresh-noema-s1-5k-s2-10k
+workspace: /zhe_li/tactile-wam
+seed: 42
+precision: bf16
+gradient_checkpointing: true
+attention_backend: sdpa
+camera_mode: head_only
+k: 10
+chunk_size: 50
+independent_tactile: true
+stage1_freeze_world: false
+stage2_freeze_belief: false
+stage2_freeze_contact_predictor: true
+policy_augmentation: true
+policy_supervised_only: true
+belief_warmup_min: 0
+belief_warmup_max: 4
+belief_bptt_steps: 2
+batch_stage2_policy: true
+data_mix: '2:1'
+workers: 4
+num_gpus: 4
+ema_decay: 0.99
+grad_clip: 1.0
+fused_adamw: true
+log_every: 10
+save_every: 1000
+keep_checkpoints: 10
+stage1:
+  num_gpus: 4
+  micro_batch: 8
+  global_batch: 32
+  data_mix: '1:1'
+  steps: 5000
+  lr: 2.5e-05
+  lr_world: 2.5e-06
+  warmup: 100
+  final_lr: 2.5e-06
+  weight_decay: 0.01
+  validate_every: 0
+stage2:
+  num_gpus: 4
+  micro_batch: 16
+  global_batch: 64
+  data_mix: '2:1'
+  steps: 10000
+  lr: 5.0e-06
+  lr_new: 1.0e-05
+  lr_belief: 1.0e-05
+  warmup: 100
+  final_lr: 5.0e-07
+  weight_decay: 1.0e-10
+  shard_optimizer_state: true
+  ema_device: cuda
+  shard_ema: false
+ema_enabled: false
+finetune_prepared_from: /zhe_li/tactile-wam/twam/data/hdmi_finetune_v1

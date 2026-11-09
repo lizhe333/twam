@@ -61,7 +61,7 @@ def test_stage1_debug_rejects_unpaired_or_cross_task_ranking_examples():
                             shared_tasks=("insert_hole", "insert_HDMI"))
 
 
-def test_stage2_debug_requires_the_requested_task_in_both_sources():
+def test_stage2_debug_uses_only_requested_task_and_allows_original_only():
     groups = select_debug_groups(
         ["insert_hole", "insert_hole", "insert_HDMI", "insert_HDMI"],
         ["original", "recovery", "original", "recovery"],
@@ -71,9 +71,9 @@ def test_stage2_debug_requires_the_requested_task_in_both_sources():
     assert [(group["source"], group["episode_ids"]) for group in groups] == [
         ("original", ["hdmi-orig"]), ("recovery", ["hdmi-rec"])
     ]
-    with pytest.raises(ValueError, match="no recovery episode"):
-        select_debug_groups(["insert_hole"], ["original"], ["hole-orig"],
-                            stage="stage2", task="insert_hole")
+    groups = select_debug_groups(["insert_hole"], ["original"], ["hole-orig"],
+                                 stage="stage2", task="insert_hole")
+    assert len(groups) == 1 and groups[0]["source"] == "original"
 
 
 def test_debug_settings_preserve_the_formal_recipe():
@@ -213,7 +213,7 @@ def test_stage1_fixed_noise_probe_includes_world_prediction_for_wave0_path():
         def update_belief(self, obs):
             return torch.zeros(obs.state.shape[0], 1, 1)
 
-        def encode_visual(self, image):
+        def encode_visual(self, image, wrist_image=None):
             return image.mean(dim=(1, 2, 3))[:, None, None]
 
         def predict_future(self, current, state, tokens, belief, tactile, *, actions=None):

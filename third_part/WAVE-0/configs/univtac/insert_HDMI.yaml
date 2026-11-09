@@ -1,0 +1,29 @@
+task: insert_HDMI
+base: contact-belief-wam/models/pi05_base_local_debug
+world_init: contact-belief-wam/models/wave0_robotwin_world
+tokenizer: models/pi05_base/big_vision/paligemma_tokenizer.model
+seed: 42
+global_batch: 64
+num_gpus: 4
+workers: 2
+precision: bf16
+ema_decay: 0.99
+grad_clip: 1.0
+save_every: 1000
+log_every: 100
+policy_augmentation: true
+stage1:
+  steps: 2000
+  micro_batch: 8
+  lr: 0.0001
+  warmup: 200
+  final_lr: 0.0000025
+  weight_decay: 0.01
+stage2:
+  steps: 10000
+  micro_batch: 1
+  lr: 0.000025
+  lr_new: 0.0001
+  warmup: 1000
+  final_lr: 0.0000025
+  weight_decay: 0.0000000001

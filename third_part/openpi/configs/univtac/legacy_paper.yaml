@@ -1,0 +1,12 @@
+# The retained historical comparison uses head+wrist for these two tasks.
+# Use head_only.yaml for a new uniformly single-view experiment.
+camera_mode: head_only
+task_cameras:
+  insert_tube: head_wrist
+  lift_bottle: head_wrist
+fsdp_devices: 2
+batch_size: 64
+num_train_steps: 10000
+num_workers: 2
+seed: 42
+ema_decay: 0.99

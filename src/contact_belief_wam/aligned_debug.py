@@ -88,6 +88,8 @@ def select_debug_groups(tasks, sources, episode_ids, *, stage: str, task: str | 
         for source in ("original", "recovery"):
             episodes = episodes_for(task, source)
             if not episodes:
+                if source == "recovery":
+                    continue
                 raise ValueError(f"Stage-2 debug has no {source} episode for {task}")
             episode, index = sorted(episodes.items())[0]
             result.append({"source": source, "task": task,
@@ -381,8 +383,10 @@ def _gradient_summary(policy, optimized_ids):
     return norms, len(active), len(missing), finite, missing
 
 
-def _required_gradient_groups(mode, stage, norms):
-    required = {"contact.predictor"} if stage == "tactile" else ({"world"} if stage == "stage1" else {"policy"})
+def _required_gradient_groups(mode, stage, norms, freeze_world=False):
+    required = ({"contact.predictor", "contact.updater", "contact.corrector"}
+                if stage == "stage1" and freeze_world and mode == "full" else
+                {"contact.predictor"} if stage == "tactile" else {"world"} if stage == "stage1" else {"policy"})
     if mode == "full":
         required.add(next((key for key in norms if key.startswith("contact.")), "contact"))
     missing = sorted(name for name in required
@@ -432,7 +436,7 @@ def _prediction_values(policy, batch, noise, stage, device):
         action_stream = batch["world_actions"] if "world_actions" in batch else batch["actions"]
         state = obs.world_state if obs.world_state is not None else obs.state
         with torch.no_grad():
-            expected = policy.contact.predictor(policy.encode_visual(obs.image),
+            expected = policy.contact.predictor(policy.encode_visual(obs.image, obs.wrist_image),
                 action_stream[:, index, :policy.config.k], state, obs.tactile)
         return {"expected_contact": expected.detach().float().cpu()}
     if stage == "stage1":
@@ -440,7 +444,7 @@ def _prediction_values(policy, batch, noise, stage, device):
         actions = action_stream[:, index, :policy.config.k]
         belief = policy.update_belief(obs)
         world_state = obs.world_state if obs.world_state is not None else obs.state
-        current = policy.encode_visual(obs.image)
+        current = policy.encode_visual(obs.image, obs.wrist_image)
         action_tokens = policy.core.world_action_encoder(
             pad8(actions).float(), pad8(world_state).float())
         initial, corrected, expected = policy.predict_future(
@@ -859,7 +863,8 @@ def _debug_worker(run, stage, *, task=None, updates=2, device="cuda", optimizer_
                 update_batches.append((raw, batch))
 
             gradient_norms, active_count, missing_count, _finite, missing = _gradient_summary(policy, optimized_ids)
-            _required_gradient_groups(run["mode"], stage, gradient_norms)
+            _required_gradient_groups(run["mode"], stage, gradient_norms,
+                                      freeze_world=run.get("stage1_freeze_world", False))
             grad_norm = torch.nn.utils.clip_grad_norm_([p for p in policy.parameters() if p.grad is not None],
                                                         float(run["grad_clip"]), foreach=False)
             if not torch.isfinite(grad_norm):
@@ -1108,21 +1113,15 @@ def run_debug_pipeline(run, *, updates=2, device="cuda", optimizer_device="cpu",
                 raise RuntimeError(f"Prior summary records {model_name} without its report or checkpoint")
     atomic_json(summary_path, root_report)
     try:
-        if run.get("independent_tactile") and run["mode"] == "full":
-            tactile_run = train.stage_run(run, "tactile")
-            tactile_report = _debug_worker(tactile_run, "tactile", task="tactile_wm", updates=updates,
-                device=device, optimizer_device=optimizer_device, micro_batch=micro_batch,
-                threads=threads, data_report=data_report)
-            results["tactile_wm"] = tactile_report
-            run = {**run, "tactile_checkpoint": tactile_report["checkpoint"]}
-            atomic_json(summary_path, {**root_report, "models": results})
-        stage1_run = train.stage_run(run, "stage1")
-        stage1_report = _debug_worker(stage1_run, "stage1", updates=updates, device=device,
+        teacher = None
+        if not (run["mode"] == "wave0" and run.get("stage1_freeze_world", False)):
+            stage1_run = train.stage_run(run, "stage1")
+            stage1_report = _debug_worker(stage1_run, "stage1", updates=updates, device=device,
                                       optimizer_device=optimizer_device, micro_batch=micro_batch,
                                       threads=threads, data_report=data_report)
-        results["shared_wm"] = stage1_report
-        atomic_json(summary_path, {**root_report, "models": results})
-        teacher = Path(stage1_report["checkpoint"])
+            results["shared_wm"] = stage1_report
+            atomic_json(summary_path, {**root_report, "models": results})
+            teacher = Path(stage1_report["checkpoint"])
         for task in run["policy_tasks"]:
             stage2_run = train.stage_run(run, "stage2", task, checkpoint=teacher)
             report = _debug_worker(stage2_run, "stage2", task=task, updates=updates, device=device,

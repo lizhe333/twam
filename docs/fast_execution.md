@@ -1,6 +1,6 @@
 # Contact-Belief 执行优化
 
-对照同工作区 `wave0-univtac-fast` 后，仅迁移适用于 Contact-Belief 的执行优化。
+对照同工作区 `wave0/single-view` 后，仅迁移适用于 Contact-Belief 的执行优化。
 
 | 项目 | 当前处理 |
 |---|---|

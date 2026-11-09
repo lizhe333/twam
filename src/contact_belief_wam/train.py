@@ -25,7 +25,7 @@ from .paths import PROJECT, atomic_json, configure
 TASKS = ("insert_hole", "insert_HDMI", "insert_tube", "pull_out_key",
          "grasp_classify", "lift_bottle", "lift_can", "put_bottle_in_shelf")
 POLICY_TASKS = ("insert_hole", "insert_HDMI")
-GPU_COUNT = 8
+DEFAULT_STAGE1_GPUS = 4
 STATUS_FILENAME = "train_status.json"
 
 
@@ -51,7 +51,7 @@ def _model_values(raw, mode):
     return values
 
 
-def resolve_config(config="configs/aligned_8xa800.yaml", *, variant="full", output=None):
+def resolve_config(config="configs/aligned_4xa800.yaml", *, variant="full", output=None):
     """Resolve portable paths and the explicit output namespace for a variant."""
     if variant not in {"full", "wave0_recovery"}:
         raise ValueError("variant must be full or wave0_recovery")
@@ -62,24 +62,54 @@ def resolve_config(config="configs/aligned_8xa800.yaml", *, variant="full", outp
             config_path = candidate
     config_path = config_path.resolve()
     raw = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-    if raw.get("tasks") != list(TASKS):
+    finetune = bool(raw.get("finetune_from"))
+    if type(raw.get("finetune_stage2_only", False)) is not bool:
+        raise ValueError("finetune_stage2_only must be a boolean")
+    if raw.get("finetune_stage2_only") and not finetune:
+        raise ValueError("Stage-2-only fine-tuning requires finetune_from")
+    if raw.get("finetune_prepared_from") and not finetune:
+        raise ValueError("Reusing frozen fine-tuning data requires finetune_from")
+    if finetune:
+        if raw.get("tasks") != ["insert_HDMI"] or variant != "full":
+            raise ValueError("This fine-tuning recipe is full TWAM on insert_HDMI only")
+        if raw.get("expert_only") or raw.get("stage2_restart_from"):
+            raise ValueError("Recovery fine-tuning uses mixed data and a new optimizer, not an expert-only restart")
+        if raw.get("camera_mode") != "head_only":
+            raise ValueError("HDMI fine-tuning must retain head_only inputs")
+        if type(raw.get("finetune_use_ema")) is not bool:
+            raise ValueError("finetune_use_ema must explicitly select raw or EMA source weights")
+        if raw.get("stage1_freeze_world") is not False:
+            raise ValueError("HDMI Stage 1 must update the visual WM")
+    elif raw.get("tasks") != list(TASKS):
         raise ValueError("Aligned Stage 1 must use all eight canonical tasks in order")
-    if raw.get("policy_tasks") != list(POLICY_TASKS):
-        raise ValueError("Aligned Stage 2 must train insert_hole and insert_HDMI")
+    policy_tasks = raw.get("policy_tasks", raw["tasks"] if finetune else list(POLICY_TASKS))
+    if not policy_tasks or len(set(policy_tasks)) != len(policy_tasks) or any(task not in TASKS for task in policy_tasks):
+        raise ValueError("policy_tasks must be a nonempty, unique subset of the eight tasks")
     raw["config"] = str(config_path)
     raw["variant"] = variant
     raw["mode"] = "full" if variant == "full" else "wave0"
     raw["aligned"] = True
     for key in ("data_root", "original_root", "recovery_root", "tactile_cache", "pi05_base",
-                "tokenizer_path", "world_init", "shared_manifest", "policy_manifest_dir",
-                "task_stats_dir", "wm_stats"):
+                "tokenizer_path", "world_init", "aligned_manifest_dir", "shared_manifest", "policy_manifest_dir",
+                "task_stats_dir", "wm_stats", "reference_wm_stats", "reference_root", "stage2_restart_from"):
         if raw.get(key):
             raw[key] = _resolve_path(raw[key])
+    if finetune:
+        for key in ("finetune_from", "finetune_data_dir", "original_manifest", "recovery_manifest", "recovery_cache"):
+            raw[key] = _resolve_path(raw[key])
+        if raw.get("finetune_prepared_from"):
+            raw["finetune_prepared_from"] = _resolve_path(raw["finetune_prepared_from"])
+            if raw["finetune_prepared_from"] == raw["finetune_data_dir"]:
+                raise ValueError("Continuation data metadata needs a separate finetune_data_dir")
+        if Path(raw["finetune_from"]).is_relative_to(Path(output or raw["output"]).expanduser().resolve()):
+            raise ValueError("Fine-tuning output must not contain its source checkpoint")
+        if policy_tasks != raw["tasks"]:
+            raise ValueError("Fine-tuning Stage 2 must use the same HDMI task")
     raw["workflow_root"] = str(Path(output or raw["output"]).expanduser().resolve() / variant)
     raw["output"] = raw["workflow_root"]
     raw["workspace"] = str(Path(raw.get("workspace", PROJECT.parent)).expanduser().resolve())
-    raw["tasks"] = list(TASKS)
-    raw["policy_tasks"] = list(POLICY_TASKS)
+    raw["tasks"] = list(raw["tasks"]) if finetune else list(TASKS)
+    raw["policy_tasks"] = list(policy_tasks)
     raw.setdefault("workers", 4)
     raw.setdefault("seed", 42)
     raw.setdefault("precision", "bf16")
@@ -87,30 +117,58 @@ def resolve_config(config="configs/aligned_8xa800.yaml", *, variant="full", outp
     raw.setdefault("grad_clip", 1.0)
     raw.setdefault("fused_adamw", True)
     raw.setdefault("gradient_checkpointing", True)
-    raw.setdefault("data_mix", "1:1")
+    raw.setdefault("expert_only", False)
+    if type(raw["expert_only"]) is not bool:
+        raise ValueError("expert_only must be a boolean")
+    raw.setdefault("data_mix", "1:0" if raw["expert_only"] else "1:1")
+    if raw["expert_only"] and raw["data_mix"] != "1:0":
+        raise ValueError("expert_only requires data_mix: '1:0' (Original only)")
     raw.setdefault("log_every", 10)
     raw.setdefault("save_every", 1000)
     raw.setdefault("keep_checkpoints", 2)
     if raw["precision"] != "bf16":
         raise ValueError("Aligned formal training uses BF16 autocast with FP32 parameters")
-    for name, expected in (("stage1", 8), ("stage2", 2)):
+    for name, allowed in (("stage1", (4, 8)), ("stage2", (2, 4))):
         stage = raw.get(name, {})
-        if stage.get("num_gpus") != expected:
-            raise ValueError(f"{name} must use {expected} GPUs")
+        if stage.get("num_gpus") not in allowed:
+            raise ValueError(f"{name} must use {' or '.join(map(str, allowed))} GPUs")
+        for key in ("num_gpus", "micro_batch", "global_batch"):
+            if type(stage.get(key)) is not int or stage[key] < 1:
+                raise ValueError(f"{name}: {key} must be a positive integer")
         divisor = stage["num_gpus"] * stage["micro_batch"]
         if stage["global_batch"] % divisor:
-            raise ValueError(f"{name}: global_batch must divide num_gpus × micro_batch")
+            raise ValueError(f"{name}: global_batch must be divisible by num_gpus × micro_batch")
         stage["accumulation_steps"] = stage["global_batch"] // divisor
-        if stage["accumulation_steps"] != 1:
-            raise ValueError(f"{name}: this recipe requires gradient accumulation 1")
-    if raw.get("independent_tactile") and raw["mode"] == "full":
-        if "tactile" not in raw:
-            raise ValueError("independent_tactile requires a tactile training configuration")
-        cfg = raw["tactile"]
-        divisor = int(cfg["num_gpus"]) * int(cfg["micro_batch"])
-        if int(cfg["num_gpus"]) not in range(1, 9) or cfg["global_batch"] % divisor:
-            raise ValueError("Invalid tactile GPU count or global batch")
-        cfg["accumulation_steps"] = cfg["global_batch"] // divisor
+    validate_every = raw["stage1"].get("validate_every", 500)
+    if type(validate_every) is not int or validate_every < 0:
+        raise ValueError("stage1.validate_every must be a nonnegative integer; 0 disables validation")
+    raw["stage1"]["validate_every"] = validate_every
+    if validate_every == 0:
+        raw.setdefault("wm_validation_episode_ids", [])
+        if raw["wm_validation_episode_ids"]:
+            raise ValueError("Disabled Stage-1 validation requires wm_validation_episode_ids: []")
+    if type(raw["stage2"].get("shard_optimizer_state", False)) is not bool:
+        raise ValueError("stage2.shard_optimizer_state must be a boolean")
+    if raw["stage2"].get("ema_device", "cuda") not in {"cuda", "cpu"}:
+        raise ValueError("stage2.ema_device must be cuda or cpu")
+    for value, name in ((raw.get("batch_stage2_policy", False), "batch_stage2_policy"),
+                        (raw.get("ema_enabled", True), "ema_enabled"),
+                        (raw.get("stage2_restart_rebatch", False), "stage2_restart_rebatch"),
+                        (raw["stage2"].get("shard_ema", False), "stage2.shard_ema")):
+        if type(value) is not bool:
+            raise ValueError(f"{name} must be a boolean")
+    if raw["stage2"].get("shard_ema") and raw["stage2"].get("ema_device", "cuda") != "cuda":
+        raise ValueError("Sharded EMA stays on GPU; use ema_device: cuda")
+    if not raw.get("ema_enabled", True) and raw["stage2"].get("shard_ema"):
+        raise ValueError("Disabled EMA requires stage2.shard_ema: false")
+    if raw.get("batch_stage2_policy") and (raw["mode"] != "full" or not raw.get("independent_tactile")):
+        raise ValueError("Batched Stage-2 policy requires full independent tactile dynamics")
+    if raw.get("stage2_restart_from") == raw["workflow_root"]:
+        raise ValueError("Performance restart requires a new output directory")
+    if raw.get("stage2_restart_rebatch") and (not raw.get("stage2_restart_from") or not raw["expert_only"]):
+        raise ValueError("Rebatch restart requires stage2_restart_from and expert_only")
+    if raw["mode"] == "wave0":
+        raw["stage1"]["selection_metric"] = "world_total"
     raw["model_config"] = _model_values(raw, raw["mode"])
     raw["shared_manifest"] = raw.get("shared_manifest")
     raw["policy_manifests"] = {}
@@ -122,9 +180,9 @@ def resolve_config(config="configs/aligned_8xa800.yaml", *, variant="full", outp
     return raw
 
 
-def _physical_gpus():
+def _physical_gpus(count=DEFAULT_STAGE1_GPUS):
     raw = os.environ.get("CUDA_VISIBLE_DEVICES")
-    devices = [str(index) for index in range(GPU_COUNT)] if raw is None else [item.strip() for item in raw.split(",")]
+    devices = [str(index) for index in range(count)] if raw is None else [item.strip() for item in raw.split(",")]
     if not devices or any(not item for item in devices):
         raise ValueError("CUDA_VISIBLE_DEVICES must contain non-empty GPU IDs")
     if len(set(devices)) != len(devices):
@@ -133,30 +191,42 @@ def _physical_gpus():
 
 
 def plan(run, *, stop_after=None):
-    devices = _physical_gpus()
-    required = int(run["tactile"]["num_gpus"]) if stop_after == "tactile" else GPU_COUNT
+    if stop_after not in {None, "stage1"}:
+        raise ValueError("The two-stage workflow supports only --stop-after stage1")
+    reuse_world = run["mode"] == "wave0" and run.get("stage1_freeze_world", False)
+    reuse_stage1 = run.get("stage1_init_checkpoint")
+    stage2_only = run.get("finetune_stage2_only", False)
+    if stage2_only and (stop_after is not None or reuse_stage1):
+        raise ValueError("Stage-2-only continuation cannot run or overlay Stage 1")
+    if reuse_stage1 and (run["mode"] != "full" or stop_after is not None):
+        raise ValueError("A Stage-1 initialization requires full mode and training Stage 2")
+    tasks = run.get("policy_tasks", POLICY_TASKS)
+    stage1_gpus = 0 if reuse_world or reuse_stage1 or stage2_only else int(run.get("stage1", {}).get("num_gpus", DEFAULT_STAGE1_GPUS))
+    policy_gpus = int(run.get("stage2", {}).get("num_gpus", 2))
+    stage2_gpus = 0 if stop_after == "stage1" else min(2, len(tasks)) * policy_gpus
+    required = max(stage1_gpus, stage2_gpus)
+    devices = _physical_gpus(required) if required else []
     if len(devices) < required:
         raise ValueError(f"This workflow needs {required} visible GPUs; received {len(devices)}")
     devices = devices[:required]
     stage1 = {"stage": "stage1", "task": "shared_wm",
-              "output": str(Path(run["output"]) / "shared_wm"), "gpus": devices,
-              "nproc_per_node": 8, "concurrency": 1}
+              "output": str(Path(run["output"]) / "shared_wm"), "gpus": devices[:stage1_gpus],
+              "nproc_per_node": stage1_gpus, "concurrency": 1}
+    if stage2_only:
+        stage1.update(gpus=[], nproc_per_node=0, reuse_full_checkpoint=run["finetune_from"])
+    elif reuse_world:
+        stage1.update(gpus=[], nproc_per_node=0, reuse_world_init=run["world_init"])
+    elif reuse_stage1:
+        stage1.update(gpus=[], nproc_per_node=0, reuse_checkpoint=reuse_stage1)
     stage2 = [{"stage": "stage2", "task": task,
                "output": str(Path(run["output"]) / "tasks" / task),
-               "gpus": devices[index * 2:index * 2 + 2], "nproc_per_node": 2,
-               "concurrency": 2} for index, task in enumerate(POLICY_TASKS)]
+               "gpus": devices[(index % 2) * policy_gpus:(index % 2 + 1) * policy_gpus],
+               "nproc_per_node": policy_gpus,
+               "concurrency": min(2, len(tasks))} for index, task in enumerate(tasks)]
     result = {"config": run["config"], "variant": run["variant"], "mode": run["mode"],
             "workspace": run["workspace"], "output": run["output"],
             "physical_gpus": devices, "stage1": stage1, "stage2": stage2}
-    if run.get("independent_tactile") and run["mode"] == "full":
-        count = int(run["tactile"]["num_gpus"])
-        result["tactile"] = {"stage": "tactile", "task": "tactile_wm",
-                             "output": str(Path(run["output"]) / "tactile_wm"),
-                             "gpus": devices[:count], "nproc_per_node": count, "concurrency": 1}
-    if stop_after == "tactile":
-        result.pop("stage1")
-        result.pop("stage2")
-    elif stop_after == "stage1":
+    if stop_after == "stage1":
         result.pop("stage2")
     return result
 
@@ -172,7 +242,7 @@ def stage_run(run, stage, task=None, checkpoint=None):
                       world_norm_stats=run["wm_norm_stats"],
                       validation_episode_ids=run.get("validation_episode_ids", []))
     elif stage == "stage2":
-        if task not in POLICY_TASKS:
+        if task not in run.get("policy_tasks", POLICY_TASKS):
             raise ValueError(f"Unknown aligned Stage-2 task: {task}")
         result.update(task=task, output=str(Path(run["output"]) / "tasks" / task),
                       task_manifest=run["policy_manifests"][task],
@@ -191,6 +261,9 @@ def stage_run(run, stage, task=None, checkpoint=None):
     if stage == "tactile":
         result["model_config"].update(stage="tactile", belief_warmup_min=0,
                                       belief_warmup_max=0, belief_bptt_steps=1)
+    if run.get("finetune_from"):
+        # This also pins the different source mixtures in the resume contract.
+        result["data_mix"] = run[stage].get("data_mix", run["data_mix"])
     return result
 
 
@@ -310,7 +383,12 @@ def _run_jobs(records, env, status, persist, *, concurrent=1):
     try:
         while pending or active:
             while pending and len(active) < concurrent:
-                record = pending.pop(0)
+                occupied = {gpu for row in records if row["task"] in active for gpu in row["gpus"]}
+                available = next((index for index, row in enumerate(pending)
+                                  if not occupied.intersection(row["gpus"])), None)
+                if available is None:
+                    break
+                record = pending.pop(available)
                 record.update(state="running", started_at=_utc_now())
                 persist()
                 try:
@@ -381,11 +459,46 @@ def _verify_prediction_checkpoint(path, expected_identity=None, *, stage="stage1
     return path
 
 
+def _verify_stage1_initialization(path, run):
+    """Transfer a completed teacher while allowing a new Stage-2 batch/GPU recipe."""
+    path = _verify_prediction_checkpoint(Path(path).resolve())
+    from .config import ContactConfig
+    from .paths import sha256
+    from .weights import checkpoint_file
+    saved = ContactConfig.load(path / "pretrained_model/config.json")
+    expected = ContactConfig(**{**run["model_config"], "world_norm_stats": run["wm_norm_stats"]})
+    if saved.stage != "stage1" or saved.mode != "full":
+        raise ValueError("Stage-2 initialization requires a full Contact Stage-1 checkpoint")
+    for key in ("aligned", "mode", "independent_tactile", "camera_mode", "k", "chunk_size",
+                "action_dim", "padded_dim", "width", "heads", "ffn", "belief_tokens", "tactile_tokens",
+                "world_width", "world_depth", "world_heads", "world_ffn", "vision_width", "vision_pool",
+                "expert_width", "tokenizer_max_length", "encoder_reference", "world_norm_stats",
+                "belief_to_latent_queries", "belief_to_world_state", "belief_to_future_corrector",
+                "belief_to_contact_predictor", "belief_to_expert"):
+        if getattr(saved, key) != getattr(expected, key):
+            raise ValueError(f"Stage-1 initialization differs in {key}")
+    identity = json.loads((path / "run_identity.json").read_text())
+    meta = json.loads((path / "complete.json").read_text())
+    if identity.get("stage") != "stage1" or not identity.get("fingerprint") \
+            or identity["fingerprint"] != meta.get("identity"):
+        raise ValueError("Stage-1 initialization has inconsistent provenance")
+    if run.get("expert_only") and identity.get("contract", {}).get("expert_only") is not True:
+        raise ValueError("expert_only requires an expert-only Stage-1 checkpoint; "
+                         "retrain Stage 1 without --stage1-checkpoint to exclude Recovery training")
+    if sha256(checkpoint_file(run["pi05_base"])) != identity.get("pi05_base_sha256"):
+        raise ValueError("Stage-1 initialization uses a different pi05_base / frozen visual encoder")
+    return path
+
+
 def _prepare(run):
-    from .data import prepare_data
-    report = prepare_data(run, data_root=run["data_root"],
-                                  original_root=run["original_root"],
-                                  recovery_root=run["recovery_root"])
+    if run.get("finetune_from"):
+        from .finetune_data import prepare_finetune_data
+        report = prepare_finetune_data(run)
+    else:
+        from .data import prepare_data
+        report = prepare_data(run, data_root=run["data_root"],
+                                      original_root=run["original_root"],
+                                      recovery_root=run["recovery_root"])
     run.update(shared_manifest=report["shared_manifest"],
                policy_manifests=report["policy_manifests"],
                task_stats_by_task=report["task_stats"], wm_stats=report["wm_stats"],
@@ -411,6 +524,14 @@ def _require_prepared(run):
     from .weights import checkpoint_file
     checkpoint_file(run["pi05_base"])
     checkpoint_file(run["world_init"])
+    if run.get("finetune_from"):
+        from .finetune_data import verify_source
+        verify_source(run)
+    if run.get("stage1_freeze_world"):
+        from .config import ContactConfig
+        from .weights import validate_world_contract
+        values = {**run["model_config"], "world_norm_stats": run["wm_norm_stats"]}
+        validate_world_contract(ContactConfig(**values), run["world_init"])
 
 
 def _find_resume(run, stage, resume):
@@ -421,11 +542,21 @@ def _find_resume(run, stage, resume):
         if not (path / "complete.json").is_file():
             raise ValueError(f"Incomplete aligned checkpoint: {path}")
         return path
-    return _latest_resume(run["output"], stage)
+    checkpoint = _latest_resume(run["output"], stage)
+    if checkpoint is None and stage == "stage2" and run.get("stage2_restart_from"):
+        from .performance_restart import source_directory
+        source = source_directory(run)
+        if not Path(run["stage2_restart_from"]).is_dir():
+            raise FileNotFoundError(f"Performance restart source does not exist: {run['stage2_restart_from']}")
+        checkpoint = _latest_resume(source, stage)
+        if checkpoint is None and ((source / "train.jsonl").is_file() or (source / "result.json").is_file()):
+            raise ValueError(f"Source task has training progress but no complete checkpoint: {source}. "
+                             "Wait for checkpoint saving to finish before stopping the source job.")
+    return checkpoint
 
 
 def _run_prediction_stage(run, stage, placement, workflow, env, status, persist, resume, threads):
-    """Shared launch/resume/handoff for tactile dynamics and the visual WM."""
+    """Launch, resume and validate a shared prediction stage."""
     from .trainer import _source_identity, training_contract
     stage_config = stage_run(run, stage)
     identity = _source_identity(stage_config, stage, training_contract(
@@ -455,13 +586,19 @@ def _run_prediction_stage(run, stage, placement, workflow, env, status, persist,
     return checkpoint
 
 
-def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full",
+def main(config="configs/aligned_4xa800.yaml", *, command="train", variant="full",
          output=None, resume="none", plan_only=False, device="cuda", threads=4,
-         updates=2, optimizer_device="cpu", micro_batch=2, stop_after=None):
+         updates=2, optimizer_device="cpu", micro_batch=2, stop_after=None, stage1_checkpoint=None):
     configure()
     run = resolve_config(config, variant=variant, output=output)
-    if stop_after == "tactile" and not (run.get("independent_tactile") and run["mode"] == "full"):
-        raise ValueError("--stop-after tactile requires full mode with independent_tactile")
+    if stage1_checkpoint is not None:
+        if run.get("finetune_from"):
+            raise ValueError("HDMI two-stage fine-tuning adapts Stage 1; do not pass --stage1-checkpoint")
+        if command != "train" or variant != "full" or stop_after is not None:
+            raise ValueError("--stage1-checkpoint requires full training without --stop-after")
+        run["stage1_init_checkpoint"] = _resolve_path(stage1_checkpoint)
+    if stop_after not in {None, "stage1"}:
+        raise ValueError("The two-stage workflow supports only --stop-after stage1")
     if command not in {"prepare", "debug", "train"}:
         raise ValueError(f"Unknown aligned pipeline command: {command}")
     if threads < 1:
@@ -485,8 +622,10 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
         raise ValueError("Formal pipeline resume accepts only auto or none")
     _prepare(run)
     _require_prepared(run)
+    teacher = (_verify_stage1_initialization(run["stage1_init_checkpoint"], run)
+               if run.get("stage1_init_checkpoint") else None)
     if not Path(run["world_init"]).is_absolute():
-        raise ValueError("Stage 1 requires a fresh official world-model initialization checkpoint")
+        raise ValueError("world_init must identify the pretrained shared world model")
     workflow = Path(run["output"])
     status_path = workflow / STATUS_FILENAME
     workflow.mkdir(parents=True, exist_ok=True)
@@ -506,21 +645,32 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
     persist()
     env = _pipeline_env(threads)
     try:
-        prediction_stages = ["tactile", "stage1"] if "tactile" in schedule else ["stage1"]
-        for stage in prediction_stages:
-            checkpoint = _run_prediction_stage(run, stage, schedule[stage], workflow, env,
-                                                status, persist, resume, threads)
-            if stage == "tactile":
-                run["tactile_checkpoint"] = str(checkpoint)
-            if stop_after == stage:
-                status.update(state=f"{stage}_complete", finished_at=_utc_now())
-                persist()
-                return status
+        checkpoint = None
+        if schedule["stage1"].get("reuse_full_checkpoint"):
+            status["stage1"] = {"state": "reused_from_full_policy", "checkpoint": run["finetune_from"]}
+            persist()
+        elif teacher is not None:
+            checkpoint = teacher
+            status["stage1"] = {"state": "reused", "checkpoint": str(checkpoint)}
+            status["selected_stage1_checkpoint"] = str(checkpoint)
+            status["stage1_result"] = str(checkpoint.parents[2] / "result.json")
+            persist()
+        elif schedule["stage1"].get("reuse_world_init"):
+            status["stage1"] = {"state": "reused", "world_init": run["world_init"]}
+        else:
+            checkpoint = _run_prediction_stage(run, "stage1", schedule["stage1"], workflow, env,
+                                               status, persist, resume, threads)
+        if stop_after == "stage1":
+            status.update(state="stage1_complete", finished_at=_utc_now())
+            persist()
+            return status
 
         records = []
-        for task, device_spec in zip(POLICY_TASKS, schedule["stage2"]):
+        for device_spec in schedule["stage2"]:
+            task = device_spec["task"]
             task_run = stage_run(run, "stage2", task, checkpoint)
-            task_run["stage1_checkpoint_identity"] = json.loads((checkpoint / "complete.json").read_text()).get("identity")
+            task_run["stage1_checkpoint_identity"] = (json.loads((checkpoint / "complete.json").read_text()).get("identity")
+                                                       if checkpoint else None)
             task_run["model_config"].update(policy_norm_stats=task_run["policy_norm_stats"],
                                             world_norm_stats=task_run["world_norm_stats"])
             task_dir = Path(task_run["output"])
@@ -532,7 +682,8 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
                       "log": str(workflow / "logs" / f"{task}.log"),
                       "result": str(task_dir / "result.json"), "state": "pending"}
             record["command"] = _training_command(config_path, "stage2", stage1_checkpoint=checkpoint,
-                                                   resume=task_resume, threads=threads)
+                                                   resume=task_resume, threads=threads,
+                                                   nproc=device_spec["nproc_per_node"])
             records.append(record)
         status["stage2"] = {record["task"]: record for record in records}
         persist()
@@ -557,12 +708,13 @@ def main(config="configs/aligned_8xa800.yaml", *, command="train", variant="full
 def cli_main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("prepare", "debug", "train"), nargs="?", default="train")
-    parser.add_argument("--stop-after", choices=("tactile", "stage1"),
+    parser.add_argument("--stop-after", choices=("stage1",),
                         help="Finish and validate this stage, then stop; --resume auto continues later")
-    parser.add_argument("--config", default=str(PROJECT / "configs/aligned_8xa800.yaml"))
+    parser.add_argument("--config", default=str(PROJECT / "configs/aligned_4xa800.yaml"))
     parser.add_argument("--variant", choices=("full", "wave0_recovery"), default="full")
     parser.add_argument("--output")
     parser.add_argument("--resume", choices=("auto", "none"), default="none")
+    parser.add_argument("--stage1-checkpoint", help="Reuse a completed Contact Stage-1 checkpoint and train only Stage 2")
     parser.add_argument("--plan", action="store_true", help="Print physical GPU/task placement without CUDA checks")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--threads", type=int, default=4)
@@ -577,7 +729,8 @@ def cli_main(argv=None):
         result = main(args.config, command=args.command, variant=args.variant, output=args.output,
                       resume=args.resume, plan_only=args.plan, device=args.device, threads=args.threads,
                       updates=args.updates, optimizer_device=args.optimizer_device,
-                      micro_batch=args.micro_batch, stop_after=args.stop_after)
+                      micro_batch=args.micro_batch, stop_after=args.stop_after,
+                      stage1_checkpoint=args.stage1_checkpoint)
     except Exception as exc:
         print(f"aligned pipeline: {exc}", file=sys.stderr)
         return 1

@@ -1,0 +1,1602 @@
+[
+  {
+    "task": "insert_tube",
+    "source_episode_id": 0,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 173,
+    "valid_count": 172,
+    "raw_steps": [
+      332,
+      676
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/0.hdf5",
+    "source_sha256": "98c215bb9203d2a4ba1ba90103e6fa0874512a87555b19ff95f35a02aefabaad",
+    "source_size_bytes": 134202309,
+    "segment_id": "insert_tube:0:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 1,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 171,
+    "valid_count": 170,
+    "raw_steps": [
+      326,
+      666
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/1.hdf5",
+    "source_sha256": "a7e31a8117c9c31115d800f13e6821d29fbc8d86ed863258fbc7bf917533ec23",
+    "source_size_bytes": 132816742,
+    "segment_id": "insert_tube:1:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 2,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 194,
+    "valid_count": 193,
+    "raw_steps": [
+      384,
+      770
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/2.hdf5",
+    "source_sha256": "18672fc4b360085d39ada27852275475d91024fba59d908d440a50d027638dc7",
+    "source_size_bytes": 150619030,
+    "segment_id": "insert_tube:2:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 3,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 172,
+    "valid_count": 171,
+    "raw_steps": [
+      328,
+      670
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/3.hdf5",
+    "source_sha256": "4ec9f52ab340db46a5550b645408d0d54c9124b8c90f619fbf990c2f4da30c9f",
+    "source_size_bytes": 133455572,
+    "segment_id": "insert_tube:3:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 4,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 170,
+    "valid_count": 169,
+    "raw_steps": [
+      330,
+      668
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/4.hdf5",
+    "source_sha256": "b58a55cf7c4387d84e9e47268b93edee2a5072c2d1f821b908c1434a62bea17a",
+    "source_size_bytes": 131890200,
+    "segment_id": "insert_tube:4:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 5,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 171,
+    "valid_count": 170,
+    "raw_steps": [
+      328,
+      668
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/5.hdf5",
+    "source_sha256": "28e858bd67a7ab38d779f4ac95e5fe490c4887683923800e4b393d419387e815",
+    "source_size_bytes": 132792973,
+    "segment_id": "insert_tube:5:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 6,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 195,
+    "valid_count": 194,
+    "raw_steps": [
+      318,
+      706
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/6.hdf5",
+    "source_sha256": "8a469a2bf00aa398b1178cdcac8c51492019455d2f1c0dc09e0f7759f4dd6445",
+    "source_size_bytes": 151344820,
+    "segment_id": "insert_tube:6:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 7,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 165,
+    "valid_count": 164,
+    "raw_steps": [
+      320,
+      648
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/7.hdf5",
+    "source_sha256": "9abfe4444f7c0afd1b0b8ceaea29b159432a170e516c063134b7730d6a3801a4",
+    "source_size_bytes": 128191615,
+    "segment_id": "insert_tube:7:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 8,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 190,
+    "valid_count": 189,
+    "raw_steps": [
+      324,
+      702
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/8.hdf5",
+    "source_sha256": "33260969d2fd9672ad076475cdaa2ba673cb54dbcbdfedade8f55aa3931b8136",
+    "source_size_bytes": 147408970,
+    "segment_id": "insert_tube:8:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 9,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 181,
+    "valid_count": 180,
+    "raw_steps": [
+      320,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/9.hdf5",
+    "source_sha256": "5bb1e343f4367df1b4a478a85e8ce9a031b9db3db72cf0b4d76b753ab7e5e0fc",
+    "source_size_bytes": 140697516,
+    "segment_id": "insert_tube:9:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 10,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 169,
+    "valid_count": 168,
+    "raw_steps": [
+      328,
+      664
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/10.hdf5",
+    "source_sha256": "c111efa7db1365ac46ba2714b75f9e0cc581e83cdcc86c12410a1300dcc083c9",
+    "source_size_bytes": 131417328,
+    "segment_id": "insert_tube:10:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 11,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 177,
+    "valid_count": 176,
+    "raw_steps": [
+      322,
+      674
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/11.hdf5",
+    "source_sha256": "9e91cad90b2d00fb57945e482636dd0b28e5d377295bd785aa9f1bfaa61b2920",
+    "source_size_bytes": 137283247,
+    "segment_id": "insert_tube:11:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 12,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 187,
+    "valid_count": 186,
+    "raw_steps": [
+      324,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/12.hdf5",
+    "source_sha256": "bfe44791710a00eb194c648b442601237f526cf605b191bfee2062a407dc8ae7",
+    "source_size_bytes": 145257334,
+    "segment_id": "insert_tube:12:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 13,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 172,
+    "valid_count": 171,
+    "raw_steps": [
+      322,
+      664
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/13.hdf5",
+    "source_sha256": "1550091a31d59c2008b588cdc70153a09ef619c4e666ede59a7405da5cad04b9",
+    "source_size_bytes": 133474664,
+    "segment_id": "insert_tube:13:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 14,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 188,
+    "valid_count": 187,
+    "raw_steps": [
+      324,
+      698
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/14.hdf5",
+    "source_sha256": "935802953b21810e5fa9b761d5aa3be6b66810b98568e1557712068d64c97f10",
+    "source_size_bytes": 146167120,
+    "segment_id": "insert_tube:14:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 15,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 166,
+    "valid_count": 165,
+    "raw_steps": [
+      324,
+      654
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/15.hdf5",
+    "source_sha256": "7239f8756d466f2d4284bd175b1dae563d9c0650d52f128468a89cd339130847",
+    "source_size_bytes": 128828488,
+    "segment_id": "insert_tube:15:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 16,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 273,
+    "valid_count": 272,
+    "raw_steps": [
+      362,
+      906
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/16.hdf5",
+    "source_sha256": "16dd38998d7f0f24a8448a0ae649cee52987ae79fdfdbf09fa72581c4ce1e994",
+    "source_size_bytes": 211756054,
+    "segment_id": "insert_tube:16:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 17,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 254,
+    "valid_count": 253,
+    "raw_steps": [
+      342,
+      848
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/17.hdf5",
+    "source_sha256": "b4ca208207b58fe7bc18149dfb5dc7a95ddbcef4062289dd8832ac12e8a712e5",
+    "source_size_bytes": 196926220,
+    "segment_id": "insert_tube:17:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 18,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 186,
+    "valid_count": 185,
+    "raw_steps": [
+      318,
+      688
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/18.hdf5",
+    "source_sha256": "7a95ebd902b28ba8ee9e816a91e4331f691f345a713bd05442e9b49d98330fcf",
+    "source_size_bytes": 144404950,
+    "segment_id": "insert_tube:18:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 19,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 186,
+    "valid_count": 185,
+    "raw_steps": [
+      326,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/19.hdf5",
+    "source_sha256": "40b094dfa4a9041383b8248d815dca37681b1daf139f8a8222b2f5f8a78732e9",
+    "source_size_bytes": 144330922,
+    "segment_id": "insert_tube:19:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 20,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 188,
+    "valid_count": 187,
+    "raw_steps": [
+      326,
+      700
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/20.hdf5",
+    "source_sha256": "44d2c0713b8ee3abdd5671837db01ec36cfbee6bea7a34393d1a660f1d0fda55",
+    "source_size_bytes": 145825148,
+    "segment_id": "insert_tube:20:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 21,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 193,
+    "valid_count": 192,
+    "raw_steps": [
+      328,
+      712
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/21.hdf5",
+    "source_sha256": "5e1717c9e6f1a98f703f328db45582dc3f5cd99d20676ac98780f48558b327df",
+    "source_size_bytes": 149722882,
+    "segment_id": "insert_tube:21:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 22,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 230,
+    "valid_count": 229,
+    "raw_steps": [
+      338,
+      796
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/22.hdf5",
+    "source_sha256": "0fdbd20c37951436d90abb5a0cbdddfa3fdb0a702f40fb64a66e1b9472235af1",
+    "source_size_bytes": 178558980,
+    "segment_id": "insert_tube:22:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 23,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 178,
+    "valid_count": 177,
+    "raw_steps": [
+      322,
+      676
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/23.hdf5",
+    "source_sha256": "ad43cc5bf078d38476b5054f54dc130ecb723dfdc0b33c67c0bd09772bffbc7a",
+    "source_size_bytes": 138078694,
+    "segment_id": "insert_tube:23:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 24,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 192,
+    "valid_count": 191,
+    "raw_steps": [
+      330,
+      712
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/24.hdf5",
+    "source_sha256": "5efd0204e592073be9b5bb45152f13c6bef922ea062054000d4b165ba030eadd",
+    "source_size_bytes": 148945288,
+    "segment_id": "insert_tube:24:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 25,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 165,
+    "valid_count": 164,
+    "raw_steps": [
+      332,
+      660
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/25.hdf5",
+    "source_sha256": "18702a6f67ecd946c526b72aaad4060ac9a37528dc54aab782cbddbdc3bb9246",
+    "source_size_bytes": 128070340,
+    "segment_id": "insert_tube:25:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 26,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 182,
+    "valid_count": 181,
+    "raw_steps": [
+      334,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/26.hdf5",
+    "source_sha256": "f1c211573487ae2a47123bc4a9892c8ad86809aca0fd3ce6d238419dafe9f119",
+    "source_size_bytes": 141212308,
+    "segment_id": "insert_tube:26:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 27,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 181,
+    "valid_count": 180,
+    "raw_steps": [
+      326,
+      686
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/27.hdf5",
+    "source_sha256": "be78253ee56a7fab48b8e9c92af2a8090d76380824e252ed7f941a7ce29eb904",
+    "source_size_bytes": 140332801,
+    "segment_id": "insert_tube:27:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 28,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 220,
+    "valid_count": 219,
+    "raw_steps": [
+      358,
+      796
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/28.hdf5",
+    "source_sha256": "06a59cca169d250d5fb55a808c36a119def942a802dcc1e620b3e4c9369614b3",
+    "source_size_bytes": 170888720,
+    "segment_id": "insert_tube:28:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 29,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 171,
+    "valid_count": 170,
+    "raw_steps": [
+      328,
+      668
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/29.hdf5",
+    "source_sha256": "9ed2e45c7e0eda8320490cfce311b23c4f50e5e0484f779b7414e9dceac80911",
+    "source_size_bytes": 132667972,
+    "segment_id": "insert_tube:29:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 30,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 190,
+    "valid_count": 189,
+    "raw_steps": [
+      324,
+      702
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/30.hdf5",
+    "source_sha256": "c943181a2ff0ee8e5575a8b42b4a905565134c78cb02d058680a06b6c1e722fd",
+    "source_size_bytes": 147585860,
+    "segment_id": "insert_tube:30:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 31,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 189,
+    "valid_count": 188,
+    "raw_steps": [
+      326,
+      702
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/31.hdf5",
+    "source_sha256": "e152b192f6b132db7e2cb74bc930d0be99fd5a6a7bfa0c6bcc982ab272f3756f",
+    "source_size_bytes": 146720923,
+    "segment_id": "insert_tube:31:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 32,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 251,
+    "valid_count": 250,
+    "raw_steps": [
+      360,
+      860
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/32.hdf5",
+    "source_sha256": "b77270760a4ce834ed04f12af3e4be94854a4049be516f19b8762f3bcc000792",
+    "source_size_bytes": 194593251,
+    "segment_id": "insert_tube:32:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 33,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 174,
+    "valid_count": 173,
+    "raw_steps": [
+      324,
+      670
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/33.hdf5",
+    "source_sha256": "827d8a8fcca7b2db754ee2e5f90e399b7cb25ee97d7ee7d9fb49a262cc4dfaea",
+    "source_size_bytes": 135081124,
+    "segment_id": "insert_tube:33:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 34,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 199,
+    "valid_count": 198,
+    "raw_steps": [
+      320,
+      716
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/34.hdf5",
+    "source_sha256": "fb0ec61f52c46c89dd5dffa3d577ef866c152910523ac0aa48e2fdb829760689",
+    "source_size_bytes": 154393642,
+    "segment_id": "insert_tube:34:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 35,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 187,
+    "valid_count": 186,
+    "raw_steps": [
+      320,
+      692
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/35.hdf5",
+    "source_sha256": "51598c5431c3d1c3bbca5f63fcac8b688324af07365af9a59a048d91d0988619",
+    "source_size_bytes": 145084920,
+    "segment_id": "insert_tube:35:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 36,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 195,
+    "valid_count": 194,
+    "raw_steps": [
+      318,
+      706
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/36.hdf5",
+    "source_sha256": "38b8bddb34d1d49a8ff518eeefcc7381a879fb5fad2eb3c46099b70d62215c32",
+    "source_size_bytes": 151680220,
+    "segment_id": "insert_tube:36:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 37,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 185,
+    "valid_count": 184,
+    "raw_steps": [
+      326,
+      694
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/37.hdf5",
+    "source_sha256": "06b4dc10e40849d262a9f2020252ec5f637b63e08f98f6668c53afdcc3cf34ec",
+    "source_size_bytes": 143533030,
+    "segment_id": "insert_tube:37:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 38,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 186,
+    "valid_count": 185,
+    "raw_steps": [
+      326,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/38.hdf5",
+    "source_sha256": "ff2aeeba0654b0ae6a4c16733645ea7889e14a143c9f3af37aca6dc98b33b29e",
+    "source_size_bytes": 144856372,
+    "segment_id": "insert_tube:38:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 39,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 190,
+    "valid_count": 189,
+    "raw_steps": [
+      324,
+      702
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/39.hdf5",
+    "source_sha256": "c329c41c868d5e489374095d3585738ccbd14e76068ec0bb57d018ae3d672e20",
+    "source_size_bytes": 147543490,
+    "segment_id": "insert_tube:39:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 40,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 184,
+    "valid_count": 183,
+    "raw_steps": [
+      324,
+      690
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/40.hdf5",
+    "source_sha256": "323fdae13afa2f0f53771eaab15516bf0abb54f54bf36e369c43e189e3b1c81f",
+    "source_size_bytes": 143034192,
+    "segment_id": "insert_tube:40:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 41,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 170,
+    "valid_count": 169,
+    "raw_steps": [
+      330,
+      668
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/41.hdf5",
+    "source_sha256": "694b9af9c8e1ad00acb989868f634404ae4d7f1f3e988a81e7f3f0669afbc6c7",
+    "source_size_bytes": 131914510,
+    "segment_id": "insert_tube:41:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 42,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 183,
+    "valid_count": 182,
+    "raw_steps": [
+      322,
+      686
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/42.hdf5",
+    "source_sha256": "7ba9631ffad2ffc065a5f12884d42120616dd15fa06d23fa7aab31adda3cce5c",
+    "source_size_bytes": 141913255,
+    "segment_id": "insert_tube:42:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 43,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 169,
+    "valid_count": 168,
+    "raw_steps": [
+      318,
+      654
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/43.hdf5",
+    "source_sha256": "fbd8e29d78ee8af67444bee6b4c7b2578595a4e8107aae8e6941b089493ca212",
+    "source_size_bytes": 131186812,
+    "segment_id": "insert_tube:43:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 44,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 173,
+    "valid_count": 172,
+    "raw_steps": [
+      318,
+      662
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/44.hdf5",
+    "source_sha256": "f8c0cdfa2096d0a7588f89220951bd1fb82920fc9eee641d4d698bc0820f3c94",
+    "source_size_bytes": 134508346,
+    "segment_id": "insert_tube:44:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 45,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 183,
+    "valid_count": 182,
+    "raw_steps": [
+      324,
+      688
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/45.hdf5",
+    "source_sha256": "55c49b7c9623ef508006a1f6e7ac446e1ca35ba1a529bd3fff9da047e1326f2c",
+    "source_size_bytes": 142251622,
+    "segment_id": "insert_tube:45:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 46,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 176,
+    "valid_count": 175,
+    "raw_steps": [
+      320,
+      670
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/46.hdf5",
+    "source_sha256": "e2a03fa8fbe33f5384913c4f2739afb8993b5a25d8317853e143688b775a0a80",
+    "source_size_bytes": 136632520,
+    "segment_id": "insert_tube:46:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 47,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 174,
+    "valid_count": 173,
+    "raw_steps": [
+      342,
+      688
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/47.hdf5",
+    "source_sha256": "9f33974f6fea058d6bf909f62e20eefe2fde26e3df02400f4797aa35d0350c5f",
+    "source_size_bytes": 135015178,
+    "segment_id": "insert_tube:47:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 48,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 246,
+    "valid_count": 245,
+    "raw_steps": [
+      344,
+      834
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/48.hdf5",
+    "source_sha256": "bf93b95e19f594fdc596cae511b4d63deb8f832e9fffc3c9b205dc0a21eb5592",
+    "source_size_bytes": 191017366,
+    "segment_id": "insert_tube:48:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 49,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 183,
+    "valid_count": 182,
+    "raw_steps": [
+      324,
+      688
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/49.hdf5",
+    "source_sha256": "b52d88ad94b29867f2bdd8f5a8b9317d184965c4fd65cbb948795a498c0b7d1e",
+    "source_size_bytes": 141924418,
+    "segment_id": "insert_tube:49:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 50,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 189,
+    "valid_count": 188,
+    "raw_steps": [
+      320,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/50.hdf5",
+    "source_sha256": "e02a9f753b3e689c1a0f7b277007d2d0bd95d9532c3c2baf82ed3b5fdb0444c1",
+    "source_size_bytes": 146677075,
+    "segment_id": "insert_tube:50:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 51,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 169,
+    "valid_count": 168,
+    "raw_steps": [
+      322,
+      658
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/51.hdf5",
+    "source_sha256": "67c9a5b1daf1aaf61b5b5d033feea310fb5934abea8657e125da4f1344c0718d",
+    "source_size_bytes": 131175320,
+    "segment_id": "insert_tube:51:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 52,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 169,
+    "valid_count": 168,
+    "raw_steps": [
+      324,
+      660
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/52.hdf5",
+    "source_sha256": "ae802e079cd1714ff8959dde4b94d31a99ed8241c9d17feed9c72547c165aac7",
+    "source_size_bytes": 131080849,
+    "segment_id": "insert_tube:52:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 53,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 175,
+    "valid_count": 174,
+    "raw_steps": [
+      324,
+      672
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/53.hdf5",
+    "source_sha256": "99f6f160ce116ac3d04c174e5b2535d555d58e4658f0617fb0b19299cca1900f",
+    "source_size_bytes": 136324775,
+    "segment_id": "insert_tube:53:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 54,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 244,
+    "valid_count": 243,
+    "raw_steps": [
+      332,
+      818
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/54.hdf5",
+    "source_sha256": "8d8fbaf88477cc258ecb0d98d9d8c445d9e6eaa38b520a35f049f83e2641a01a",
+    "source_size_bytes": 189219060,
+    "segment_id": "insert_tube:54:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 55,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 178,
+    "valid_count": 177,
+    "raw_steps": [
+      326,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/55.hdf5",
+    "source_sha256": "9f641a055656d8d9e529f2970546e495526ee4e97b222fc25e61778a803bf7c1",
+    "source_size_bytes": 138070506,
+    "segment_id": "insert_tube:55:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 56,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 212,
+    "valid_count": 211,
+    "raw_steps": [
+      330,
+      752
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/56.hdf5",
+    "source_sha256": "0280a7728b22c85cf2f06e555cf0ede7459e76539aa1196de8134eefbe216184",
+    "source_size_bytes": 164417016,
+    "segment_id": "insert_tube:56:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 57,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 176,
+    "valid_count": 175,
+    "raw_steps": [
+      336,
+      686
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/57.hdf5",
+    "source_sha256": "f692cf5adbd6bf92bf9946e4e876ad48c66dec39b09805593f2c987599a82e3c",
+    "source_size_bytes": 136491544,
+    "segment_id": "insert_tube:57:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 58,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 182,
+    "valid_count": 181,
+    "raw_steps": [
+      318,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/58.hdf5",
+    "source_sha256": "be2eee5ca15c8f2111c96c7099709e326cd91bbb6e91651fdd2896eee7c02dd1",
+    "source_size_bytes": 141364642,
+    "segment_id": "insert_tube:58:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 59,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 178,
+    "valid_count": 177,
+    "raw_steps": [
+      324,
+      678
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/59.hdf5",
+    "source_sha256": "0beecc2b007cdb8d4d9395d7811ffbfa20dbd22a7f574daf8329c445aa0b9603",
+    "source_size_bytes": 138131204,
+    "segment_id": "insert_tube:59:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 60,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 163,
+    "valid_count": 162,
+    "raw_steps": [
+      338,
+      662
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/60.hdf5",
+    "source_sha256": "865ed7e55292557dbcb691ed8159e3b37fe2a5ee149e63be8888aab4e5e10052",
+    "source_size_bytes": 126418269,
+    "segment_id": "insert_tube:60:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 61,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 154,
+    "valid_count": 153,
+    "raw_steps": [
+      322,
+      628
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/61.hdf5",
+    "source_sha256": "5085b82d66226f4173ac52688ae1ef9eb21c2cda97a7254cec49010acaefb519",
+    "source_size_bytes": 119469132,
+    "segment_id": "insert_tube:61:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 62,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 184,
+    "valid_count": 183,
+    "raw_steps": [
+      320,
+      686
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/62.hdf5",
+    "source_sha256": "7c2cd492e76a40fd140a363b09d7854eafdb0e9644b4e4fdb034f84ac10e170c",
+    "source_size_bytes": 142823696,
+    "segment_id": "insert_tube:62:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 63,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 220,
+    "valid_count": 219,
+    "raw_steps": [
+      328,
+      766
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/63.hdf5",
+    "source_sha256": "0491637736117abf34270e32fcebdd48a73a972574fbc09044ab1b0ecee33ed1",
+    "source_size_bytes": 170835260,
+    "segment_id": "insert_tube:63:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 64,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 181,
+    "valid_count": 180,
+    "raw_steps": [
+      322,
+      682
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/64.hdf5",
+    "source_sha256": "1824097781db1c08249d531a864381025159a12f23413b8f7c71eaed526b11b7",
+    "source_size_bytes": 140565024,
+    "segment_id": "insert_tube:64:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 65,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 190,
+    "valid_count": 189,
+    "raw_steps": [
+      328,
+      706
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/65.hdf5",
+    "source_sha256": "5126602ca6714cd46febc10cacde92c30f0a2c1ff3393a294e4825883edd9414",
+    "source_size_bytes": 147326510,
+    "segment_id": "insert_tube:65:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 66,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 271,
+    "valid_count": 270,
+    "raw_steps": [
+      342,
+      882
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/66.hdf5",
+    "source_sha256": "b11f29d38fd9a3923e4456c0cabfb757be222d7ca0849b2342e14839a552b9fe",
+    "source_size_bytes": 210296185,
+    "segment_id": "insert_tube:66:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 67,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 159,
+    "valid_count": 158,
+    "raw_steps": [
+      330,
+      646
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/67.hdf5",
+    "source_sha256": "c9c0cd80623c8549b2c86c4f0342b88366f239ca80d64cd457cb252184688692",
+    "source_size_bytes": 123309103,
+    "segment_id": "insert_tube:67:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 68,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 196,
+    "valid_count": 195,
+    "raw_steps": [
+      324,
+      714
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/68.hdf5",
+    "source_sha256": "0348946aa4a8d3da892e3fb28b5c68d0f8704a91798b896a8db27da5a0e7ba19",
+    "source_size_bytes": 152214152,
+    "segment_id": "insert_tube:68:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 69,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 175,
+    "valid_count": 174,
+    "raw_steps": [
+      334,
+      682
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/69.hdf5",
+    "source_sha256": "736a35b18b0b3f93435cb4619cd159ad0f73ba3486807b1e12502bf654956f83",
+    "source_size_bytes": 135731000,
+    "segment_id": "insert_tube:69:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 70,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 183,
+    "valid_count": 182,
+    "raw_steps": [
+      320,
+      684
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/70.hdf5",
+    "source_sha256": "fc230a0661234c1b20d6623fe811a28da8ab486b722f5309ec5d14152d611858",
+    "source_size_bytes": 142058374,
+    "segment_id": "insert_tube:70:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 71,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 200,
+    "valid_count": 199,
+    "raw_steps": [
+      322,
+      720
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/71.hdf5",
+    "source_sha256": "602964262000e9e73c48031de8de9b79278744ff437895cca3aba613e51ab758",
+    "source_size_bytes": 155687600,
+    "segment_id": "insert_tube:71:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 72,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 186,
+    "valid_count": 185,
+    "raw_steps": [
+      322,
+      692
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/72.hdf5",
+    "source_sha256": "7ac0b40e7d993960ce35084d031b6482b26195af0876562521b3e3ea4c3bb6de",
+    "source_size_bytes": 144496090,
+    "segment_id": "insert_tube:72:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 73,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 245,
+    "valid_count": 244,
+    "raw_steps": [
+      334,
+      822
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/73.hdf5",
+    "source_sha256": "e11dcac0b4b5710dddda330575d81de5279bb92acfc55a9cc3684ec7cb6bea11",
+    "source_size_bytes": 190098355,
+    "segment_id": "insert_tube:73:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 74,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 168,
+    "valid_count": 167,
+    "raw_steps": [
+      318,
+      652
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/74.hdf5",
+    "source_sha256": "49c7e519c9b4d6074af8c4c92e0dd840dcd4afe1907e6915330d146b79bdda4e",
+    "source_size_bytes": 130409488,
+    "segment_id": "insert_tube:74:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 75,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 177,
+    "valid_count": 176,
+    "raw_steps": [
+      322,
+      674
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/75.hdf5",
+    "source_sha256": "397c4813bb6d00f12d923363a1c6eb56fc426b60da85e448d2d1ee0273bb3b87",
+    "source_size_bytes": 137603971,
+    "segment_id": "insert_tube:75:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 76,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 179,
+    "valid_count": 178,
+    "raw_steps": [
+      324,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/76.hdf5",
+    "source_sha256": "a3c205a2c5a1cbd23daf2574eff47fe9ea911054dd44e8649df6dbf6a8d14330",
+    "source_size_bytes": 138823350,
+    "segment_id": "insert_tube:76:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 77,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 228,
+    "valid_count": 227,
+    "raw_steps": [
+      354,
+      808
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/77.hdf5",
+    "source_sha256": "b2efb2e8afb52a87fa27c064d2d1bc9584761cce09f54120e08a34862914b718",
+    "source_size_bytes": 176894956,
+    "segment_id": "insert_tube:77:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 78,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 184,
+    "valid_count": 183,
+    "raw_steps": [
+      318,
+      684
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/78.hdf5",
+    "source_sha256": "8a69ff075241a2c05f63977045dbe3b08b7c8ba77fa42da940f21d25731ca24a",
+    "source_size_bytes": 142906496,
+    "segment_id": "insert_tube:78:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 79,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 184,
+    "valid_count": 183,
+    "raw_steps": [
+      322,
+      688
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/79.hdf5",
+    "source_sha256": "00685b2b2fdeb4d8d89176f32db15d7ddfab3803cd79051b4ecda90819d5cf81",
+    "source_size_bytes": 142864544,
+    "segment_id": "insert_tube:79:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 80,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 170,
+    "valid_count": 169,
+    "raw_steps": [
+      320,
+      658
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/80.hdf5",
+    "source_sha256": "56f4bfdea5125b752c12381d889e24b46c8c3cb9b54c68a4e48176e0400e6299",
+    "source_size_bytes": 131801120,
+    "segment_id": "insert_tube:80:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 81,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 180,
+    "valid_count": 179,
+    "raw_steps": [
+      326,
+      684
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/81.hdf5",
+    "source_sha256": "3840f6998e1d458fd6ba9247313756b35313d5908bcfec2d1df057531755c126",
+    "source_size_bytes": 139864300,
+    "segment_id": "insert_tube:81:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 82,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 251,
+    "valid_count": 250,
+    "raw_steps": [
+      334,
+      834
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/82.hdf5",
+    "source_sha256": "f8d8dd0a3f8b7289abb969c2d42ff7baf7314a80ae42073873e965834d27473c",
+    "source_size_bytes": 195036266,
+    "segment_id": "insert_tube:82:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 83,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 171,
+    "valid_count": 170,
+    "raw_steps": [
+      320,
+      660
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/83.hdf5",
+    "source_sha256": "3963c5c58313d5ae56f4bb1f99549f2c795079a46c0f394d17a5cccaa110c590",
+    "source_size_bytes": 132767494,
+    "segment_id": "insert_tube:83:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 84,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 183,
+    "valid_count": 182,
+    "raw_steps": [
+      320,
+      684
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/84.hdf5",
+    "source_sha256": "490b730bb80c778ce6f18f25b747d20a13218ce5b711ad0b2bb33b1cb4ad4bc1",
+    "source_size_bytes": 141942901,
+    "segment_id": "insert_tube:84:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 85,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 182,
+    "valid_count": 181,
+    "raw_steps": [
+      324,
+      686
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/85.hdf5",
+    "source_sha256": "ec01a4c2510f81500f0e124724f160f2b662a2dfad0efdfe9953c690585e3b86",
+    "source_size_bytes": 141106020,
+    "segment_id": "insert_tube:85:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 86,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 169,
+    "valid_count": 168,
+    "raw_steps": [
+      330,
+      666
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/86.hdf5",
+    "source_sha256": "65436c41fc1c11b4711135c329660726800a8efe602c15ed86f5b87fdb84c8d4",
+    "source_size_bytes": 131056006,
+    "segment_id": "insert_tube:86:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 87,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 162,
+    "valid_count": 161,
+    "raw_steps": [
+      318,
+      640
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/87.hdf5",
+    "source_sha256": "de9c0461d6abf233263887f4a7c939dd0d1f28fcf03ae3331b2c4ac93a70ef5b",
+    "source_size_bytes": 125746000,
+    "segment_id": "insert_tube:87:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 88,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 194,
+    "valid_count": 193,
+    "raw_steps": [
+      326,
+      712
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/88.hdf5",
+    "source_sha256": "83a5c4980eecadd1a0df18746fa95d8a4e26ed77e2dad79c5302b4f9f49cd389",
+    "source_size_bytes": 150708270,
+    "segment_id": "insert_tube:88:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 89,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 181,
+    "valid_count": 180,
+    "raw_steps": [
+      330,
+      690
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/89.hdf5",
+    "source_sha256": "f1a0d89ea1ace6e0665222543f620363fc1992d50037aad408655daf2bc609ee",
+    "source_size_bytes": 140370449,
+    "segment_id": "insert_tube:89:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 90,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 179,
+    "valid_count": 178,
+    "raw_steps": [
+      328,
+      684
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/90.hdf5",
+    "source_sha256": "7bc6cb808b3885d4c0b628a2d005e0eb043b695e1ff4c04063971d01df3fa309",
+    "source_size_bytes": 138831763,
+    "segment_id": "insert_tube:90:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 91,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 224,
+    "valid_count": 223,
+    "raw_steps": [
+      334,
+      780
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/91.hdf5",
+    "source_sha256": "851300c898b408f57d845a439d3a4c2ddbcf49c2a5648a42113b278314790700",
+    "source_size_bytes": 173818952,
+    "segment_id": "insert_tube:91:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 92,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 185,
+    "valid_count": 184,
+    "raw_steps": [
+      326,
+      694
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/92.hdf5",
+    "source_sha256": "a686132b3670c86e0da474f663c2c146396a46843d70ef207db8ddcee8e9c42e",
+    "source_size_bytes": 143518970,
+    "segment_id": "insert_tube:92:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 93,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 176,
+    "valid_count": 175,
+    "raw_steps": [
+      324,
+      674
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/93.hdf5",
+    "source_sha256": "78b3fc1cecde3b0f6447a1b1a9b92b6407d1f2797ea37fb89f68952994239ef3",
+    "source_size_bytes": 136619496,
+    "segment_id": "insert_tube:93:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 94,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 182,
+    "valid_count": 181,
+    "raw_steps": [
+      334,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/94.hdf5",
+    "source_sha256": "64a396d103550976d292478ebfd5f1219c37a417957d45d123ff1c2a1e841a91",
+    "source_size_bytes": 141144786,
+    "segment_id": "insert_tube:94:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 95,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 172,
+    "valid_count": 171,
+    "raw_steps": [
+      330,
+      672
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/95.hdf5",
+    "source_sha256": "7112c8c7feb8ee9f49fb8339453ab3feb247392fa769eb6bb614b891abb7ddf8",
+    "source_size_bytes": 133547248,
+    "segment_id": "insert_tube:95:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 96,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 183,
+    "valid_count": 182,
+    "raw_steps": [
+      330,
+      694
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/96.hdf5",
+    "source_sha256": "e5204d8945733e6f508050409af713bddca7b0e8d4a47eef4c1a71af07ed45b4",
+    "source_size_bytes": 141906301,
+    "segment_id": "insert_tube:96:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 97,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 176,
+    "valid_count": 175,
+    "raw_steps": [
+      330,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/97.hdf5",
+    "source_sha256": "bdc618c0324a1e58b047ca4eb88c484738529f4605d582be64b07ca087bb9d73",
+    "source_size_bytes": 136541000,
+    "segment_id": "insert_tube:97:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 98,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 173,
+    "valid_count": 172,
+    "raw_steps": [
+      328,
+      672
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/98.hdf5",
+    "source_sha256": "f8e4b42aa1b325a0f498eaf5b8b69dbbf4021cdbf3e00036e5d8ba4704315c01",
+    "source_size_bytes": 134308358,
+    "segment_id": "insert_tube:98:0"
+  },
+  {
+    "task": "insert_tube",
+    "source_episode_id": 99,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 160,
+    "valid_count": 159,
+    "raw_steps": [
+      328,
+      646
+    ],
+    "source_path": "UniVTAC/data/isaac45/insert_tube/hdf5/99.hdf5",
+    "source_sha256": "c5466a0b0c158d16d0c342d940acf121502ad0f73931739796c1b580c658b26f",
+    "source_size_bytes": 124091080,
+    "segment_id": "insert_tube:99:0"
+  }
+]

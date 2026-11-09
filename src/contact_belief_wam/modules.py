@@ -91,12 +91,13 @@ class ContactPredictor(nn.Module):
 class TactileWorldModel(nn.Module):
     """Independent action-conditioned tactile dynamics; no belief or visual future.
 
-    Inputs use the shared WM normalization. Its own action/state projections
-    remain stable when the visual world model is trained in a later stage.
+    Inputs use the shared WM normalization and frozen visual features.
     """
 
     def __init__(self, cfg):
         super().__init__()
+        self.camera_embedding = (nn.Parameter(torch.randn(1, 2, 1, cfg.width) * .02)
+                                 if cfg.camera_mode == "head_wrist" else None)
         self.k = cfg.k
         self.query = nn.Parameter(torch.randn(1, cfg.tactile_tokens, cfg.width) * .02)
         self.action_position = nn.Parameter(torch.randn(1, cfg.k, cfg.width) * .02)
@@ -112,8 +113,13 @@ class TactileWorldModel(nn.Module):
         if actions.shape[1] != self.k:
             raise ValueError(f"Expected {self.k} future actions, got {actions.shape[1]}")
         touch = self.touch_in(tactile.float())
+        visual = self.vision_in(current_visual.float())
+        if self.camera_embedding is not None:
+            if visual.shape[1] != 2:
+                raise ValueError("Dual-view tactile dynamics requires head and wrist features")
+            visual = visual + self.camera_embedding
         memory = torch.cat([
-            self.vision_in(current_visual.flatten(1, 2).float()) + self.types[0],
+            visual.flatten(1, 2) + self.types[0],
             touch + self.types[1],
             self.action_in(actions[..., :8].float()) + self.action_position + self.types[2],
             self.state_in(state[..., :8].float())[:, None] + self.types[3],

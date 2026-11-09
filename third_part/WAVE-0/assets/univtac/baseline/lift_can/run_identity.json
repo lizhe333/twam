@@ -1,0 +1,26 @@
+{
+  "openpi_commit": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "task": "lift_can",
+  "split": "full",
+  "hashes": {
+    "openpi_lock": "793488b5a55bb87200db90a61fd0af51922b686d94e1da4f4c587ab119b37d74",
+    "dataset": "a21dee26227385956a75819e8ec5ec017cb5db4fc787195472e59f4b00745ac7",
+    "norm_stats": "93b0c08fce9d4b2bb6f1db656ddf29de2888bc26ca76b133c89707ff348af3fd"
+  },
+  "adapter_sha256": "571da04a89aa85686f20c3b8d0e62a51f614d85628f17cdcab6c85b8043f6216",
+  "training": {
+    "mode": "full",
+    "run": "paper-bs64-10k-001-pair1",
+    "batch_size": 64,
+    "fsdp_devices": 2,
+    "seed": 42,
+    "lr": {
+      "warmup_steps": 1000,
+      "peak_lr": 2.5e-05,
+      "decay_steps": 10000,
+      "decay_lr": 2.5e-06
+    },
+    "ema": 0.99,
+    "camera_mode": "head_only"
+  }
+}

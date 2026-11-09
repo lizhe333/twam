@@ -1,0 +1,54 @@
+# Controlled ablation of gpu-003: same recipe, without an EMA shadow copy.
+task: shared_wm
+camera_mode: head_wrist
+tasks: [insert_hole, insert_HDMI, insert_tube, pull_out_key, grasp_classify, lift_bottle, lift_can, put_bottle_in_shelf]
+base: contact-belief-wam/models/pi05_base_local_debug
+world_init: contact-belief-wam/models/wave0_robotwin_world
+tokenizer: models/pi05_base/big_vision/paligemma_tokenizer.model
+seed: 42
+global_batch: 64
+num_gpus: 8
+workers: 4
+precision: bf16
+ema_decay: 0.99
+ema_enabled: false
+grad_clip: 1.0
+save_every: 1000
+keep_checkpoints: 2
+log_every: 10
+policy_augmentation: true
+# Fixed source-episode split, identical for every task. Stage 2 uses all 100.
+wm_validation_episode_ids: [14, 20, 51, 60, 71, 74, 82, 86, 91, 92]
+stage1:
+  num_gpus: 8
+  global_batch: 256
+  micro_batch: 16
+  steps: 5000
+  lr: 0.0001
+  warmup: 500
+  final_lr: 0.0000025
+  weight_decay: 0.01
+  validate_every: 500
+  validation_samples_per_task: 128
+  early_stop_patience: 4
+  early_stop_min_steps: 2000
+stage2:
+  num_gpus: 2
+  global_batch: 64
+  micro_batch: 8
+  steps: 10000
+  lr: 0.000025
+  lr_new: 0.0001
+  warmup: 1000
+  final_lr: 0.0000025
+  weight_decay: 0.0000000001
+
+# Preserve global batches and update budgets; smaller microbatches allow two views.
+performance:
+  skip_empty_camera_compute: true
+  attention_backend: sdpa
+  fused_adamw: true
+  ema_device: cuda
+  shard_optimizer_state: true
+  find_unused_parameters: false
+  profile_updates: true

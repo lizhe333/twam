@@ -1,0 +1,8 @@
+{
+  "seen": [
+    "Grasp the bottle resting on the ground plane and lift it vertically, keeping the bottle base within 5 cm of the wall at the final pose."
+  ],
+  "unseen": [
+    "Pick up the bottle facing the vertical wall and raise it straight upward while keeping its final base close to the wall."
+  ]
+}

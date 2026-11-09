@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "task": "insert_tube",
+  "prompt": "Insert the 2.0 cm diameter test tube into the 2.05 cm narrow hole on the inclined surface from the near-center starting position.",
+  "policy_step_budget": 408,
+  "action_budget": {
+    "unit": "policy_actions",
+    "policy_actions": 408,
+    "native_step_limit": 300,
+    "physical_steps_per_policy_action": 2,
+    "physical_call_budget": 816,
+    "max_valid_actions_per_segment": 272,
+    "derivation": "max(native_step_lim, ceil(1.5 * max_valid_actions_per_segment))",
+    "evaluation_report_local_physics_call_limit": 816
+  },
+  "baseline_camera_comparison": {
+    "source_mode": "head_wrist",
+    "target_mode": "head_only",
+    "matched": false,
+    "provenance": {
+      "kind": "legacy_checkpoint_fallback_inferred",
+      "path": "pi05-univtac/variants/head-only-v1/src/pi05_univtac/camera_contract.py",
+      "corroborating_path": "pi05-univtac/reports/paper-auto-eval-readiness.json",
+      "note": "The selected full run has no camera_contract.json and its run_identity has no training.camera_mode. The serving fallback resolves legacy checkpoints to head_wrist; readiness records expected_camera_mode=head_wrist."
+    }
+  },
+  "source_training": {
+    "run": "full-bs64-10k-001",
+    "selection": "full_fallback_no_paper_pair",
+    "batch_size": 64,
+    "seed": 42,
+    "training_steps": 10000,
+    "adapter_sha256": "498c63ffb7f293f5b360a528eb84b727b00c25a3cf49829b175b620c7952d17a"
+  },
+  "normalization": {
+    "snapshot": "norm_stats.json",
+    "source_path": "assets/pi05_univtac/full/insert_tube/norm_stats.json",
+    "sha256": "aaac85a9572d7a77fd0cf2d1bb626a853fc30e278733b6b8afdd6ddf93ef7d05",
+    "matches_run_identity": true
+  },
+  "data_snapshot": {
+    "manifest": "manifest.json",
+    "segments": "segments.json",
+    "segment_count": 100,
+    "source_episode_count": 100,
+    "duplicate_source_episode_ids": []
+  },
+  "target": {
+    "camera_mode": "head_only",
+    "model_views": [
+      "base_0_rgb"
+    ],
+    "adapter_release": "head-only-v1",
+    "chunk_size": 50,
+    "execute_steps": 10
+  },
+  "source_paths": {
+    "instruction": "UniVTAC/instructions/insert_tube.json",
+    "data_manifest": "assets/pi05_univtac/full/insert_tube/manifest.json",
+    "norm_stats": "assets/pi05_univtac/full/insert_tube/norm_stats.json",
+    "segments_scan": "pi05-univtac/reports/data-scan.json",
+    "segments_selector": "segments entries where task == 'insert_tube' (scan order retained)",
+    "run_identity": "outputs/checkpoints/pi05_univtac_insert_tube_full/full-bs64-10k-001/run_identity.json",
+    "source_camera_contract": null,
+    "action_budget_config": "pi05-univtac/configs/tasks.json",
+    "action_budget_implementation": "pi05-univtac/src/pi05_univtac/constants.py",
+    "action_budget_application": "pi05-univtac/src/pi05_univtac/sim_runner.py",
+    "action_budget_eval_audit": "reports/eval-protocol-audit/comparison.csv",
+    "camera_mode_fallback": "pi05-univtac/variants/head-only-v1/src/pi05_univtac/camera_contract.py",
+    "camera_mode_readiness": "pi05-univtac/reports/paper-auto-eval-readiness.json"
+  }
+}

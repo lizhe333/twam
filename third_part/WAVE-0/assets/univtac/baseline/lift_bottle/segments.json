@@ -1,0 +1,1602 @@
+[
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 0,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 311,
+    "valid_count": 310,
+    "raw_steps": [
+      102,
+      722
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/0.hdf5",
+    "source_sha256": "975d96bfd2577f5aab3552948d77f0090738f4abc6edfc377c669e922a74c957",
+    "source_size_bytes": 242881250,
+    "segment_id": "lift_bottle:0:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 1,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 303,
+    "valid_count": 302,
+    "raw_steps": [
+      100,
+      704
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/1.hdf5",
+    "source_sha256": "289c4b20c646b8237ad182c9d1ca0cf001de2fa3619032a3bd81dde58f539e8d",
+    "source_size_bytes": 235993061,
+    "segment_id": "lift_bottle:1:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 2,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 314,
+    "valid_count": 313,
+    "raw_steps": [
+      100,
+      726
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/2.hdf5",
+    "source_sha256": "a7ccf9a09cc68c9ab38397713986f6ddfed10bc3919b68032ccc0f08bcd10ede",
+    "source_size_bytes": 244689576,
+    "segment_id": "lift_bottle:2:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 3,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 298,
+    "valid_count": 297,
+    "raw_steps": [
+      104,
+      698
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/3.hdf5",
+    "source_sha256": "fe77b4350e1be985d8f0c4bdc1412911e78363d90e9c92c1fbe3bcab4cff69da",
+    "source_size_bytes": 232097258,
+    "segment_id": "lift_bottle:3:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 4,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 333,
+    "valid_count": 332,
+    "raw_steps": [
+      102,
+      766
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/4.hdf5",
+    "source_sha256": "852a173163b392ced7431111118555f1a5ec3da62a25dec0fd7ae0e4b079bf39",
+    "source_size_bytes": 259585589,
+    "segment_id": "lift_bottle:4:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 5,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 336,
+    "valid_count": 335,
+    "raw_steps": [
+      110,
+      780
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/5.hdf5",
+    "source_sha256": "2fd040a5af5fedee66e6c7846901f52bf0e17178c309ae02dfaa2521d3a3add9",
+    "source_size_bytes": 261846104,
+    "segment_id": "lift_bottle:5:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 6,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 310,
+    "valid_count": 309,
+    "raw_steps": [
+      102,
+      720
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/6.hdf5",
+    "source_sha256": "7093db1eb461b0810e0233d9a22c70b1e1bb0cd30e734065a45101d5d9b49c96",
+    "source_size_bytes": 241736082,
+    "segment_id": "lift_bottle:6:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 7,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 334,
+    "valid_count": 333,
+    "raw_steps": [
+      104,
+      770
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/7.hdf5",
+    "source_sha256": "ff2c394a52bbe8a6bbac82f3d57c495c03b52e9a702243f630209f214012fa50",
+    "source_size_bytes": 260616914,
+    "segment_id": "lift_bottle:7:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 8,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 310,
+    "valid_count": 309,
+    "raw_steps": [
+      102,
+      720
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/8.hdf5",
+    "source_sha256": "73b330993b7c13dc59efea753ba54a1f5fe54ef89ab33f168abb1bd487359bc4",
+    "source_size_bytes": 242043292,
+    "segment_id": "lift_bottle:8:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 9,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 297,
+    "valid_count": 296,
+    "raw_steps": [
+      104,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/9.hdf5",
+    "source_sha256": "0bb841f23f0a41b02dd6170420590288f6c2b51407d4c788f103506f6f65d6e6",
+    "source_size_bytes": 231259952,
+    "segment_id": "lift_bottle:9:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 10,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 298,
+    "valid_count": 297,
+    "raw_steps": [
+      100,
+      694
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/10.hdf5",
+    "source_sha256": "c5f5811b19be76e6c5364f562f088eb266eaa1d3178e7bc6dc869a88a55782d5",
+    "source_size_bytes": 232206326,
+    "segment_id": "lift_bottle:10:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 11,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 295,
+    "valid_count": 294,
+    "raw_steps": [
+      100,
+      688
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/11.hdf5",
+    "source_sha256": "46f69bdeb2404e8b015aac69f2cfd0542b05ae8c4dacb25743faa2795298d34b",
+    "source_size_bytes": 229844942,
+    "segment_id": "lift_bottle:11:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 12,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 287,
+    "valid_count": 286,
+    "raw_steps": [
+      102,
+      674
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/12.hdf5",
+    "source_sha256": "d67ce0b48e9ec89350e6a85c0abe2ffac2b4b6594923df7953b720a78be205eb",
+    "source_size_bytes": 223505809,
+    "segment_id": "lift_bottle:12:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 13,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 298,
+    "valid_count": 297,
+    "raw_steps": [
+      102,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/13.hdf5",
+    "source_sha256": "e8c74e72975fd9df45dfddacbc80d31479aacfc8a081b4b604c8a045f6de33ce",
+    "source_size_bytes": 232512968,
+    "segment_id": "lift_bottle:13:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 14,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 313,
+    "valid_count": 312,
+    "raw_steps": [
+      106,
+      730
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/14.hdf5",
+    "source_sha256": "acde6a177fb0c421ff3496349deca3e788af957e231e35f07ab40243d9cf71e0",
+    "source_size_bytes": 243797054,
+    "segment_id": "lift_bottle:14:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 15,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 304,
+    "valid_count": 303,
+    "raw_steps": [
+      104,
+      710
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/15.hdf5",
+    "source_sha256": "2cef27400ebc6e2189aa126a029f5b7df274230f2fd966c7a2ff3b6888ef9826",
+    "source_size_bytes": 236478504,
+    "segment_id": "lift_bottle:15:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 16,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 310,
+    "valid_count": 309,
+    "raw_steps": [
+      102,
+      720
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/16.hdf5",
+    "source_sha256": "9947bb7912fe370e7a2ebe19c7c13644b040998b5db16e697f363a6c5ad0e948",
+    "source_size_bytes": 241535512,
+    "segment_id": "lift_bottle:16:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 17,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 300,
+    "valid_count": 299,
+    "raw_steps": [
+      102,
+      700
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/17.hdf5",
+    "source_sha256": "b25f3c16adada0a0f5ef38fc9b88646ba28f167515603131b3088c7cbb9d5a7f",
+    "source_size_bytes": 233897552,
+    "segment_id": "lift_bottle:17:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 18,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 295,
+    "valid_count": 294,
+    "raw_steps": [
+      102,
+      690
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/18.hdf5",
+    "source_sha256": "dc6582b9ce50d0ac51b945853545d583b3d9ee1be842b5d8febfb7f38eab8626",
+    "source_size_bytes": 229591832,
+    "segment_id": "lift_bottle:18:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 19,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 307,
+    "valid_count": 306,
+    "raw_steps": [
+      104,
+      716
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/19.hdf5",
+    "source_sha256": "f907fe761dea0a0665f0ccce8734399bff70640db5f59fd3dfea699eb4994f06",
+    "source_size_bytes": 238928985,
+    "segment_id": "lift_bottle:19:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 20,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 285,
+    "valid_count": 284,
+    "raw_steps": [
+      100,
+      668
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/20.hdf5",
+    "source_sha256": "ff22101ad7f5afd992cac5d2b261c0cc6a764ba2a290b9042389fce968faf93e",
+    "source_size_bytes": 221915327,
+    "segment_id": "lift_bottle:20:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 21,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 284,
+    "valid_count": 283,
+    "raw_steps": [
+      100,
+      666
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/21.hdf5",
+    "source_sha256": "15716815c65d1ef5dc6916b7c5563c5b02cce4f1cc318d273eafa399cd4a225c",
+    "source_size_bytes": 220966332,
+    "segment_id": "lift_bottle:21:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 22,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 283,
+    "valid_count": 282,
+    "raw_steps": [
+      98,
+      662
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/22.hdf5",
+    "source_sha256": "dc26dab64141f22e3970e06d90cfc7f659c024f49abe418cbb7057409a3011ee",
+    "source_size_bytes": 220852538,
+    "segment_id": "lift_bottle:22:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 23,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 287,
+    "valid_count": 286,
+    "raw_steps": [
+      100,
+      672
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/23.hdf5",
+    "source_sha256": "e50848e84c048969835f4a1336892e677d560d4ca9e43047b4d7c21930264030",
+    "source_size_bytes": 223405933,
+    "segment_id": "lift_bottle:23:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 24,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 290,
+    "valid_count": 289,
+    "raw_steps": [
+      100,
+      678
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/24.hdf5",
+    "source_sha256": "1d7af38a5e051a995677a2a8f19e71d3d06734e83b4383acbc2f41fe7da5a986",
+    "source_size_bytes": 225853252,
+    "segment_id": "lift_bottle:24:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 25,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 302,
+    "valid_count": 301,
+    "raw_steps": [
+      104,
+      706
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/25.hdf5",
+    "source_sha256": "fe8d313a3d46fd71e5ec83f77e30997751176ed8ba877c771f5d93f365650365",
+    "source_size_bytes": 235359520,
+    "segment_id": "lift_bottle:25:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 26,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 317,
+    "valid_count": 316,
+    "raw_steps": [
+      100,
+      732
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/26.hdf5",
+    "source_sha256": "5220f8f37b04b85b4d5711cc9ba82be3477b6e3c7cbbfd8c0514037b1c2c3421",
+    "source_size_bytes": 247048780,
+    "segment_id": "lift_bottle:26:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 27,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 311,
+    "valid_count": 310,
+    "raw_steps": [
+      104,
+      724
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/27.hdf5",
+    "source_sha256": "8f7091f571b6b8fe6623c8cb3e5bd3aac273ad9dec73071996fe1cb3200da44d",
+    "source_size_bytes": 242530131,
+    "segment_id": "lift_bottle:27:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 28,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 305,
+    "valid_count": 304,
+    "raw_steps": [
+      102,
+      710
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/28.hdf5",
+    "source_sha256": "1a6f6d0e82c34284337e36c866764b7d830277999226f5e828cfd1e5252e874b",
+    "source_size_bytes": 238123457,
+    "segment_id": "lift_bottle:28:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 29,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 313,
+    "valid_count": 312,
+    "raw_steps": [
+      102,
+      726
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/29.hdf5",
+    "source_sha256": "c9d527235a6b5fed2b0ac5e7625bd5c1364873be87f0a6ed0b50830d37dcc0e8",
+    "source_size_bytes": 244093778,
+    "segment_id": "lift_bottle:29:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 30,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 309,
+    "valid_count": 308,
+    "raw_steps": [
+      104,
+      720
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/30.hdf5",
+    "source_sha256": "fffd63feaa0598787dab3648f41d86b732022c0ada596afc542004c2115cff7f",
+    "source_size_bytes": 240601916,
+    "segment_id": "lift_bottle:30:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 31,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 305,
+    "valid_count": 304,
+    "raw_steps": [
+      100,
+      708
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/31.hdf5",
+    "source_sha256": "8f4e6b1dc021ff8a526b4b573eb7537643d33c62e145f92dba6aa2c51290625f",
+    "source_size_bytes": 237939237,
+    "segment_id": "lift_bottle:31:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 32,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 286,
+    "valid_count": 285,
+    "raw_steps": [
+      100,
+      670
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/32.hdf5",
+    "source_sha256": "8823b07ec4036eecf42f48d38a7df330e1fc5c0f91b51b90802641efeb2b999e",
+    "source_size_bytes": 223191848,
+    "segment_id": "lift_bottle:32:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 33,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 375,
+    "valid_count": 374,
+    "raw_steps": [
+      102,
+      850
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/33.hdf5",
+    "source_sha256": "79ac46179af8f0bb0f2893f1cef5758cfe1607613c35a413991930cc294d42c1",
+    "source_size_bytes": 291892502,
+    "segment_id": "lift_bottle:33:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 34,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 338,
+    "valid_count": 337,
+    "raw_steps": [
+      102,
+      776
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/34.hdf5",
+    "source_sha256": "b169784afaa79aeb73bbbb614a25c0f6ef0440ab6aa6d6ced32c7375836920eb",
+    "source_size_bytes": 263244406,
+    "segment_id": "lift_bottle:34:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 35,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 305,
+    "valid_count": 304,
+    "raw_steps": [
+      108,
+      716
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/35.hdf5",
+    "source_sha256": "4522ac3c50f2456552b881b09f50dae0cb3a6cf2a5ca0e42ee0794216f0cb485",
+    "source_size_bytes": 237356992,
+    "segment_id": "lift_bottle:35:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 36,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 295,
+    "valid_count": 294,
+    "raw_steps": [
+      102,
+      690
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/36.hdf5",
+    "source_sha256": "432a7cf35bb12937e913cc1d44e6bae1fa315a30b6a5099cac80e2672e0932f4",
+    "source_size_bytes": 229674137,
+    "segment_id": "lift_bottle:36:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 37,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 310,
+    "valid_count": 309,
+    "raw_steps": [
+      108,
+      726
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/37.hdf5",
+    "source_sha256": "6b2e4d37360f1f9de2f10e38d54e2c44c39fd38b2e9159577bff3be35bf8c80c",
+    "source_size_bytes": 241389192,
+    "segment_id": "lift_bottle:37:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 38,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 295,
+    "valid_count": 294,
+    "raw_steps": [
+      104,
+      692
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/38.hdf5",
+    "source_sha256": "9ef8f28efb0a84a38fb1688a2c68b6c51aa7a9a09bffde126ca4c00f3a399168",
+    "source_size_bytes": 229778862,
+    "segment_id": "lift_bottle:38:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 39,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 304,
+    "valid_count": 303,
+    "raw_steps": [
+      100,
+      706
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/39.hdf5",
+    "source_sha256": "5416d879d7546d211b9c8e2eb38c3b45afa4f44201b1117006566bb8c6435358",
+    "source_size_bytes": 237179832,
+    "segment_id": "lift_bottle:39:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 40,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 304,
+    "valid_count": 303,
+    "raw_steps": [
+      104,
+      710
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/40.hdf5",
+    "source_sha256": "2185217600934d4722a7709b22bd79423535624462d65722850858119cfe06a6",
+    "source_size_bytes": 236957000,
+    "segment_id": "lift_bottle:40:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 41,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 290,
+    "valid_count": 289,
+    "raw_steps": [
+      100,
+      678
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/41.hdf5",
+    "source_sha256": "7b0357c0df225e603f80c360acf37e1ad19decd841993d0bb416ea536a2878ae",
+    "source_size_bytes": 226423102,
+    "segment_id": "lift_bottle:41:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 42,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 310,
+    "valid_count": 309,
+    "raw_steps": [
+      104,
+      722
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/42.hdf5",
+    "source_sha256": "decd04623ba7e98a402ac45a5dbaacea6e2284df5045d6cbbfa728b7e616df84",
+    "source_size_bytes": 241471342,
+    "segment_id": "lift_bottle:42:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 43,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 300,
+    "valid_count": 299,
+    "raw_steps": [
+      102,
+      700
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/43.hdf5",
+    "source_sha256": "7eceb1255de01673e1b2158d4eed918be5b6e09bd7f4a14d247f9b306af0ee51",
+    "source_size_bytes": 233930852,
+    "segment_id": "lift_bottle:43:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 44,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 314,
+    "valid_count": 313,
+    "raw_steps": [
+      110,
+      736
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/44.hdf5",
+    "source_sha256": "aa0136de834a98a1757bb4147a78b112a12749a316eb0779aa8c831b8caa451c",
+    "source_size_bytes": 244326592,
+    "segment_id": "lift_bottle:44:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 45,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 299,
+    "valid_count": 298,
+    "raw_steps": [
+      102,
+      698
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/45.hdf5",
+    "source_sha256": "108c648ecbb98c61a45cb150748e4885338e584d613d0e6c9ba0e0187768fd48",
+    "source_size_bytes": 233091933,
+    "segment_id": "lift_bottle:45:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 46,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 311,
+    "valid_count": 310,
+    "raw_steps": [
+      104,
+      724
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/46.hdf5",
+    "source_sha256": "c6da6911bcbcf4c7dd3fb17c7688a6be1e5a515be0ebbd39a38224b2c34eecd0",
+    "source_size_bytes": 242133606,
+    "segment_id": "lift_bottle:46:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 47,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 297,
+    "valid_count": 296,
+    "raw_steps": [
+      102,
+      694
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/47.hdf5",
+    "source_sha256": "8e68509e00a97cef21a0215cb16d639535c3a147108d60f4fe1b991f23c4bb9f",
+    "source_size_bytes": 231438746,
+    "segment_id": "lift_bottle:47:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 48,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 329,
+    "valid_count": 328,
+    "raw_steps": [
+      104,
+      760
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/48.hdf5",
+    "source_sha256": "8553bd70d9710d3b8d5420349b43a9e2103e9655966e847494e02d6ba5d8b5f4",
+    "source_size_bytes": 256317938,
+    "segment_id": "lift_bottle:48:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 49,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 328,
+    "valid_count": 327,
+    "raw_steps": [
+      98,
+      752
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/49.hdf5",
+    "source_sha256": "06116050909484deb1cdf3b80119b0be4f2cf87af868a3856d6a6e9afc6be6b0",
+    "source_size_bytes": 256082728,
+    "segment_id": "lift_bottle:49:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 50,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 291,
+    "valid_count": 290,
+    "raw_steps": [
+      100,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/50.hdf5",
+    "source_sha256": "de595b9e87131e2b95328e7c9e8b2482698971b49e3d38d20a7cd52ca2123378",
+    "source_size_bytes": 226692821,
+    "segment_id": "lift_bottle:50:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 51,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 319,
+    "valid_count": 318,
+    "raw_steps": [
+      112,
+      748
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/51.hdf5",
+    "source_sha256": "cbdea296a35ad887640756d8baa404f059b9ababe5bedad008cc08a52fcaa08f",
+    "source_size_bytes": 248437959,
+    "segment_id": "lift_bottle:51:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 52,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 314,
+    "valid_count": 313,
+    "raw_steps": [
+      106,
+      732
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/52.hdf5",
+    "source_sha256": "b29eeea632cde50376cb1128e49f53bcc06b1acecd9782b1d7eb559962642ebb",
+    "source_size_bytes": 244375576,
+    "segment_id": "lift_bottle:52:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 53,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 323,
+    "valid_count": 322,
+    "raw_steps": [
+      100,
+      744
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/53.hdf5",
+    "source_sha256": "162f2db0e22babef704373c2e623555ccb8a8cacb134ab6353bd9956eacfbcbe",
+    "source_size_bytes": 251994189,
+    "segment_id": "lift_bottle:53:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 54,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 389,
+    "valid_count": 388,
+    "raw_steps": [
+      100,
+      876
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/54.hdf5",
+    "source_sha256": "d269c3f49efbd43b497ff775a2a8d132d35895ef7e6c9d8b57a0bec8bfc9dcd8",
+    "source_size_bytes": 303435363,
+    "segment_id": "lift_bottle:54:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 55,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 295,
+    "valid_count": 294,
+    "raw_steps": [
+      98,
+      686
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/55.hdf5",
+    "source_sha256": "a5db856bacdc0f504e8959a36ce1ca1d6c39affcc1e43e3f18b65a30efb061b3",
+    "source_size_bytes": 230146137,
+    "segment_id": "lift_bottle:55:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 56,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 285,
+    "valid_count": 284,
+    "raw_steps": [
+      100,
+      668
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/56.hdf5",
+    "source_sha256": "b924956ef276fb43f835f4186bb8901701db7ef66b1a6cbdae1c3051f221359d",
+    "source_size_bytes": 222404102,
+    "segment_id": "lift_bottle:56:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 57,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 289,
+    "valid_count": 288,
+    "raw_steps": [
+      102,
+      678
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/57.hdf5",
+    "source_sha256": "23f85585e00ec7ca24970b85edda4c387c7b67ab2b018cf71d92e8695e1fae47",
+    "source_size_bytes": 225996412,
+    "segment_id": "lift_bottle:57:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 58,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 308,
+    "valid_count": 307,
+    "raw_steps": [
+      102,
+      716
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/58.hdf5",
+    "source_sha256": "cb2f07647b4d8296be3ed701c669a25822ffc3ae4ff8dd84047c4432b15fb7d2",
+    "source_size_bytes": 240287476,
+    "segment_id": "lift_bottle:58:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 59,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 298,
+    "valid_count": 297,
+    "raw_steps": [
+      102,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/59.hdf5",
+    "source_sha256": "3d3d3fae6f6b185e4b73dbacd3adab78e01fdf37fbeeb0c378a53449741e94ce",
+    "source_size_bytes": 232051664,
+    "segment_id": "lift_bottle:59:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 60,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 306,
+    "valid_count": 305,
+    "raw_steps": [
+      104,
+      714
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/60.hdf5",
+    "source_sha256": "fa808ce93be734eee1967434a5eccb2b684e4ee073e3e24824cfb1c7e1121eb8",
+    "source_size_bytes": 238260926,
+    "segment_id": "lift_bottle:60:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 61,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 290,
+    "valid_count": 289,
+    "raw_steps": [
+      104,
+      682
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/61.hdf5",
+    "source_sha256": "02bb6e55230b6b062ac0579fd8cd64541372e56d3cea0bdde783e3c74fd4ce9c",
+    "source_size_bytes": 226305362,
+    "segment_id": "lift_bottle:61:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 62,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 310,
+    "valid_count": 309,
+    "raw_steps": [
+      106,
+      724
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/62.hdf5",
+    "source_sha256": "9d3d199adabae29d45e0d8e95445f29291a4dd980f0e7fd9141e133c1f625eec",
+    "source_size_bytes": 241170642,
+    "segment_id": "lift_bottle:62:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 63,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 305,
+    "valid_count": 304,
+    "raw_steps": [
+      108,
+      716
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/63.hdf5",
+    "source_sha256": "5c9c29abbc48782b7ce90776b3b861501598171c1e614deb9420388da2d6a628",
+    "source_size_bytes": 237617157,
+    "segment_id": "lift_bottle:63:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 64,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 292,
+    "valid_count": 291,
+    "raw_steps": [
+      102,
+      684
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/64.hdf5",
+    "source_sha256": "c85fd2d62257317dc832e21100b48ca5020e9af4b0091037e9e5e2135913af91",
+    "source_size_bytes": 227231756,
+    "segment_id": "lift_bottle:64:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 65,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 337,
+    "valid_count": 336,
+    "raw_steps": [
+      112,
+      784
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/65.hdf5",
+    "source_sha256": "306945a8221209485ab3fb5ce79afc8cff993b58fcc5c2a1dd52ad9b429d44ff",
+    "source_size_bytes": 262532686,
+    "segment_id": "lift_bottle:65:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 66,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 314,
+    "valid_count": 313,
+    "raw_steps": [
+      100,
+      726
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/66.hdf5",
+    "source_sha256": "8b4c29f47efca221d3222f235fdc0d12573404d22aea4b8e0e19080cd88bf9ff",
+    "source_size_bytes": 244699624,
+    "segment_id": "lift_bottle:66:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 67,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 289,
+    "valid_count": 288,
+    "raw_steps": [
+      104,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/67.hdf5",
+    "source_sha256": "4426643e670d90aa27f27f90e12d56af4a4af0052ad986a3bbd4962b96a89163",
+    "source_size_bytes": 225350208,
+    "segment_id": "lift_bottle:67:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 68,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 322,
+    "valid_count": 321,
+    "raw_steps": [
+      110,
+      752
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/68.hdf5",
+    "source_sha256": "4deaa4bb681c06f1fa24578092db7c49ed48cf9006aba0324c29b84d91c277ab",
+    "source_size_bytes": 250586814,
+    "segment_id": "lift_bottle:68:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 69,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 291,
+    "valid_count": 290,
+    "raw_steps": [
+      100,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/69.hdf5",
+    "source_sha256": "6c4191fe358fc7f941b4d5fc8dd0859d239c1755c60167753a92099f1279e24d",
+    "source_size_bytes": 226375922,
+    "segment_id": "lift_bottle:69:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 70,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 306,
+    "valid_count": 305,
+    "raw_steps": [
+      98,
+      708
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/70.hdf5",
+    "source_sha256": "e2d4b5120248fdfad5a1ef79050c6e845e01cac2ac2c093b99924a04657ead0d",
+    "source_size_bytes": 238532348,
+    "segment_id": "lift_bottle:70:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 71,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 305,
+    "valid_count": 304,
+    "raw_steps": [
+      104,
+      712
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/71.hdf5",
+    "source_sha256": "56cba19a5bf16a32c6d3510b524310f386a5374ecfcacc526107865d1d725f2f",
+    "source_size_bytes": 237850482,
+    "segment_id": "lift_bottle:71:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 72,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 291,
+    "valid_count": 290,
+    "raw_steps": [
+      102,
+      682
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/72.hdf5",
+    "source_sha256": "0d9bb9df522e906da121149556a54e46743d1da83578153169c3aadef8a8da1f",
+    "source_size_bytes": 226508618,
+    "segment_id": "lift_bottle:72:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 73,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 290,
+    "valid_count": 289,
+    "raw_steps": [
+      102,
+      680
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/73.hdf5",
+    "source_sha256": "0d183e55eaae3a04eeb8d862fc74532ae284411d30704244de3d5fa8ef894312",
+    "source_size_bytes": 226865352,
+    "segment_id": "lift_bottle:73:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 74,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 279,
+    "valid_count": 278,
+    "raw_steps": [
+      100,
+      656
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/74.hdf5",
+    "source_sha256": "aa69b5f1d3a91c60cf4b35fe6050f1cd5f980391a76f17fa219168b77ffeb75e",
+    "source_size_bytes": 217336385,
+    "segment_id": "lift_bottle:74:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 75,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 297,
+    "valid_count": 296,
+    "raw_steps": [
+      104,
+      696
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/75.hdf5",
+    "source_sha256": "8636c3a2b3fd47fd4e192423029b067788a1ca4601134de319ebd07c581e9a27",
+    "source_size_bytes": 231436073,
+    "segment_id": "lift_bottle:75:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 76,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 296,
+    "valid_count": 295,
+    "raw_steps": [
+      102,
+      692
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/76.hdf5",
+    "source_sha256": "1dcc20977af7647da6fb8b802684a5a8f7b191661a7c4bee2dd1152be942028b",
+    "source_size_bytes": 230561864,
+    "segment_id": "lift_bottle:76:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 77,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 284,
+    "valid_count": 283,
+    "raw_steps": [
+      102,
+      668
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/77.hdf5",
+    "source_sha256": "d3ce3a855e775c8f89de09951aa7a1e8b429363bcfecc7f0036a6c7440abf540",
+    "source_size_bytes": 221171948,
+    "segment_id": "lift_bottle:77:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 78,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 288,
+    "valid_count": 287,
+    "raw_steps": [
+      100,
+      674
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/78.hdf5",
+    "source_sha256": "ef2db54a949d577562430dfcdf55b1437d30b012f271e7ea78467f9bcd4dc148",
+    "source_size_bytes": 224559848,
+    "segment_id": "lift_bottle:78:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 79,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 309,
+    "valid_count": 308,
+    "raw_steps": [
+      104,
+      720
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/79.hdf5",
+    "source_sha256": "5e4c31d7cdd9ee071d84fed4d09bdfaa80b5a66d008fd4e2357289e60faa86b3",
+    "source_size_bytes": 240816053,
+    "segment_id": "lift_bottle:79:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 80,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 309,
+    "valid_count": 308,
+    "raw_steps": [
+      108,
+      724
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/80.hdf5",
+    "source_sha256": "e32f2b741c44aefb72e3cd1836c04d62eaf5d932a1675552e7a17fe50f379f46",
+    "source_size_bytes": 240592337,
+    "segment_id": "lift_bottle:80:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 81,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 312,
+    "valid_count": 311,
+    "raw_steps": [
+      106,
+      728
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/81.hdf5",
+    "source_sha256": "384867a6eb5569bcb84668f547fb2145b40266001297096e79d2b4fc60f4002f",
+    "source_size_bytes": 242855648,
+    "segment_id": "lift_bottle:81:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 82,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 309,
+    "valid_count": 308,
+    "raw_steps": [
+      102,
+      718
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/82.hdf5",
+    "source_sha256": "2f4183b3942b8c0f1f5a8a39fec3a7822b38a428467c7b8adaf86b7680169ca7",
+    "source_size_bytes": 240825941,
+    "segment_id": "lift_bottle:82:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 83,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 292,
+    "valid_count": 291,
+    "raw_steps": [
+      102,
+      684
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/83.hdf5",
+    "source_sha256": "82d3f2b3bb4cc681340a1747f3c1deb92fa944b0a97e3a8c978d9b5576103aba",
+    "source_size_bytes": 227976064,
+    "segment_id": "lift_bottle:83:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 84,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 299,
+    "valid_count": 298,
+    "raw_steps": [
+      108,
+      704
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/84.hdf5",
+    "source_sha256": "40801ccdf4ebf7c70f79a9ac8de02131e865b6009e4a9dc9d13d7492f7a09946",
+    "source_size_bytes": 232934659,
+    "segment_id": "lift_bottle:84:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 85,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 304,
+    "valid_count": 303,
+    "raw_steps": [
+      106,
+      712
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/85.hdf5",
+    "source_sha256": "9a341600e177e1ab0b4c63c4559b2c373d3eceed5413075f9069262c1db08093",
+    "source_size_bytes": 236958520,
+    "segment_id": "lift_bottle:85:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 86,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 311,
+    "valid_count": 310,
+    "raw_steps": [
+      104,
+      724
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/86.hdf5",
+    "source_sha256": "d0235ce2c9d004664c672ba7bb6d1430e4a3528795efe59133a6155ee55afc3a",
+    "source_size_bytes": 242407597,
+    "segment_id": "lift_bottle:86:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 87,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 310,
+    "valid_count": 309,
+    "raw_steps": [
+      98,
+      716
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/87.hdf5",
+    "source_sha256": "df85e901398c9c5025a49c6a7347113ba84442a7f7a2a0e261328762d686388b",
+    "source_size_bytes": 241644322,
+    "segment_id": "lift_bottle:87:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 88,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 319,
+    "valid_count": 318,
+    "raw_steps": [
+      104,
+      740
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/88.hdf5",
+    "source_sha256": "37b3f1906a58ad630cab965840372850b60755a49e32678e6ea5a5d4f0903ded",
+    "source_size_bytes": 248472411,
+    "segment_id": "lift_bottle:88:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 89,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 290,
+    "valid_count": 289,
+    "raw_steps": [
+      100,
+      678
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/89.hdf5",
+    "source_sha256": "5a1d2f39395464b222af2674ab070c419944535d251453ce5e88d9571c470f02",
+    "source_size_bytes": 225928652,
+    "segment_id": "lift_bottle:89:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 90,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 293,
+    "valid_count": 292,
+    "raw_steps": [
+      104,
+      688
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/90.hdf5",
+    "source_sha256": "223dbfe7f4781c95fe01e01fd9743652d1233e78488c4ec1dbf0ed927afe4f15",
+    "source_size_bytes": 228065270,
+    "segment_id": "lift_bottle:90:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 91,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 307,
+    "valid_count": 306,
+    "raw_steps": [
+      106,
+      718
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/91.hdf5",
+    "source_sha256": "064e2393ea7b9bd1a186b10077e3d88cd1d5e7c10df89deebadbf05621ae7e5c",
+    "source_size_bytes": 239124851,
+    "segment_id": "lift_bottle:91:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 92,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 291,
+    "valid_count": 290,
+    "raw_steps": [
+      102,
+      682
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/92.hdf5",
+    "source_sha256": "4848ae0a065c07825a8b00ec18cf4e927c9a3d1bdc2a13d2a8766455940b06fc",
+    "source_size_bytes": 226779248,
+    "segment_id": "lift_bottle:92:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 93,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 308,
+    "valid_count": 307,
+    "raw_steps": [
+      104,
+      718
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/93.hdf5",
+    "source_sha256": "ac1d85bd0015e791ff3a4c7b1423ddf0a59bac5db65c79a5834e3c6ca9715d34",
+    "source_size_bytes": 240499688,
+    "segment_id": "lift_bottle:93:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 94,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 292,
+    "valid_count": 291,
+    "raw_steps": [
+      104,
+      686
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/94.hdf5",
+    "source_sha256": "937a42fc89e1d161e0c99bc0ed77382bf3cd224d41840547a28d4f35242ddb98",
+    "source_size_bytes": 227340088,
+    "segment_id": "lift_bottle:94:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 95,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 333,
+    "valid_count": 332,
+    "raw_steps": [
+      110,
+      774
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/95.hdf5",
+    "source_sha256": "f9ea49cf69d01b9605f865cd58052403e4a086b4b4b0918021d6c757d71ac48b",
+    "source_size_bytes": 259287554,
+    "segment_id": "lift_bottle:95:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 96,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 298,
+    "valid_count": 297,
+    "raw_steps": [
+      98,
+      692
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/96.hdf5",
+    "source_sha256": "be402db2f11407b16e7d1648c00579b96d1709a3048d0a44adef170db3d75837",
+    "source_size_bytes": 232141958,
+    "segment_id": "lift_bottle:96:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 97,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 317,
+    "valid_count": 316,
+    "raw_steps": [
+      110,
+      742
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/97.hdf5",
+    "source_sha256": "9b46effbe1279deb198a88589a3a8facbb88cbb3c4e9b002560aa077aab3ef7e",
+    "source_size_bytes": 246889329,
+    "segment_id": "lift_bottle:97:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 98,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 290,
+    "valid_count": 289,
+    "raw_steps": [
+      100,
+      678
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/98.hdf5",
+    "source_sha256": "2fa9af37a6350e8bcb5eb6196444f20b8148624ae311c627d7ef08cdf1630222",
+    "source_size_bytes": 225889212,
+    "segment_id": "lift_bottle:98:0"
+  },
+  {
+    "task": "lift_bottle",
+    "source_episode_id": 99,
+    "segment_index": 0,
+    "start_frame": 0,
+    "stop_frame": 302,
+    "valid_count": 301,
+    "raw_steps": [
+      102,
+      704
+    ],
+    "source_path": "UniVTAC/data/isaac45/lift_bottle/hdf5/99.hdf5",
+    "source_sha256": "96d869816e67cdb94ef26421e1660bd1244a015a162b6a0e987e89a39c2c36d6",
+    "source_size_bytes": 235114598,
+    "segment_id": "lift_bottle:99:0"
+  }
+]

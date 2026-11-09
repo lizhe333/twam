@@ -1,69 +1,99 @@
-# 独立触觉 WM 与统一训练入口
+# 双视角两阶段训练
 
-当前入口是 `python -m contact_belief_wam train`，或 `bash scripts/train.sh`。在仓库根目录执行，使用项目 Python 环境。`scripts/aligned_train.sh` 仅保留为转发命令。
+2026-10-30 归档说明：未保存 checkpoint、已被 `head-wrist-stage2-8gpu-003` 替代的 `head-wrist-stage2-8gpu-002` 日志已清理；配置与源码快照保留在工作区 `reports/artifact-cleanup-20261030/retained-inputs/twam/runs/`。本页涉及 `002` 的路径表示历史重启过程。
 
-## 从哪里读代码
+默认入口是 `bash scripts/train.sh`，配置为 `configs/aligned_4xa800.yaml`，两个阶段均占用四卡。`independent_tactile: true` 表示触觉预测使用自己的网络，不表示额外增加一个训练阶段。
 
-| 文件 | 职责 |
-| --- | --- |
-| `src/contact_belief_wam/train.py` | 配置、阶段顺序、GPU 进程、checkpoint 交接与续训 |
-| `src/contact_belief_wam/trainer.py` | 各阶段共用的训练循环、验证、优化器和保存 |
-| `src/contact_belief_wam/data.py` | HDF5/AnyTouch2 缓存、相对动作、归一化和采样 |
-| `src/contact_belief_wam/serve.py` | 推理服务、历史 belief 和预测时间戳 |
-| `src/contact_belief_wam/modules.py` | `TactileWorldModel`、Updater 和 Corrector |
-| `src/contact_belief_wam/model.py` | 各模块的前向连接及冻结范围 |
-| `src/contact_belief_wam/legacy/` | 旧绝对动作数据与训练代码，仅供旧实验使用 |
+## 模块和训练范围
 
-`aligned_data.py / aligned_trainer.py / aligned_pipeline.py / aligned_serve.py` 已移除；导入分别改为 `data / trainer / train / serve`。
+| 模块 | Stage 1：共享接触预测与 Belief | Stage 2：各任务策略 |
+| --- | --- | --- |
+| 已训练的 head＋wrist Visual WM、world action/state encoders | 冻结 | 冻结 |
+| WM 视觉目标编码器、AnyTouch2 | 冻结 | 冻结 |
+| 独立 Tactile WM | 训练 | 冻结 |
+| Belief Updater、Future Corrector | 训练 | 继续训练 |
+| belief→world state 投影 | 训练 | 训练 |
+| belief→VLM queries / Action Expert 接口 | 不参与 | 训练 |
+| π0.5 策略主干、Action Expert、策略视觉塔 | 不参与 | 训练 |
 
-## 阶段和目标
+Stage 1 使用未来触觉、修正后未来视觉和原有视觉预测目标。Visual WM 权重冻结，但 belief→state 输入仍可通过它获得梯度。Tactile WM 读取当前 head/wrist 冻结视觉特征、当前触觉、状态及真实动作前缀；两路视觉有独立的相机标识。它不读取 belief 或预测的未来视觉。
 
-默认配置 `independent_tactile: true` 的完整方法依次执行：
+Stage 2 保留动作损失、未来视觉和对齐辅助损失。动作梯度经过 belief→Action Expert 和 Corrector 路径更新 Updater，不需要 blocked/normal 分类标签。冻结独立 Tactile WM 后，触觉预测误差仍记录，但不会直接训练 Updater。
 
-1. **tactile**：只训练 `contact.predictor`，即独立 `TactileWorldModel`。读取当前冻结视觉特征、当前触觉 latent、状态和未来 k 步真实轨迹动作。使用自己的状态/动作投影和两层 Transformer Decoder，预测 t+k 的 8×512 触觉 latent。目标由冻结 AnyTouch2 编码得到；损失为 cosine distance + 0.5×SmoothL1。这个阶段不调用 Visual WM、Future Corrector 或 Belief Updater。
-2. **stage1**：从 tactile checkpoint 严格加载 Predictor 并冻结，训练原有视觉 WM、状态/动作编码、Belief Updater 与 Future Corrector。独立触觉损失仍记录，但不加入该阶段的优化目标。只传递 Predictor 权重，不传递 tactile checkpoint 中未训练的 belief/corrector 权重。
-3. **stage2**：加载 Stage1 checkpoint，为两个插入任务分别训练策略；冻结独立 Predictor、视觉 WM 和配置指定的 Updater，更新策略、接口投影与 Future Corrector。
+Stage 1 最多 5,000 步，学习率 1e-4；Stage 2 每任务 10,000 步。Stage 2 策略和 Updater 的峰值学习率均为 2.5e-5，其他新接口和 Corrector 为 1e-4。Updater 有独立的 `belief` 优化器分组，参与 EMA 和 checkpoint 恢复。
 
-这次改动**没有实现 blocked/normal 标签监督的 Belief 专项训练**。当前 Stage1 的 belief 仍由视觉预测目标间接训练。若采用专项诊断方案，需要另行定义标签、损失和验证集，不能把现有 Stage1 等同于该阶段。
+## 初始化和数据
 
-触觉动作采用 shared-WM 归一化：前七维相对 chunk 起点，夹爪为绝对位置。后续训练和在线推理使用同一约定。在线触觉预测使用生成并经过边界处理的最终动作前 k 步；与下一次同时间戳的真实触觉比较。独立网络不读取 belief 或预测的未来视觉，因此视觉 WM 后续更新不会改变它的输入编码器。独立模型不允许在加载时修改 k；不同预测时域需要相应训练和验证。
+默认复用：
 
-旧 checkpoint 未设置该开关时，仍使用旧 `ContactPredictor` 结构。旧耦合预测器不能用于独立触觉阶段的权重交接，也不能续训新的配置。`wave0_recovery` 自动关闭该开关，跳过 tactile 阶段，保留 WAVE-0 基线原有训练目标与计算路径。完整方法增加了触觉训练预算，实验中应单独报告这一开销。
+```text
+/zhe_li/tactile-wam/outputs/wave0-shared-8task-head-wrist-001/shared_wm/stage1/checkpoints/step_00005000/pretrained_model
+```
+
+通过 `world_init` 加载这份纯 WAVE-0 WM。它不是 Contact Stage-1 checkpoint。冻结复用要求相机顺序 `[head, wrist]`、预测跨度、模型尺寸和共享归一化一致，拒绝截取相机、补随机参数或重新初始化不匹配的世界模块。π0.5 策略及冻结视觉目标编码器仍使用该 WM 配套的 `pi05_base`。
+
+Stage 1：720 条八任务 Original＋100 条 Hole/HDMI Recovery；80 条 Original 验证。每批任务均衡，两个插入任务内部 Original:Recovery=1:1。Stage 2：每个任务只读取自己的 100 条 Original＋50 条 Recovery，两个任务从同一份 Stage 1 独立初始化。`policy_tasks` 可以改为八任务的任意非空子集；没有 Recovery 的任务使用 Original。
+
+扰动和刻意持续顶住的动作保留为动力学输入和历史，只屏蔽相应动作的模仿监督。读取两路图像时使用相同的当前、历史和未来帧索引，缺少 wrist 会报错。AnyTouch2 缓存无需因双视角重算。
+
+两个阶段都使用 k=10、chunk=50；动作前七维相对 chunk 起点，夹爪绝对值，策略和共享 WM 使用各自归一化。在线服务要求 `image`（head）和 `wrist_image`（wrist），仿真适配器根据 checkpoint 元数据自动发送两路图像。最终动作经过边界处理，再用于计算下一轮预期触觉。
 
 ## 运行
 
-先按 README 生成本地路径配置，再运行：
+在仓库根目录，复用现有环境：
 
 ```bash
-# 查看全部阶段和 GPU 分配，不启动训练
-bash scripts/train.sh --config configs/workspace.local.yaml --variant full --plan
+export CBW_PYTHON=/zhe_li/tactile-wam/contact-belief-wam/.venv/bin/python
+export CBWAM_ROOT="$PWD"
+# 复用旧环境时，正式训练的源码指纹检查仍需要这个目录。
+# 旧工作区与本仓库使用同一固定版本的 Transformers 源码。
+if [ ! -e vendor/transformers ]; then
+  ln -sT /zhe_li/tactile-wam/contact-belief-wam/vendor/transformers vendor/transformers
+fi
+# 可选：首次生成配置，把派生数据和训练输出放入本 checkout；已有配置需按新配方更新。
+"$CBW_PYTHON" scripts/configure_workspace.py --workspace /zhe_li/tactile-wam
 
-# 仅完成触觉训练和验证；只需配置 tactile.num_gpus 对应数量的 GPU
-CUDA_VISIBLE_DEVICES=0,1 bash scripts/train.sh \
-  --config configs/workspace.local.yaml --variant full \
-  --output /absolute/new/run --stop-after tactile
+bash scripts/train.sh prepare --config configs/workspace.local.yaml
+bash scripts/train.sh train --config configs/workspace.local.yaml --variant full --plan
 
-# 检查触觉指标后，用八卡继续 Stage1 和两个策略任务
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash scripts/train.sh \
-  --config configs/workspace.local.yaml --variant full \
-  --output /absolute/new/run --resume auto
+# 有可用训练 GPU 时执行；可以在共享接触模块完成后停下检查验证结果。
+bash scripts/train.sh train --config configs/workspace.local.yaml --variant full --stop-after stage1
+bash scripts/train.sh train --config configs/workspace.local.yaml --variant full --resume auto
 
-# WAVE-0 对照使用独立输出目录
-bash scripts/train.sh --config configs/workspace.local.yaml \
-  --variant wave0_recovery --output /absolute/new/baseline
+# 同一个冻结的双视角 WM、相同数据及动作监督屏蔽的 WAVE-0 对照。
+bash scripts/train.sh train --config configs/workspace.local.yaml --variant wave0_recovery
 ```
 
-也可以一次运行完整流程，不指定 `--stop-after`。`--stop-after stage1` 会在策略训练前停下。`--resume auto` 复用已完成且来源一致的阶段，或恢复未完成阶段的优化器、随机状态和采样位置。
+默认 Stage 1 使用四卡，每卡 32、梯度累积 2 次，有效 batch 保持 256；两个 Stage 2 各使用两卡并行，每卡 8、累积 4 次，每任务有效 batch 为 64。四卡备选配方设置 `CUDA_VISIBLE_DEVICES=0,1,2,3`；其 Stage 2 每卡优化器状态比八卡配方多一倍，显存仍需实测。步数、学习率与训练数据不变；实际耗时取决于吞吐。
 
-## 触觉验证
+八卡配置 `configs/aligned_8xa800.yaml` 的 Stage 1 使用八卡、每卡 32；Stage 2 两个任务各用四卡并行、每卡 8、累积 2 次，每任务有效 batch 仍为 64。之前未分片的 Stage 2 在每卡 32 和 16 时均触发 OOM。现在恢复成功 WAVE-0 训练使用的 Adam 状态分片（`shard_optimizer_state: true`），EMA 保留在 GPU（`ema_device: cuda`），Belief 仍对两个历史时刻反向传播。新配置峰值显存需在云端实测；每个任务的 `memory.rankNN.jsonl` 会记录各卡初始化、前两次更新的阶段显存和后续峰值。
 
-`<output>/full/tactile_wm/validation.jsonl` 记录：
+分片只改变 Adam 状态的存放位置，不改变各参数组学习率。每张卡单独保存优化器分片，全部保存并校验后才发布完整 checkpoint；恢复时校验卡数、分片哈希和参数对应关系，避免保存/恢复时在 rank 0 聚合完整优化器而再次 OOM。
 
-- `tactile_future`：正确动作条件下的预测误差，也是触觉 checkpoint 选择和早停指标。
-- `tactile_persistence`：直接把当前触觉当成未来触觉的误差。
-- `tactile_gain`：persistence 误差减去预测误差，正值说明优于该基线。
-- `tactile_wrong_action` / `tactile_action_gap`：同任务错误动作条件下的误差及其相对正确动作的差值；无有效负例的样本不计入。该指标检查动作敏感性，不是反事实轨迹的真实监督。
+对照组没有接触扩展可训练，直接复用 `world_init` 后训练策略，不重新训练视觉 WM，也不加载完整方法的接触模块。增加策略任务时最多并行两个任务，并等待对应 GPU 空闲。
 
-Stage1 继续按视觉 `world_total` 选择 checkpoint，独立触觉权重已经固定。现有验证集仍是原始演示留出集；受阻、退回、重新对齐片段上的泛化评测，需要另外划分未参与训练的恢复 episode。平均 loss 下降不能替代这些诊断或闭环成功率。
+默认训练输出使用新的 `contact-head-wrist-two-stage-4gpu` 目录。已有本地配置不会自动覆盖，需将 Stage 1 的 `num_gpus` 改为 4，并保留 `micro_batch: 32`、`global_batch: 256`。旧八卡 run、三阶段或单视角 run 不能作为这份配方的精确续训；旧 checkpoint 仍可按自身配置读取。低层旧 `tactile` 模型/权重读取接口保留兼容，统一入口不再调度该阶段。
 
-代码回归测试使用缩小的网络验证梯度、冻结、接口和权重交接；不代表正式配置已经收敛。本次代码修改不会启动正式 GPU 训练。
+`vendor/transformers` 被 Git 忽略，单独同步仓库不会带上它。若云端没有旧源码目录，在创建上述链接前使用 `"$CBW_PYTHON" scripts/prepare_transformers.py` 下载并校验固定版本；离线时传入 `--archive /path/to/source.tar.gz`。`--plan` 仅检查分卡，不会验证这项正式训练依赖。若因缺少源码而退出，补齐后保留原输出目录并使用 `--resume auto` 重试。
+
+### 已完成 Stage 1，调整 Stage 2 后继续
+
+用 `--stage1-checkpoint` 指向已完成 Stage 1 选出的 checkpoint，并使用新输出目录。入口会验证权重哈希、双视角/latent 配置、共享归一化和配套视觉编码器，跳过 Stage 1；两个策略仍独立初始化。原 checkpoint 与训练身份记录保留不变。后续续训保持相同配置、源码、输出和 checkpoint 参数，使用 `--resume auto`。
+
+```bash
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+bash scripts/train.sh train \
+  --config configs/aligned_8xa800.yaml \
+  --variant full \
+  --stage1-checkpoint /zhe_li/tactile-wam/twam/runs/head-wrist-two-stage-4gpu-001/full/shared_wm/stage1/checkpoints/step_00004500 \
+  --output /zhe_li/tactile-wam/twam/runs/head-wrist-stage2-8gpu-002 \
+  --resume auto
+```
+
+## 验证
+
+`<output>/full/shared_wm/validation.jsonl` 记录各任务的触觉预测、视觉修正及原始视觉指标。默认按 `contact_total = tactile_future + visual_corrected` 的任务平均值选择 Stage 1 checkpoint，而不是仅看冻结视觉基座。每 500 步验证，每任务 128 个窗口，最早 2,000 步后按 patience=4 早停。
+
+`tactile_persistence` 与 `tactile_gain` 检查预测是否优于直接保持当前触觉。Stage 2 使用全部 Original 后，Stage 1 留出集不能作为策略独立验证集；最终比较需使用独立仿真 seed、相同相机、数据和执行预算。
+
+CPU 缩小模型测试检查冻结、梯度、双视角、阶段交接和推理；正式模型显存、多卡吞吐与闭环成功率仍需在训练/仿真 GPU 上验证。

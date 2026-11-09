@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "task": "insert_tube",
+  "camera_mode": "head_wrist",
+  "adapter_release": "legacy",
+  "model_views": [
+    "base_0_rgb",
+    "left_wrist_0_rgb"
+  ],
+  "provenance": "Resolved from legacy checkpoint fallback; selected full run has no source camera_contract.json."
+}

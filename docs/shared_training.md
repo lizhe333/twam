@@ -1,5 +1,9 @@
 # 八任务共享 WM 与独立恢复策略
 
+> 历史配方说明：本页对应旧 shared/legacy 入口，不是当前默认训练流程。当前双视角两阶段、冻结范围与学习率见 [tactile_training.md](tactile_training.md)。
+
+2026-10-30 已清理旧 `shared-wm8-k10-8xa800-bs512` 无 checkpoint 作业的日志；配置、数据清单和统计已迁入工作区 `reports/artifact-cleanup-20261030/retained-inputs/contact-belief-wam/runs/`。下文该作业路径仅作历史记录。
+
 开发机只做数据准备、冻结特征缓存和每个模型至多两次更新的真实计算检查。正式作业由用户在百度云手动提交，挂载路径与开发机完全相同。主配置为 [`shared_8xa800_bs64.yaml`](../configs/shared_8xa800_bs64.yaml)，复用已有 π0.5、WAVE-0 权重与项目环境，不下载权重，不制作上传包。
 
 ## 训练内容
